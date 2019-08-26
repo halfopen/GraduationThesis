@@ -1,7 +1,7 @@
 \chapter{系统实现}
 根据上面的调研结果，可以改进的方面有很多。但是从用户日常使用的角度，影响用户持续使用最大的问题是可用性的问题和理解的问题。可用性的解决方案主要分为两块：一个是提高系统的可用性；另一个是重新设计用户友好的交互界面，提升交互的体验。增强用户理解则是通过加入透明性。
 
-如图\ref{fig:system}所示，系统主要分为三部分：算子池、服务端和客户端。
+如图\ref{fig:system}所示，系统主要分为两部分：服务端和客户端。
 
 \begin{figure}
     \centering
@@ -14,17 +14,17 @@
 
 一次诊断的大致流程如下：用户通过客户端，上传图片或者回答问题，客户端则向服务端发起请求。服务端收到请求之后，进行任务分配，对分配到任务的实例，调用对应的算子完成特征提取或诊断打分，同时将数据持久化到redis和mysql中，然后把结果返回给客户端。客户端收到服务端的结果后，根据用户是否透明，进行结果的展示。
 
-\section{算子池}
 
-为了能够满足系统的跨平台使用，我们需要把特征提取算法从客户端剥离到服务器，通过接口调用的方式来实现面诊和舌诊，同时在服务的实现诊断算法。
-
-首先，我们使用容器的方法，通过flask本地调用的方法，把c++实现的特征提取算法打包成特征提取算子。每个特征提取算子，可以接受http的请求，对传过来的图片进行特征提取。算子部署在docker上，通过k8s管理多个算子高实现可用。服务端通过k8s提供的cluster ip进行调用。
 
 
 \section{服务端}
 \subsection{服务端系统设计}
 
+\subsection{算子池}
 
+为了能够满足系统的跨平台使用，我们需要把特征提取算法从客户端剥离到服务器，通过接口调用的方式来实现面诊和舌诊，同时在服务的实现诊断算法。
+
+首先，我们使用容器的方法，通过flask本地调用的方法，把c++实现的特征提取算法打包成特征提取算子。每个特征提取算子，可以接受http的请求，对传过来的图片进行特征提取。算子部署在docker上，通过k8s管理多个算子高实现可用。服务端通过k8s提供的cluster ip进行调用。
 
 \subsection{服务端高可用}
 为了实现高可用，服务端支持开启多个实例；同时考虑到性能，服务端设计为读写分离的架构。每个实例都可以读取任务列表，处理用户的任务，但只有master有任务分配的权限。但是服务端通过心跳包，实现master的竞选。
@@ -38,9 +38,9 @@
 
 \section{客户端}
 设计新的自诊界面，解决交互方面易用性的问题，给用户对自己当前状态一种直观的感受。
-\begin{figure}
+\begin{figure}[ht]
     \centering
-    \includegraphics{images/diag.png}
+    \includegraphics[height=12cm]{images/diag.png}
     \caption{面诊舌诊问诊新界面}
     \label{fig:diag_new}
 \end{figure}
@@ -51,11 +51,12 @@
 
 在方框内部的问题描述设计上，我们把默认的文字描述，显示为问题描述；一旦用户本次或者上次回答过该问题，则直接显示用户回答的结果。这样做的结果是，第二次用户点进来，就能看到上次的回答结果，这样能够对自己的身体情况有个快速的了解。
 
-客户端系统主要有以下几个部分：用户登录，健康诊断
+客户端系统主要有以下几个部分：用户登录，健康诊断（面诊，舌诊，问诊），健康报告，诊断记录。
+
 \subsubsection{用户登录}
 \begin{figure}[ht]
     \centering
-    \includegraphics{images/login.png}
+    \includegraphics[height=12cm]{images/login.png}
     \caption{用户登录}
     \label{fig:login}
 \end{figure} 
@@ -72,9 +73,9 @@
 
 \subsubsection{健康诊断}
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
-    \includegraphics{images/diag.png}
+    \includegraphics[height=12cm]{images/diag.png}
     \caption{Caption}
     \label{fig:diag}
 \end{figure}
@@ -82,9 +83,9 @@
 	
 \subsubsection{照片上传}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \includegraphics{images/crop.png}
+    \includegraphics[height=12cm]{images/crop.png}
     \caption{Caption}
     \label{fig:crop}
 \end{figure}
@@ -92,9 +93,9 @@
 
 \subsubsection{问诊}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \includegraphics{images/questions.png}
+    \includegraphics[height=12cm]{images/questions.png}
     \caption{问诊}
     \label{fig:questions}
 \end{figure}
@@ -104,18 +105,18 @@
 用户在完成自己需要回答的问题或者面诊舌诊之后，可以点击蓝色的诊断按钮进行健康诊断，同时，系统会将本地诊断记录上传到后台服务器上，以便查询诊断记录。
 
 \subsubsection{诊断结果}
-\begin{figure}
+\begin{figure}[ht]
     \centering
-    \includegraphics{images/report.png}
+    \includegraphics[height=12cm]{images/report.png}
     \caption{健康报告}
     \label{fig:report}
 \end{figure}
 系统根据用户个人的情况，会给出面诊结果，舌诊结果和最后的体质以及健康分数。此外，根据体质的不同，会给出和体质对应的健康建议，帮助用户进行针对性的健康调理。
 
 \subsubsection{诊断记录列表}
-\begin{figure}
+\begin{figure}[ht]
     \centering
-    \includegraphics{images/history.png}
+    \includegraphics[height=12cm]{images/history.png}
     \caption{诊断历史}
     \label{fig:history}
 \end{figure}
@@ -132,40 +133,41 @@
 \subsection{问诊的透明性}
 
 \subsection{诊断结果的透明性}
-\begin{figure}
+\begin{figure}[ht]
     \centering
-    \includegraphics{images/report3.png}
+    \includegraphics[height=12cm]{images/report3.png}
     \caption{透明用户看到的诊断报告}
     \label{fig:my_label}
 \end{figure}
-普通用户在诊断结果页面，可以看到自己的健康分数和体质结果；透明用户可以点击诊断分数，了解这个分数是根据哪些指标，通过哪一个算法计算过来的。
 
-\begin{figure}
-    \centering
-    \includegraphics{images/report7.png}
-    \caption{解释分数相关问题}
-    \label{fig:report_expalin_score_1}
-\end{figure}
+普通用户在诊断结果页面，可以看到自己的健康分数和体质结果；透明用户可以点击诊断分数，了解这个分数是根据哪些指标，通过哪一个算法计算过来的。如图\ref{fig:report_expalin_score}所示，用户点击诊断页面的分数之后，弹窗里会显示分数相关的问题、雷达图和分数计算公式。
 
-\begin{figure}
-    \centering
-    \includegraphics{images/report8.png}
-    \caption{解释分数雷达图}
-    \label{fig:report_expalin_score_2}
-\end{figure}
+分数相关问题，展示了面诊舌诊对体质分数的影响和问诊对体质分数的影响，无影响的问题则不会显示。其中体质分数的变化分两种，一个是分数的累加，另一种是体质分数的清空。
 
-\begin{figure}
+雷达图对体质分数进行了汇总，给用户展示最终个人的体质倾向的结果。
+
+根据诊断打分算子的内部算法，解释页面的计算公式一共有5种类别，我们使用选项卡的方式，将所有的打分计算公式全部透明给用户，并且默认打开当前计算公式的选项卡。
+
+\begin{figure}[ht]
     \centering
-    \includegraphics{images/report9.png}
-    \caption{解释分数计算公式}
-    \label{fig:report_expalin_score_3}
+    \subfigure[相关问题]{
+        \includegraphics[height=8cm]{images/report7.png}
+    }
+    \subfigure[雷达图]{
+        \includegraphics[height=8cm]{images/report8.png}
+    }
+    \subfigure[计算公式]{
+        \includegraphics[height=8cm]{images/report9.png}
+    }
+    \caption{分数的解释}
+    \label{fig:report_expalin_score}
 \end{figure}
 
 点击面诊结果，可以看到自己的面部舌部的对于整个诊断的影响。
-\begin{figure}
+\begin{figure}[ht]
     \centering
-    \includegraphics{images/report4.png}
-    \caption{Caption}
+    \includegraphics[height=12cm]{images/report4.png}
+    \caption{面诊的解释}
     \label{fig:my_label}
 \end{figure}
 
@@ -174,15 +176,13 @@
 
 \begin{figure}
     \centering
-    \includegraphics{images/report5.png}
+    \subfigure[概念的解释]{
+        \includegraphics[height=12cm]{images/report5.png}
+    }
+    \subfigure[体质相关问题]{
+        \includegraphics[height=12cm]{images/report6.png}
+    }
     \caption{体质的解释}
     \label{fig:report_explain_phy_1}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics{images/report6.png}
-    \caption{体质相关问题}
-    \label{fig:report_explain_phy_2}
 \end{figure}
 
