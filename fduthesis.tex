@@ -1,0 +1,250 @@
+\documentclass[type=master]{fduthesis}
+% 模板选项：
+%   type = doctor|master|bachelor  论文类型，默认为本科论文
+%   oneside|twoside                论文的单双面模式，默认为 twoside
+%   draft = true|false             是否开启草稿模式，默认关闭
+% 带选项的用法示例：
+%   \documentclass[oneside]{fduthesis}
+%   \documentclass[twoside, draft=true]{fduthesis}
+%   \documentclass[type=bachelor, twoside, draft=true]{fduthesis}
+
+\fdusetup{
+  % 参数设置
+  % 允许采用两种方式设置选项：
+  %   1. style/... = ...
+  %   2. style = { ... = ... }
+  % 注意事项：
+  %   1. 不要出现空行
+  %   2. “=” 两侧的空格会被忽略
+  %   3. “/” 两侧的空格不会被忽略
+  %   4. 请使用英文逗号 “,” 分隔选项
+  %
+  % style 类用于设置论文格式
+  style = {
+    font = lm,
+    % 西文字体（包括数学字体）
+    % 允许选项：
+    %   font = garamond|libertinus|lm|palatino|times|times*|none
+    %
+    % cjk-font = fandol,
+    % 中文字体
+    % 允许选项：
+    %   cjk-font = adobe|fandol|founder|mac|sinotype|sourcehan|windows|none
+    %
+    % 注意：
+    %   1. 中文字体设置高度依赖于系统。各系统建议方案：
+    %        windows：cjk-font = windows
+    %        mac：    cjk-font = mac
+    %        linux：  cjk-font = fandol（默认值）
+    %   2. 除 fandol 和 sourcehan 外，其余字体均为商用字体，请注意版权问题
+    %   3. 但 fandol 字体缺字比较严重，而 sourcehan 没有配备楷体和仿宋体
+    %   4. 这里中西文字体设置均注释掉了，即使用默认设置：
+    %        font     = times
+    %        cjk-font = fandol
+    %   5. 使用 font = none / cjk-font = none 关闭默认字体设置，需手动进行配置
+    %
+    font-size = 5,
+    % 字号
+    % 允许选项：
+    %   font-size = -4|5
+    %
+    fullwidth-stop = catcode,
+    % 是否把全角实心句点 “．” 作为默认的句号形状
+    % 允许选项：
+    %   fullwidth-stop = catcode|mapping|false
+    % 说明：
+    %   catcode   显式的 “。” 会被替换为 “．”（e.g. 不包括用宏定义保存的 “。”）
+    %   mapping   所有的 “。” 会被替换为 “．”（使用 LuaLaTeX 编译则无效）
+    %   false     不进行替换
+    %
+    % footnote-style = pifont,
+    % 脚注编号样式
+    % 允许选项：
+    %   footnote-style = plain|libertinus|libertinus*|libertinus-sans|
+    %                    pifont|pifont*|pifont-sans|pifont-sans*|
+    %                    xits|xits-sans|xits-sans*
+    %
+    % hyperlink = color,
+    % 超链接样式
+    % 允许选项：
+    %   hyperlink = border|color|none
+    %
+    % hyperlink-color = default,
+    % 超链接颜色
+    % 允许选项：
+    %   hyperlink-color = default|classic|elegant|fantasy|material|
+    %                     business|science|summer|autumn|graylevel|prl
+    % 默认与西文字体保持一致
+    %
+    bib-backend = bibtex,
+    % 参考文献支持方式
+    % 允许选项：
+    %   bib-backend = bibtex|biblatex
+    %
+    % bib-style = numerical,
+    % 参考文献样式
+    % 允许选项：
+    %   bib-style = author-year|numerical|<其他样式>
+    % 说明：
+    %   author-year  著者—出版年制
+    %   numerical    顺序编码制
+    %   <其他样式>   使用其他 .bst（bibtex）或 .bbx（biblatex）格式文件
+    %
+    % cite-style = {},
+    % 引用样式
+    % 默认为空，即与参考文献样式保持一致
+    % 仅适用于 biblatex；如要填写，需保证相应的 .cbx 格式文件能被调用
+    %
+    % bib-resource = {<文件>},
+    % 参考文献数据源
+    % 可以是单个文件，也可以是用英文逗号 “,” 隔开的一组文件
+    % 如果使用 biblatex，则必须明确给出 .bib 后缀名
+    %
+    % logo = {fudan-name.pdf},
+    % 封面中的校名图片
+    % 模版已自带，通常不需要额外配置
+    %
+    % logo-size = {0.5\textwidth},      % 只设置宽度
+    % logo-size = {{}, 3cm},            % 只设置高度
+    % logo-size = {8cm, 3cm},           % 设置宽度和高度
+    % 设置校名图片的大小
+    % 通常不需要调整
+    %
+    % auto-make-cover = true
+    % 是否自动生成论文封面（封一）、指导小组成员名单（封二）和声明页（封三）
+    % 除非特殊需要（e.g. 不要封面），否则不建议设为 false
+  },
+  %
+  % info 类用于录入论文信息
+  info = {
+    title = {日常健康中面诊交互技术的研究},
+    % 中文标题
+    % 长标题建议使用 “\\” 命令手动换行（不是指在源文件里输入回车符，当然
+    % 源文件里适当的换行可以有助于代码清晰）：
+    %   title = {最高人民法院、最高人民检察院关于适用\\
+    %            犯罪嫌疑人、被告人逃匿、死亡案件违法所得\\
+    %            没收程序若干问题的规定},
+    %
+    title* = {Face Reading Technologies for everyday Health},
+    % 英文标题
+    %
+    author = {秦贤康},
+    % 作者姓名
+    %
+    % author* = {Your name},
+    % 作者姓名（英文 / 拼音）
+    % 目前不需要填写
+    %
+    supervisor = {丁向华\quad 教授},
+    % 导师
+    % 姓名与职称之间可以用 \quad 打印一个空格
+    %
+    major = {计算机应用技术},
+    % 专业
+    %
+    department = {计算机科学与技术},
+    % 院系
+    %
+    student-id = {17210240182},
+    % 作者学号
+    %
+    % date = {2019 年 1 月 1 日},
+    % 日期
+    % 注释掉表示使用编译日期
+    %
+    % secret-level = ii,
+    % 密级
+    % 允许选项：
+    %   secret-level = none|i|ii|iii
+    % 说明：
+    %   none  不显示密级与保密年限
+    %   i     秘密
+    %   ii    机密
+    %   iii   绝密
+    %
+    % secret-year = {五年},
+    % 保密年限
+    % secret-level = none 时该选项无效
+    %
+    instructors = {
+      {顾\quad 宁 \quad 教\quad 授},
+      {丁向华 \quad 副教授}
+    },
+    % 指导小组成员
+    % 使用英文逗号 “,” 分隔
+    % 如有需要，可以用 \quad 手工对齐
+    %
+    keywords = {人机交互, 面诊, 健康},
+    % 中文关键字
+    % 使用英文逗号 “,” 分隔
+    %
+    keywords* = {Uncertainty principle, quantum mechanics, theoretical physics},
+    % 英文关键字
+    % 使用英文逗号 “,” 分隔
+    %
+    clc = {O413.1}
+    % 中图分类号
+  }
+}
+
+\begin{document}
+
+% \raggedbottom
+% 这个命令用来关闭版心底部强制对齐，可以减少不必要的 underfull \vbox 提示，但会影响排版效果
+
+\frontmatter
+% 前置部分包含目录、中英文摘要以及符号表等
+
+\tableofcontents
+% 目录
+
+\begin{abstract}
+  本文通过调研人脸识别技术应用到面诊进行日常的健康管理，探索在日常健康管理的场景下会遇到的问题并提出了交互上的改进。
+\end{abstract}
+
+\begin{abstract*}
+  English abstract
+\end{abstract*}
+
+% \begin{notation}
+%   $x$                          & 坐标        \\
+%   $p$                          & 动量        \\
+%   $\psi(x)$                    & 波函数      \\
+%   $\langle x |$                & 左矢（bra） \\
+%   $| x \rangle$                & 右矢（ket） \\
+%   $\langle\alpha|\beta\rangle$ & 内积        \\
+% \end{notation}
+% 符号表
+% 语法与 LaTeX 表格一致：列用 & 区分，行用 \\ 区分
+% 如需修改格式，可以使用可选参数：
+%   \begin{notation}[ll]
+%     $x$ & 坐标 \\
+%     $p$ & 动量
+%   \end{notation}
+% 可选参数与 LaTeX 标准表格的列格式说明语法一致
+% 这里的 “ll” 表示两列均为自动宽度，并且左对齐
+
+\mainmatter
+% 背景介绍
+\include{chapters/intro}
+% 相关工作
+\include{chapters/relatework}
+% 前期用户调研
+\include{chapters/user_study}
+% 系统实现
+\include{chapters/system}
+% 交互实验
+\include{chapters/experiment}
+% 总结
+\include{chapters/conclution}
+% 致谢
+\include{chapters/ack}
+
+\bibliography{bibliography}
+\backmatter
+% 后置部分包含参考文献、声明页（自动生成）等
+
+\printbibliography
+% 打印参考文献列表
+
+\end{document}
