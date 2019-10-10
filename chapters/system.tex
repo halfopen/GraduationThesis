@@ -8,7 +8,7 @@
 云中医原始版本只有Android版本，核心诊断和打分算法使用c++编写， 分类模型为OpenCV模型。
 在具体实现方面，将所有OpenCV格式模型打包到Android安装包中，在Android平台通过Native方法调用动态链接库的方式完成诊断。
 
-这种非跨平台的实现，有一个明显的缺点就是系统的稳定性需要考虑的用户各种设备环境。在用户调研过程中，很多用户的系统反馈无法完成诊断或者闪退。
+这种非跨平台的实现，有一个明显的缺点就是系统的稳定性需要考虑的用户各种设备环境。在用户调研过程中，很多用户曾经反馈在使用过程中无法完成诊断或者闪退。
 
 \subsection{新系统设计}
 解决跨平台需要同时实现IOS，Android，以及Web平台应用，目前云中医已经有安卓版本的实现，模型调用是通过Java调用Native动态链接库的方式。
@@ -261,8 +261,6 @@ Mysql是当前比较流行一个关系型的数据库，主要保存日志信息
 如果redis的主节点信息已经是本节点，说明上一轮抢占成功，将本节点的角色更新为主节点。
 
 
-
-
 \section{客户端}
 IOS, Android和Web平台客户端都采用同一套代码，采用MUI+AngularJS实现。
 MUI是一个高性能前端框架，本身不依赖任何的第三方JavaScript库，实现了接近原生的用户体验，并内置了大量组件。
@@ -270,25 +268,12 @@ AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应�
 
 客户端的主要工作，是设计新的自诊界面，解决交互方面大量易用性的问题。整体的设计思想是给用户对自己当前状态一种直观的感受。
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[height=10cm]{images/diag.png}
-    \caption{面诊舌诊问诊新界面}
-    \label{fig:diag_new}
-\end{figure}
-
-如图\ref{fig:diag_new}所示，根据用户调研的反馈，新界面简化了诊断的流程，面诊舌诊问诊在一个页面显示，并且所有的问题和操作都是可选的，不会出现必须要先面诊然后舌诊然后才能问诊的问题。其次，新界面对面诊和舌诊进行了中间结果的反馈，面诊在用户拍照确认之后，会立即报告本次照片是否合格已经诊断的结果，用户不需要在点击诊断的时候才被提示照片不合格。
-
-在问诊方面，新系统实现了最近一次记录保存，由于问题是可选回答的，所以用户只需要回答和自己上次的结果不一致的即可。同时，我们对不同问题的回答结果进行了颜色的区分。有色实心代表本次回答，有色空心代表上次回答；橙色代表有症状，绿色代表回答的问题表现良好，没有症状；白色没有填充和边框，为黑字，代表未回答。
-
-在方框内部的问题描述设计上，我们把默认的文字描述，显示为问题描述；一旦用户本次或者上次回答过该问题，则直接显示用户回答的结果。这样做的结果是，第二次用户点进来，就能看到上次的回答结果，这样能够对自己的身体情况有个快速的了解。
-
 客户端系统主要有以下几个部分：用户登录，健康诊断（面诊，舌诊，问诊），健康报告，诊断记录。
 
 \subsubsection{用户登录}
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=10cm]{images/login.png}
+    \includegraphics[height=5cm]{images/login.png}
     \caption{用户登录}
     \label{fig:login}
 \end{figure} 
@@ -296,30 +281,37 @@ AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应�
 
 \subsubsection{健康诊断}
 
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
     \includegraphics[height=10cm]{images/diag.png}
-    \caption{Caption}
-    \label{fig:diag}
+    \caption{面诊舌诊问诊新界面}
+    \label{fig:diag_new}
 \end{figure}
+
 新界面和之前版本的云中医界面不同的是，诊断界面不仅提供了面诊舌诊问诊的入口，同时会将面诊舌诊的照片和中间结果直接显示在当前页面，给用户对于自己当前身体情况一个直观的感受。
 如果拍照失败会直接显示，不需要等到用户进行点击诊断之后才知道自己的照片不合格。
-	
-\subsubsection{照片上传}
+    
+如图\ref{fig:diag_new}所示，根据用户调研的反馈，新界面简化了诊断的流程，面诊舌诊问诊在一个页面显示，并且所有的问题和操作都是可选的，不会出现必须要先面诊然后舌诊然后才能问诊的问题。其次，新界面对面诊和舌诊进行了中间结果的反馈，面诊在用户拍照确认之后，会立即报告本次照片是否合格已经诊断的结果，用户不需要在点击诊断的时候才被提示照片不合格。
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[height=10cm]{images/crop.png}
-    \caption{Caption}
-    \label{fig:crop}
-\end{figure}
-用户通过点击面诊或者舌诊的圆圈图案，可以通过从相册选择或者通过拍照，上传自己的脸部或者舌头照片。
-图片裁剪可以帮助用户定位面部和舌头的位置，提高诊断的精度。用户点击确认裁剪之后，诊断的结果会直接显示在圆圈下面，同时，如果没有识别到人脸或者舌头也会提示用户重新拍照。
-点击确认裁剪后，通过对图片进行base64编码上传到服务器的诊断接口，服务器调用模型池对应模型，拿到诊断结果。
+在问诊方面，新系统实现了最近一次记录保存，由于问题是可选回答的，所以用户只需要回答和自己上次的结果不一致的即可。同时，我们对不同问题的回答结果进行了颜色的区分。有色实心代表本次回答，有色空心代表上次回答；橙色代表有症状，绿色代表回答的问题表现良好，没有症状；白色没有填充和边框，为黑字，代表未回答。
+
+在方框内部的问题描述设计上，我们把默认的文字描述，显示为问题描述；一旦用户本次或者上次回答过该问题，则直接显示用户回答的结果。这样做的结果是，第二次用户点进来，就能看到上次的回答结果，这样能够对自己的身体情况有个快速的了解。
+
+% \subsubsection{照片上传}
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[height=10cm]{images/crop.png}
+%     \caption{图片裁剪}
+%     \label{fig:crop}
+% \end{figure}
+% 用户通过点击面诊或者舌诊的圆圈图案，可以通过从相册选择或者通过拍照，上传自己的脸部或者舌头照片。
+% 图片裁剪可以帮助用户定位面部和舌头的位置，提高诊断的精度。用户点击确认裁剪之后，诊断的结果会直接显示在圆圈下面，同时，如果没有识别到人脸或者舌头也会提示用户重新拍照。
+% 点击确认裁剪后，通过对图片进行base64编码上传到服务器的诊断接口，服务器调用模型池对应模型，拿到诊断结果。
 
 \subsubsection{问诊}
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[height=10cm]{images/questions.png}
     \caption{问诊}
@@ -327,7 +319,6 @@ AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应�
 \end{figure}
 问诊的问题一共13道，用户根据自己的情况通过勾选回答问题。每次进入问诊界面，系统会尝试加载上一次用户回答问题的历史记录和对应的答案。
 同时，回答过的问题，会在界面上进行显示。没有回答过的问题，将是白色黑字没有边框。
-
 
 用户在完成自己需要回答的问题或者面诊舌诊之后，可以点击蓝色的诊断按钮进行健康诊断，同时，系统会将本地诊断记录上传到后台服务器上，以便查询诊断记录。
 
@@ -380,40 +371,35 @@ AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应�
 \begin{figure}[ht]
     \centering
     \subfigure[相关问题]{
-        \includegraphics[height=8cm]{images/report7.png}
+        \includegraphics[height=7cm]{images/report7.png}
     }
     \subfigure[雷达图]{
-        \includegraphics[height=8cm]{images/report8.png}
+        \includegraphics[height=7cm]{images/report8.png}
     }
     \subfigure[计算公式]{
-        \includegraphics[height=8cm]{images/report9.png}
+        \includegraphics[height=7cm]{images/report9.png}
     }
     \caption{分数的解释}
     \label{fig:report_expalin_score}
 \end{figure}
 
 点击面诊结果，可以看到自己的面部舌部的对于整个诊断的影响。
-\begin{figure}[ht]
-    \centering
-    \includegraphics[height=10cm]{images/report4.png}
-    \caption{面诊的解释}
-    \label{fig:my_label}
-\end{figure}
 
 点击体质分数，可以看到当次诊断中，面诊舌诊和用户自己回答的问题，哪些影响到了最后体质的判断。
 
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
+    \subfigure[面诊的解释]{
+        \includegraphics[height=7cm]{images/report4.png}
+    }
     \subfigure[概念的解释]{
-        \includegraphics[height=10cm]{images/report5.png}
+        \includegraphics[height=7cm]{images/report5.png}
     }
     \subfigure[体质相关问题]{
-        \includegraphics[height=10cm]{images/report6.png}
+        \includegraphics[height=7cm]{images/report6.png}
     }
-    \caption{体质的解释}
+    \caption{诊断结果的解释}
     \label{fig:report_explain_phy_1}
 \end{figure}
-
-\section{本章小节}
 
