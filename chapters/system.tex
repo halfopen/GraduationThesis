@@ -3,27 +3,53 @@
 
 可用性的解决方案主要分为两块：一个是提高系统的可用性；另一个是重新设计用户友好的交互界面，提升交互的体验。增强用户理解则是通过加入透明性。
 
-如图\ref{fig:system}所示，系统主要分为两部分：服务端和客户端。
+\section{跨平台系统设计}
+\subsection{原始系统设计}
+云中医原始版本只有Android版本，核心诊断和打分算法使用c++编写， 分类模型为OpenCV模型。
+在具体实现方面，将所有OpenCV格式模型打包到Android安装包中，在Android平台通过Native方法调用动态链接库的方式完成诊断。
+
+这种非跨平台的实现，有一个明显的缺点就是系统的稳定性需要考虑的用户各种设备环境。在用户调研过程中，很多用户的系统反馈无法完成诊断或者闪退。
+
+\subsection{新系统设计}
+解决跨平台需要同时实现IOS，Android，以及Web平台应用，目前云中医已经有安卓版本的实现，模型调用是通过Java调用Native动态链接库的方式。
+在实现IOS和Web平台应用时，经过考虑有以下方案：
+
+\subsubsection{方案一}
+ IOS重新编写一套代码，通过swift语言调用链接库的方式调用模型; Web平台重新编写一套代码，通过接口调用的方式调用模型。
+
+优点： Android 平台核心代码不需要改动，只需要修改交互和界面。模型文件放在客户端，有安全风险。
+
+缺点： 需要重新编写IOS和Web平台代码，需要同时维护三个平台的代码，保持功能界面的一致性。移动端平台模型是本地调用，不方便统一管理。模型本地调用需要考虑客户端的系统平台和设备性能。
+
+\subsubsection{方案二}
+采用C/S架构，全部重写。IOS，Android以及Web客户端使用一套H5代码, 处理逻辑在服务端实现，模型独立服务化，通过Http接口的方式调用。
+
+优点： 客户端使用一套H5代码，维护方便。模型部署在服务器，无泄密风险，可以统一管理（统计调用次数，记录错误日志等），方便实现高可用。
+
+缺点： 依赖网络稳定性，重写的工作量稍大， 需要另外实现模型服务化和服务端。
+
+方案一的缺点会导致后续的维护成本过大，本文最终采用方案二，如图\ref{fig:system}所示，系统主要分为三部分：服务端和客户端，算法模型通过容器的方式服务化成模型池。
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=12cm]{images/system.png}
-    \caption{系统设计}
+    \caption{跨平台系统设计}
     \label{fig:system}
 \end{figure}
 
-一次诊断的大致流程如下：用户通过客户端，上传图片或者回答问题，客户端则向服务端发起请求。服务端收到请求之后，进行任务分配，对分配到任务的实例，调用对应的模型完成特征提取或诊断打分，同时将数据持久化到redis和mysql中，然后把结果返回给客户端。客户端收到服务端的结果后，根据用户是否透明，进行结果的展示。
+一次诊断的大致流程如下：用户通过客户端，上传图片或者回答问题，客户端则向服务端发起请求。服务端收到请求之后，进行任务分配，对分配到任务的实例，调用模型池中对应的模型完成特征提取或诊断打分，同时将数据持久化到mysql和磁盘中，然后把结果返回给客户端。客户端收到服务端的结果后，根据用户是否透明，进行结果的展示。
 
 \section{模型池}
 
-为了能够满足系统的跨平台使用，我们需要把特征提取算法从客户端剥离到服务器，通过接口调用的方式来实现面诊和舌诊，同时在服务的实现诊断算法。
+模型池由多个独立可用的模型服务构成， 通过http 接口调用完成和服务端的交互进行任务处理。
 
-首先，我们使用容器的方法，通过flask本地调用的方法，把特征提取模型打包成服务。每个特征提取服务，可以接受http的请求，对传过来的图片进行特征提取。模型的计算能力如\ref{tab:face-feature}, \ref{tab:tongue-feature}, \ref{tab:diag-feature}所示。
+首先，通过Flask框架建立一个Http的服务，把特征提取模型打包成服务。每个特征提取服务，可以接受http的请求，对传过来的图片进行特征提取。模型的计算能力如\ref{tab:face-feature}, \ref{tab:tongue-feature}, \ref{tab:diag-feature}所示。
 
-模型池中的模型服务目前有两类，特征提取模型（面部和舌部）和诊断打分模型，分别有对图片进行特征提取和对特征进行打分的能力。服务端有多个实例，共同处理用户发起的诊断任务，使用redis和mysql进行数据的持久化。客户端使用mui框架加上angular及其插件完成，复杂计算和逻辑通过后台调用实现。
+云中医目前有两类可用的模型，特征提取模型（面部和舌部）和诊断打分模型，分别有对图片进行特征提取和对特征进行打分的能力。
 
 \begin{table}[]
-    \begin{tabular}{llr}
+    \centering
+    \begin{tabular}{lll}
         \toprule
         特征          & 特征描述     & 特征内容 \\ 
         \midrule
@@ -34,13 +60,24 @@
         lipColor      & 嘴唇颜色 & 0:淡白，1:淡红，2:红,3:暗红，4:紫   \\
         \bottomrule
     \end{tabular}
-    \caption{脸部特征提取算子输出}
+    \caption{脸部特征提取模型输出}
     \label{tab:face-feature}
 \end{table}
 
+\subsection{脸部特征提取模型}
+如 \ref{tab:face-feature} 所示，脸部特征提取模型，输入为面部特征图片，输出有以下几个维度：
+
+1. 是否检测到人脸：如果没有检测到人脸，则剩余所有维度无效，且取值为0。
+
+2. 是否检测到嘴唇： 如果没有检测到嘴唇，嘴唇颜色的结果无效且取值必定为0。
+
+3. 面部颜色&面部光泽： 面色和光泽是对预处理之后的图片，去除眼口鼻区域的图片进行面色和光泽信息提取的结果。
+
+4. 嘴唇颜色： 嘴唇颜色的结果从浅到深分别为淡白，淡红，红，暗红，紫。
 
 \begin{table}[]
-    \begin{tabular}{llr}
+    \centering
+    \begin{tabular}{lll}
         \toprule
         特征 & 特征描述 & 特征内容 \\ 
         \midrule
@@ -52,54 +89,69 @@
         tongueNatureColor & 舌质颜色 & 0:舌暗红，1:舌淡白，2:舌淡红，3:舌红，4:舌紫\\
         \bottomrule
     \end{tabular}
-    \caption{舌部特征提取算子输出}
+
+    \caption{舌部特征提取模型输出}
     \label{tab:tongue-feature}
 \end{table}
 
+\subsection{舌部特征提取模型}
+如 \ref{tab:tongue-feature} 所示，舌部特征提取模型，输入为舌头图片，输入有以下几个维度：
+
+1. 是否检测到舌体： 如果没有检测到舌体，则剩余所有维度无效，且取值为0。
+
+2. 是否检测到舌裂纹： 舌裂纹是最终特征，剩余特征是否有效和该标志位独立。
+
+3. 舌头特征： 包括舌胖瘦，舌苔的厚薄，颜色和舌质颜色。
 
 \begin{table}[]
-    \begin{tabular}{lll}
-        \toprule
-        特征 & 特征描述 & 特征内容 \\ 
-        \midrule
-        healthScore & 健康分数 & 0-100 \\
-        healthType & 是否包含某种体质 & {[}0, 0, 0, 0, 0, 0, 0{]} \\ 
-        questionScore & 各种问题的体质得分 & {[}0, 0, 0, 0, 0, 0, 0{]} \\
-        symCount & 各种体质症状个数 & {[}0, 0, 0, 0, 0, 0, 0{]} \\
-        symNum & 总体体质症状个数 & 0-13 \\
-        baseScore & 基本分数 & 0-100 \\
-        phy & 体质结果 & 八种体质中的一种\\
-        \bottomrule
-    \end{tabular}
-    \caption{诊断打分算子输出}
+    \begin{center}
+        \begin{tabular}{lll}
+            \toprule
+            特征 & 特征描述 & 特征内容 \\ 
+            \midrule
+            healthScore & 健康分数 & 0-100 \\
+            healthType & 是否包含某种体质 & {[}0, 0, 0, 0, 0, 0, 0{]} \\ 
+            questionScore & 各种问题的体质得分 & {[}0, 0, 0, 0, 0, 0, 0{]} \\
+            symCount & 各种体质症状个数 & {[}0, 0, 0, 0, 0, 0, 0{]} \\
+            symNum & 总体体质症状个数 & 0-13 \\
+            baseScore & 基本分数 & 0-100 \\
+            phy & 体质结果 & 八种体质中的一种\\
+            \bottomrule
+        \end{tabular}
+    \end{center}
+    \caption{诊断打分模型输出}
     \label{tab:diag-feature}
 \end{table}
 
+\subsection{诊断打分模型}
+如 \ref{tab:diag-feature} 所示，最终诊断打分模型的体质结果输出为 "阳虚","阴虚", "痰湿","瘀滞", "脾虚", "肾虚", "气虚", "健康" 中的一种。
 
-如\ref{tab:diag-feature}所示，最终诊断打分算子的体质结果输出为 "阳虚","阴虚", "痰湿","瘀滞", "脾虚", "肾虚", "气虚", "健康" 中的一种。
-
-模型部署在docker上，通过k8s管理多个模型高实现可用。服务端通过k8s提供的cluster ip进行调用。为了减少读写的竞争，模型服务池不进行mysql和redis的读写，任务异步完成之后，通过回调服务端的方式，由服务端对结果进行持久化。
+模型服务使用docker进行打包，通过k8s管理多个模型高实现可用。服务端通过k8s提供的集群 ip进行调用。为了减少读写的竞争，模型服务池不进行mysql和redis的读写，任务异步完成之后，通过回调服务端的方式，由服务端对结果进行持久化。
 
 \section{服务端}
+
+服务端有多个实例，共同处理用户发起的诊断任务，使用redis和mysql进行数据的持久化。客户端使用mui框架加上angular及其插件完成，复杂计算和逻辑通过后台调用实现。
 
 \subsection{日志管理}
 为了方便后续的数据分析，我们需要采用用户的所有操作日志。日志的数据库主要字段如下：
 
 
 \begin{table}[]
-    \begin{tabular}{lll}
-        \toprule
-        字段 & 类型 & 描述 \\ 
-        \midrule
-        id & int & 主键 \\
-        user, & text & 用户唯一标识 \\ 
-        device & text & 所用设备信息 \\
-        op & text & 操作 \\
-        info & text & 操作信息 \\
-        createTime & datetime & 创建时间 \\
-        updateTime & datetime & 更新时间\\
-        \bottomrule
-    \end{tabular}
+    \begin{center}
+        \begin{tabular}{lll}
+            \toprule
+            字段 & 类型 & 描述 \\ 
+            \midrule
+            id & int & 主键 \\
+            user, & text & 用户唯一标识 \\ 
+            device & text & 所用设备信息 \\
+            op & text & 操作 \\
+            info & text & 操作信息 \\
+            createTime & datetime & 创建时间 \\
+            updateTime & datetime & 更新时间\\
+            \bottomrule
+        \end{tabular}
+    \end{center}
     \caption{操作日志表}
     \label{tab:op_log}
 \end{table}
@@ -108,40 +160,42 @@
 其中，user字段用于标识用户，默认使用用户手机号作为唯一标识，要求用户进入系统前需要通过手机验证码进行登录。而在后续的透明性实验环节，为了方便用户跳转完成问卷，不需要用户进行登录，user字段采用的是wjx-问卷星id。
 
 \subsection{服务端高可用}
-为了实现服务的稳定性，服务端支持开启多个实例；同时考虑到性能，服务端设计为读写分离的架构：每个实例都可以读取任务列表，处理用户的任务，但只有master有任务分配的权限。同时，服务端通过心跳包探活，master失效时，通过redis的分布式锁实现master的竞选。
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=12cm]{images/slave-master.png}
-%     \caption{服务端竞选}
-%     \label{fig:my_label}
-% \end{figure}
+为了实现服务的稳定性，服务端支持开启多个实例；同时考虑到性能，服务端设计为读写分离的架构：每个实例都可以读取任务列表，处理用户的任务，但只有主节点有任务分配的权限。同时，服务端通过心跳包探活，主节点失效时，通过redis的分布式锁实现master的竞选。
+\begin{figure}
+    \centering
+    \includegraphics[width=10cm]{images/slave-master.png}
+    \caption{服务端竞选}
+    \label{fig:slave_master}
+\end{figure}
 通过任务的id进行哈希，按照哈希进行任务的分配。每个服务端实例过一定的间隔时间，就会去读取任务列表，开始执行任务列表里的任务。
 
 \subsection{任务处理}
 一次用户诊断，服务端需要完成多个任务：面部特征提取任务，舌部特征提取任务，问诊打分任务。
-服务端在收到用户提交的任务之后，会将数据存储到数据库的task表中，task表的主要字段如【TODO】。
+服务端在收到用户提交的任务之后，会将数据存储到数据库的task表中，task表的主要字段如\ref{tab:task}所示。
 
 
 \begin{table}[]
-    \begin{tabular}{lll}
-        \toprule
-        字段 & 类型 & 描述 \\ 
-        \midrule
-        id & int & 主键 \\
-        type, & int & 任务类型: 面部，舌部，诊断 \\ 
-        in & text & 任务输入 \\
-        out & text & 任务结果 \\
-        handler & text & 分配的服务端 \\
-        status & int & 任务状态: 新建，已分配，处理中，失败，完成 \\
-        createTime & datetime & 创建时间 \\
-        updateTime & datetime & 更新时间\\
-        \bottomrule
-    \end{tabular}
+    \begin{center}
+        \begin{tabular}{llr}
+            \toprule
+            字段 & 类型 & 描述 \\ 
+            \midrule
+            id & int & 主键 \\
+            type, & int & 任务类型: 面部，舌部，诊断 \\ 
+            in & text & 任务输入 \\
+            out & text & 任务结果 \\
+            handler & text & 分配的服务端 \\
+            status & int & 任务状态: 新建，已分配，处理中，失败，完成 \\
+            createTime & datetime & 创建时间 \\
+            updateTime & datetime & 更新时间\\
+            \bottomrule
+        \end{tabular}
+    \end{center}
     \caption{任务表}
     \label{tab:task}
 \end{table}
 
-type一共有三种类型，面部特征提取任务，舌部特征提取任务，和诊断任务。
+type一共有三种取值，对应三种人物类型：面部特征提取任务，舌部特征提取任务，和诊断任务。
 
 面部特征提取和舌部特征提取任务需要的输入为图片，通过base64编码序列化为json对象，保存的in字段中。
 
@@ -150,10 +204,14 @@ type一共有三种类型，面部特征提取任务，舌部特征提取任务�
 服务端在获取到分配给自己的任务之后，便会按照任务的类型请求模型池对应的模型完成计算。模型返回结果之后，服务端将结果缓存到redis中，然后写入到mysql数据库中,再返回给客户端。
 
 \section{客户端}
+IOS, Android和Web平台客户端都采用同一套代码，采用MUI+AngularJS实现。
+MUI是一个高性能前端框架，本身不依赖任何的第三方JavaScript库，实现了接近原生的用户体验，并内置了大量组件。
+AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应用。
+
 设计新的自诊界面，解决交互方面易用性的问题，给用户对自己当前状态一种直观的感受。
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=12cm]{images/diag.png}
+    \includegraphics[height=10cm]{images/diag.png}
     \caption{面诊舌诊问诊新界面}
     \label{fig:diag_new}
 \end{figure}
@@ -169,50 +227,45 @@ type一共有三种类型，面部特征提取任务，舌部特征提取任务�
 \subsubsection{用户登录}
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=12cm]{images/login.png}
+    \includegraphics[height=10cm]{images/login.png}
     \caption{用户登录}
     \label{fig:login}
 \end{figure} 
 用户登录时，需要输入正确的手机号才能通过手机格式验证发送验证码到手机上。登录界面可以接受一个ssojump的参数，用于判断是否来自问卷星。如果验证通过，则直接跳过登录进入首页。
- 
-% \subsubsection{系统首页}
-%  \begin{figure}[h]
-%      \centering
-%      \includegraphics{images/main.png}
-%      \caption{Caption}
-%      \label{fig:my_label}
-%  \end{figure}
-% 首页简化之后，只保留了新版和旧版界面的入口，方便用户进行对比，同时，用户也可以在首页下面的tab页查看自己之前的诊断记录。
 
 \subsubsection{健康诊断}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=12cm]{images/diag.png}
+    \includegraphics[height=10cm]{images/diag.png}
     \caption{Caption}
     \label{fig:diag}
 \end{figure}
-新界面和之前版本的云中医界面不同的是，诊断界面不仅提供了面诊舌诊问诊的入口，同时会将面诊舌诊的照片和中间结果直接显示在当前页面，给用户对于自己当前身体情况一个直观的感受。如果拍照失败会直接显示，不需要等到用户进行点击诊断之后才知道自己的照片不合格。
+新界面和之前版本的云中医界面不同的是，诊断界面不仅提供了面诊舌诊问诊的入口，同时会将面诊舌诊的照片和中间结果直接显示在当前页面，给用户对于自己当前身体情况一个直观的感受。
+如果拍照失败会直接显示，不需要等到用户进行点击诊断之后才知道自己的照片不合格。
 	
 \subsubsection{照片上传}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=12cm]{images/crop.png}
+    \includegraphics[height=10cm]{images/crop.png}
     \caption{Caption}
     \label{fig:crop}
 \end{figure}
-用户通过点击面诊或者舌诊的圆圈图案，可以通过从相册选择或者通过拍照，上传自己的脸部或者舌头照片。图片裁剪可以帮助用户定位面部和舌头的位置，提高诊断的精度。用户点击确认裁剪之后，诊断的结果会直接显示在圆圈下面，同时，如果没有识别到人脸或者舌头也会提示用户重新拍照。点击确认裁剪后，通过对图片进行base64编码上传到服务器的诊断接口，服务器调用对应算子，拿到诊断结果。
+用户通过点击面诊或者舌诊的圆圈图案，可以通过从相册选择或者通过拍照，上传自己的脸部或者舌头照片。
+图片裁剪可以帮助用户定位面部和舌头的位置，提高诊断的精度。用户点击确认裁剪之后，诊断的结果会直接显示在圆圈下面，同时，如果没有识别到人脸或者舌头也会提示用户重新拍照。
+点击确认裁剪后，通过对图片进行base64编码上传到服务器的诊断接口，服务器调用模型池对应模型，拿到诊断结果。
 
 \subsubsection{问诊}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=12cm]{images/questions.png}
+    \includegraphics[height=10cm]{images/questions.png}
     \caption{问诊}
     \label{fig:questions}
 \end{figure}
-问诊的问题一共13道，用户根据自己的情况通过勾选回答问题。每次进入问诊界面，系统会尝试加载上一次用户回答问题的历史记录和对应的答案。同时，回答过的问题，会在界面上进行显示。没有回答过的问题，将是白色黑字没有边框。
+问诊的问题一共13道，用户根据自己的情况通过勾选回答问题。每次进入问诊界面，系统会尝试加载上一次用户回答问题的历史记录和对应的答案。
+同时，回答过的问题，会在界面上进行显示。没有回答过的问题，将是白色黑字没有边框。
 
 
 用户在完成自己需要回答的问题或者面诊舌诊之后，可以点击蓝色的诊断按钮进行健康诊断，同时，系统会将本地诊断记录上传到后台服务器上，以便查询诊断记录。
@@ -220,7 +273,7 @@ type一共有三种类型，面部特征提取任务，舌部特征提取任务�
 \subsubsection{诊断结果}
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=12cm]{images/report.png}
+    \includegraphics[height=10cm]{images/report.png}
     \caption{健康报告}
     \label{fig:report}
 \end{figure}
@@ -229,7 +282,7 @@ type一共有三种类型，面部特征提取任务，舌部特征提取任务�
 \subsubsection{诊断记录列表}
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=12cm]{images/history.png}
+    \includegraphics[height=10cm]{images/history.png}
     \caption{诊断历史}
     \label{fig:history}
 \end{figure}
@@ -239,7 +292,8 @@ type一共有三种类型，面部特征提取任务，舌部特征提取任务�
 \section{透明性}
 考虑到中医应用的特殊性，普通用户需要提高对应用的理解。因此我们在系统中加入算法的透明性，提升用户的体验。
 
-对于每一个用户，我们通过哈希算法，对用户名计算哈希值，按照哈希值的奇偶性，将奇数用户归类为不透明用户，偶数用户归类为透明用户。两类用户在进行面诊舌诊时的流程一样，但是透明用户能够看到背后特征提取算法和诊断算法的中间数据，同时系统为给出的诊断结果进行了解释。
+对于每一个用户，我们通过哈希算法，对用户名计算哈希值，按照哈希值的奇偶性，将奇数用户归类为不透明用户，偶数用户归类为透明用户。
+两类用户在进行面诊舌诊时的流程一样，但是透明用户能够看到背后特征提取算法和诊断算法的中间数据，同时系统为给出的诊断结果进行了解释。
 
 \subsection{面诊舌诊的透明性}
 普通用户在面诊页面
@@ -249,7 +303,7 @@ type一共有三种类型，面部特征提取任务，舌部特征提取任务�
 \subsection{诊断结果的透明性}
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=12cm]{images/report3.png}
+    \includegraphics[height=10cm]{images/report3.png}
     \caption{透明用户看到的诊断报告}
     \label{fig:my_label}
 \end{figure}
@@ -260,7 +314,7 @@ type一共有三种类型，面部特征提取任务，舌部特征提取任务�
 
 雷达图对体质分数进行了汇总，给用户展示最终个人的体质倾向的结果。
 
-根据诊断打分算子的内部算法，解释页面的计算公式一共有5种类别，我们使用选项卡的方式，将所有的打分计算公式全部透明给用户，并且默认打开当前计算公式的选项卡。
+根据诊断打分模型的内部算法，解释页面的计算公式一共有5种类别，我们使用选项卡的方式，将所有的打分计算公式全部透明给用户，并且默认打开当前计算公式的选项卡。
 
 \begin{figure}[ht]
     \centering
@@ -280,7 +334,7 @@ type一共有三种类型，面部特征提取任务，舌部特征提取任务�
 点击面诊结果，可以看到自己的面部舌部的对于整个诊断的影响。
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=12cm]{images/report4.png}
+    \includegraphics[height=10cm]{images/report4.png}
     \caption{面诊的解释}
     \label{fig:my_label}
 \end{figure}
@@ -291,12 +345,14 @@ type一共有三种类型，面部特征提取任务，舌部特征提取任务�
 \begin{figure}
     \centering
     \subfigure[概念的解释]{
-        \includegraphics[height=12cm]{images/report5.png}
+        \includegraphics[height=10cm]{images/report5.png}
     }
     \subfigure[体质相关问题]{
-        \includegraphics[height=12cm]{images/report6.png}
+        \includegraphics[height=10cm]{images/report6.png}
     }
     \caption{体质的解释}
     \label{fig:report_explain_phy_1}
 \end{figure}
+
+\section{本章小节}
 
