@@ -28,7 +28,9 @@
 
 缺点： 依赖网络稳定性，重写的工作量稍大， 需要另外实现模型服务化和服务端。
 
-方案一的缺点会导致后续的维护成本过大，本文最终采用方案二，如图\ref{fig:system}所示，系统主要分为三部分：服务端和客户端，算法模型通过容器的方式服务化成模型池。
+方案一的缺点会导致后续的维护成本过大，本文最终采用方案二。
+
+如图\ref{fig:system}所示，系统主要分为三部分：服务端和客户端，算法模型通过容器的方式服务化成模型池。
 
 \begin{figure}[ht]
     \centering
@@ -43,9 +45,11 @@
 
 模型池由多个独立可用的模型服务构成， 通过http 接口调用完成和服务端的交互进行任务处理。
 
-首先，通过Flask框架建立一个Http的服务，把特征提取模型打包成服务。每个特征提取服务，可以接受http的请求，对传过来的图片进行特征提取。模型的计算能力如\ref{tab:face-feature}, \ref{tab:tongue-feature}, \ref{tab:diag-feature}所示。
+首先，通过Flask框架建立一个Http的服务，把特征提取模型打包成服务。每个特征提取服务，可以接受http的请求，对传过来的图片进行特征提取。
+模型的计算能力如 表\ref{tab:face-feature}, 表\ref{tab:tongue-feature}, 表\ref{tab:diag-feature}所示。
 
-云中医目前有两类可用的模型，特征提取模型（面部和舌部）和诊断打分模型，分别有对图片进行特征提取和对特征进行打分的能力。
+云中医目前现有两类可用的模型，特征提取模型（面部和舌部两种）和诊断打分模型，分别有对图片进行特征提取和对特征进行打分的能力。
+其中特征提取模型只返回了最终结果，诊断打分模型暴露了一部分中间结果。
 
 \begin{table}[]
     \centering
@@ -65,15 +69,15 @@
 \end{table}
 
 \subsection{脸部特征提取模型}
-如 \ref{tab:face-feature} 所示，脸部特征提取模型，输入为面部特征图片，输出有以下几个维度：
+如表 \ref{tab:face-feature} 所示，脸部特征提取模型，输入为面部特征图片，输出有以下几个维度：
 
-1. 是否检测到人脸：如果没有检测到人脸，则剩余所有维度无效，且取值为0。
+1. 是否检测到人脸(faceDetectRes)：如果没有检测到人脸，则剩余所有维度无效，且取值为0。
 
-2. 是否检测到嘴唇： 如果没有检测到嘴唇，嘴唇颜色的结果无效且取值必定为0。
+2. 是否检测到嘴唇(lipDetectRes)： 如果没有检测到嘴唇，嘴唇颜色的结果无效且取值必定为0。
 
-3. 面部颜色&面部光泽： 面色和光泽是对预处理之后的图片，去除眼口鼻区域的图片进行面色和光泽信息提取的结果。
+3. 面部颜色、面部光泽(faceColor、faceGloss) ： 面色和光泽是对预处理之后的图片，去除眼口鼻区域的图片进行面色和光泽信息提取的结果。
 
-4. 嘴唇颜色： 嘴唇颜色的结果从浅到深分别为淡白，淡红，红，暗红，紫。
+4. 嘴唇颜色(lipColor)： 嘴唇颜色的结果从浅到深分别为淡白，淡红，红，暗红，紫。
 
 \begin{table}[]
     \centering
@@ -95,13 +99,13 @@
 \end{table}
 
 \subsection{舌部特征提取模型}
-如 \ref{tab:tongue-feature} 所示，舌部特征提取模型，输入为舌头图片，输入有以下几个维度：
+如 表 \ref{tab:tongue-feature} 所示，舌部特征提取模型，输入为舌头图片，输入有以下几个维度：
 
-1. 是否检测到舌体： 如果没有检测到舌体，则剩余所有维度无效，且取值为0。
+1. 是否检测到舌体(tongueDetectRes)： 如果没有检测到舌体，则剩余所有维度无效，且取值为0。
 
-2. 是否检测到舌裂纹： 舌裂纹是最终特征，剩余特征是否有效和该标志位独立。
+2. 是否检测到舌裂纹(tongueCrack)： 舌裂纹是最终特征，剩余特征是否有效和该标志位没有关系。
 
-3. 舌头特征： 包括舌胖瘦，舌苔的厚薄，颜色和舌质颜色。
+3. 舌头特征(tongueFatThin、tongueCoatThickness、tongueCoatColor、tongueNatureColor)： 包括舌胖瘦，舌苔的厚薄，颜色和舌质颜色。
 
 \begin{table}[]
     \begin{center}
@@ -124,34 +128,64 @@
 \end{table}
 
 \subsection{诊断打分模型}
-如 \ref{tab:diag-feature} 所示，最终诊断打分模型的体质结果输出为 "阳虚","阴虚", "痰湿","瘀滞", "脾虚", "肾虚", "气虚", "健康" 中的一种。
+原版的云中医应用中，只给用户暴露了健康分数和体质结果。
+如表 \ref{tab:diag-feature} 所示，最终诊断打分模型的体质结果输出为 "阳虚","阴虚", "痰湿","瘀滞", "脾虚", "肾虚", "气虚", "健康" 中的一种，具体的特征说明如下：
 
-模型服务使用docker进行打包，通过k8s管理多个模型高实现可用。服务端通过k8s提供的集群 ip进行调用。为了减少读写的竞争，模型服务池不进行mysql和redis的读写，任务异步完成之后，通过回调服务端的方式，由服务端对结果进行持久化。
+1. 健康分数(healthScore)： 打分的最终健康分数，由baseScore、symNum、questionScore计算而来。
+
+2. 体质类型(healthType): 大小为7的数组，对应 "阳虚","阴虚", "痰湿","瘀滞", "脾虚", "肾虚", "气虚", "健康"。如果包含某个体质，对应位置的值为1。
+
+3. 问题得分(questionScore): 一共有13个问题，每个问题都会影响最终体质的倾向得分， questionScore是所有问题的得分的累加。
+
+4. 症状个数(symCount)： 13个问诊问题中，对应有某个体质特征的症状的累加。
+
+5. 总体症状个数(symNum): symCount的求和。
+
+6. 基本分数(baseScore): 打分模型中, healthScore=baseScore*p + 症状分数*q ，对应不同的症状个数，计算最终得分用的baseScore是不一样的。 
+p和q是模型中预设的权重， 症状分数由问题得分计算而来。
+
+7. 体质结果(phy): 和healthType对应，给出用户的体质倾向。
+
+
+
+模型服务使用docker进行打包，通过k8s管理多个模型高实现可用。服务端通过k8s提供的集群 ip进行调用。
+为了减少读写的竞争，模型池中的服务只进行计算，不进行mysql和redis的读写，结果的持久化由服务端完成。
 
 \section{服务端}
 
-服务端有多个实例，共同处理用户发起的诊断任务，使用redis和mysql进行数据的持久化。客户端使用mui框架加上angular及其插件完成，复杂计算和逻辑通过后台调用实现。
+服务端使用Django框架实现，允许有多个实例同时运行，共同处理用户发起的诊断任务，使用redis和mysql进行数据的持久化。
+Redis是基于内存的分布式数据库，在本系统中主要保存服务端可用节点的信息。
+Mysql是当前比较流行一个关系型的数据库，主要保存日志信息，任务信息等。
+
+服务端的主要模块如图 \ref{fig:server} 所示, 其中日志管理提供了网页端的管理界面，能够在线地对日志进行查询导出；任务管理为客户端提供了任务提交和结果查询接口，为客户端的面诊、舌诊、问诊提供支持。
+系统通过设置定时器，定期地发送心跳包进行主从竞选，主节点会进行人物分配，主节点和从节点则对分配到的人物进行执行，调用模型池中对应的模型完成任务。
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=12cm]{images/server.png}
+    \caption{服务端主要模块设计}
+    \label{fig:server}
+\end{figure}
+
 
 \subsection{日志管理}
-为了方便后续的数据分析，我们需要采用用户的所有操作日志。日志的数据库主要字段如下：
-
+为了方便后续的数据分析，我们需要采用用户的所有操作日志。日志的数据库主要字段如表 \ref{tab:op_log} 所示：
 
 \begin{table}[]
-    \begin{center}
-        \begin{tabular}{lll}
-            \toprule
-            字段 & 类型 & 描述 \\ 
-            \midrule
-            id & int & 主键 \\
-            user, & text & 用户唯一标识 \\ 
-            device & text & 所用设备信息 \\
-            op & text & 操作 \\
-            info & text & 操作信息 \\
-            createTime & datetime & 创建时间 \\
-            updateTime & datetime & 更新时间\\
-            \bottomrule
-        \end{tabular}
-    \end{center}
+    \centering
+    \begin{tabular}{lll}
+        \toprule
+        字段 & 类型 & 描述 \\ 
+        \midrule
+        id & int & 主键 \\
+        user, & text & 用户唯一标识 \\ 
+        device & text & 所用设备信息 \\
+        op & text & 操作名 \\
+        info & text & 操作信息 \\
+        createTime & datetime & 创建时间 \\
+        updateTime & datetime & 更新时间\\
+        \bottomrule
+    \end{tabular}
     \caption{操作日志表}
     \label{tab:op_log}
 \end{table}
@@ -159,56 +193,83 @@
 
 其中，user字段用于标识用户，默认使用用户手机号作为唯一标识，要求用户进入系统前需要通过手机验证码进行登录。而在后续的透明性实验环节，为了方便用户跳转完成问卷，不需要用户进行登录，user字段采用的是wjx-问卷星id。
 
-\subsection{服务端高可用}
-为了实现服务的稳定性，服务端支持开启多个实例；同时考虑到性能，服务端设计为读写分离的架构：每个实例都可以读取任务列表，处理用户的任务，但只有主节点有任务分配的权限。同时，服务端通过心跳包探活，主节点失效时，通过redis的分布式锁实现master的竞选。
-\begin{figure}
+\begin{figure}[ht]
     \centering
-    \includegraphics[width=10cm]{images/slave-master.png}
-    \caption{服务端竞选}
-    \label{fig:slave_master}
+    \includegraphics[width=15cm]{images/op_log.png}
+    \caption{日志管理界面}
+    \label{fig:op_log}
 \end{figure}
-通过任务的id进行哈希，按照哈希进行任务的分配。每个服务端实例过一定的间隔时间，就会去读取任务列表，开始执行任务列表里的任务。
 
 \subsection{任务处理}
 一次用户诊断，服务端需要完成多个任务：面部特征提取任务，舌部特征提取任务，问诊打分任务。
-服务端在收到用户提交的任务之后，会将数据存储到数据库的task表中，task表的主要字段如\ref{tab:task}所示。
+服务端在收到用户提交的任务之后，会将数据存储到数据库的task表中，task表的主要字段如表 \ref{tab:task}所示：
 
+1. type一共有三种取值，对应三种人物类型：面部特征提取任务，舌部特征提取任务，和诊断任务。
+
+2. in为任务的输入，其中面部特征提取和舌部特征提取任务需要的输入为图片，通过Base64编码序列化为json对象，保存在in字段中。
+
+3. out为任务的执行结果，在模型池的服务完成计算之后，服务端将任务执行结果保存到out字段，同时更新任务的状态。
+
+4. handler保存当前任务是由哪个服务端在负责处理。
 
 \begin{table}[]
-    \begin{center}
-        \begin{tabular}{llr}
-            \toprule
-            字段 & 类型 & 描述 \\ 
-            \midrule
-            id & int & 主键 \\
-            type, & int & 任务类型: 面部，舌部，诊断 \\ 
-            in & text & 任务输入 \\
-            out & text & 任务结果 \\
-            handler & text & 分配的服务端 \\
-            status & int & 任务状态: 新建，已分配，处理中，失败，完成 \\
-            createTime & datetime & 创建时间 \\
-            updateTime & datetime & 更新时间\\
-            \bottomrule
-        \end{tabular}
-    \end{center}
+    \centering
+    \begin{tabular}{lll}
+        \toprule
+        字段 & 类型 & 描述 \\ 
+        \midrule
+        id & int & 主键 \\
+        type, & int & 任务类型: 面部，舌部，诊断 \\ 
+        in & text & 任务输入 \\
+        out & text & 任务结果 \\
+        handler & text & 分配的服务端 \\
+        status & int & 任务状态: 新建，已分配，处理中，失败，完成 \\
+        createTime & datetime & 创建时间 \\
+        updateTime & datetime & 更新时间\\
+        \bottomrule
+    \end{tabular}
     \caption{任务表}
     \label{tab:task}
 \end{table}
 
-type一共有三种取值，对应三种人物类型：面部特征提取任务，舌部特征提取任务，和诊断任务。
+\subsection{服务端主从竞选}
+为了实现服务的稳定性，服务端支持同时开启多个实例，即多个服务端同时处理任务。
+同时考虑到性能，服务端设计为读写分离的架构：每个实例都可以读取任务列表，处理用户的任务，但只有主节点有任务分配的权限。
+服务端通过心跳包探活，主节点失效时，通过redis的分布式锁实现主节点的竞选。
 
-面部特征提取和舌部特征提取任务需要的输入为图片，通过base64编码序列化为json对象，保存的in字段中。
+
+\subsubsection{主从节点的职责}
+
+1. 主节点： 通过任务的id进行哈希，按照哈希进行任务的分配给各个节点，更新task表。
+
+2. 从节点： 每个从节点每过一定的间隔时间，就会去读取任务列表，开始执行任务列表里属于自己的任务。
+
+\subsubsection{竞选流程}
+\begin{figure}
+    \centering
+    \includegraphics[width=10cm]{images/slave-master.png}
+    \caption{服务端角色竞选}
+    \label{fig:slave_master}
+\end{figure}
+每个节点在启动之后，把自己的角色默认设置成从节点。
+然后每过一段时间，判断自己节点的类型，主从节点分别执行以下的心跳策略。
+
+主节点：主节点每次心跳的时候，更新redis中主节点的过期时间。如果更新成功，等待下一次心跳。 
+如果更新失败（更新失败可能是自己没有及时更新，导致redis里的主节点过期，主节点的身份被其他节点竞争到了），则把自己的节点类型设置成从节点。
+
+从节点：从节点每次从redis里获取主节点的信息，如果主节点信息无效或者长时间没有心跳，则开始抢占竞选锁，尝试更新redis的信息让自己成为主节点; 
+如果redis的主节点信息已经是本节点，说明上一轮抢占成功，将本节点的角色更新为主节点。
 
 
 
-服务端在获取到分配给自己的任务之后，便会按照任务的类型请求模型池对应的模型完成计算。模型返回结果之后，服务端将结果缓存到redis中，然后写入到mysql数据库中,再返回给客户端。
 
 \section{客户端}
 IOS, Android和Web平台客户端都采用同一套代码，采用MUI+AngularJS实现。
 MUI是一个高性能前端框架，本身不依赖任何的第三方JavaScript库，实现了接近原生的用户体验，并内置了大量组件。
 AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应用。
 
-设计新的自诊界面，解决交互方面易用性的问题，给用户对自己当前状态一种直观的感受。
+客户端的主要工作，是设计新的自诊界面，解决交互方面大量易用性的问题。整体的设计思想是给用户对自己当前状态一种直观的感受。
+
 \begin{figure}[ht]
     \centering
     \includegraphics[height=10cm]{images/diag.png}
