@@ -325,13 +325,13 @@ AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应�
 
 用户在完成自己需要回答的问题或者面诊舌诊之后，可以点击蓝色的诊断按钮进行健康诊断，同时，系统会将本地诊断记录上传到后台服务器上，以便查询诊断记录。
 
-\subsubsection{诊断结果}
-\begin{figure}[ht]
-    \centering
-    \includegraphics[height=10cm]{images/report.png}
-    \caption{健康报告}
-    \label{fig:report}
-\end{figure}
+% \subsubsection{诊断结果}
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[height=10cm]{images/report.png}
+%     \caption{健康报告}
+%     \label{fig:report}
+% \end{figure}
 系统根据用户个人的情况，会给出面诊结果，舌诊结果和最后的体质以及健康分数。此外，根据体质的不同，会给出和体质对应的健康建议，帮助用户进行针对性的健康调理。
 
 \subsubsection{诊断记录列表}
@@ -350,20 +350,26 @@ AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应�
 考虑到中医应用的特殊性，普通用户需要提高对应用的理解。因此我们在系统中加入算法的透明性，提升用户的体验。而根据之前的用户调研来看，由于当前诊断和打分模型存在改进的空间，部分的用户也对结果产生了怀疑或者对结果不理解。
 在这个基础上，我们希望通过讲模型的判决过程透明化，并对结果进行解释。
 
+\subsection{诊断结果的透明性}
+\begin{figure}[ht]
+    \centering
+    \subfigure[透明]{
+        \includegraphics[height=10cm]{images/report3.png}
+    }
+    \subfigure[不透明]{
+        \includegraphics[height=10cm]{images/report.png}
+    }
+    \caption{透明/不透明诊断报告}
+    \label{fig:my_label}
+\end{figure}
+
 在具体代码实现的时候，系统对于是否透明是通过用户的类型来进行判断的。
 
 对于每一个用户，我们通过哈希算法，对用户名计算哈希值，按照哈希值的奇偶性，将奇数用户归类为不透明用户，偶数用户归类为透明用户。
 两类用户在进行面诊舌诊时的流程一样，但是透明用户能够看到背后特征提取算法和诊断算法的中间数据，同时系统为给出的诊断结果进行了解释。
 
-\subsection{诊断结果的透明性}
-\begin{figure}[ht]
-    \centering
-    \includegraphics[height=10cm]{images/report3.png}
-    \caption{透明用户看到的诊断报告}
-    \label{fig:my_label}
-\end{figure}
 
-在呈现的时候，大致可以分为两种：
+透明性在呈现的时候，大致可以分为两种：
 
 1. 结果中文字结果是有提示可以进行点击。如果用户点击了健康报告的分数，会通过弹窗进行详细的解释。
 
@@ -379,15 +385,7 @@ AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应�
 
 普通用户在诊断结果页面，可以看到自己的健康分数和体质结果；透明用户可以点击诊断分数，了解这个分数是根据哪些指标，通过哪一个算法计算过来的。
 
-如图\ref{fig:report_expalin_score}所示，用户点击诊断页面的分数之后，弹窗里会显示分数相关的问题、雷达图和分数计算公式。
-
-分数相关问题，展示了面诊舌诊对体质分数的影响和问诊对体质分数的影响，无影响的问题则不会显示。其中体质分数的变化分两种，一个是分数的累加，另一种是体质分数的清空。
-
-雷达图对体质分数进行了汇总，给用户展示最终个人的体质倾向的结果。
-
-根据诊断打分模型的内部算法，解释页面的计算公式一共有5种类别，我们使用选项卡的方式，将所有的打分计算公式全部透明给用户，并且默认打开当前计算公式的选项卡。
-
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
     \subfigure[相关问题]{
         \includegraphics[height=7cm]{images/report7.png}
@@ -402,6 +400,13 @@ AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应�
     \label{fig:report_expalin_score}
 \end{figure}
 
+如图\ref{fig:report_expalin_score}所示，用户点击诊断页面的分数之后，弹窗里会显示分数相关的问题、雷达图和分数计算公式。
+
+分数相关问题，展示了面诊舌诊对体质分数的影响和问诊对体质分数的影响，无影响的问题则不会显示。其中体质分数的变化分两种，一个是分数的累加，另一种是体质分数的清空。
+
+雷达图对体质分数进行了汇总，给用户展示最终个人的体质倾向的结果。
+
+根据诊断打分模型的内部算法，解释页面的计算公式一共有5种类别，我们使用选项卡的方式，将所有的打分计算公式全部透明给用户，并且默认打开当前计算公式的选项卡。
 
 点击面诊结果，可以看到自己的面部舌部的对于整个诊断的影响。
 
