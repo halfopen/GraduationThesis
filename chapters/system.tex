@@ -307,7 +307,7 @@ AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应�
 
 在问诊方面，新系统实现了最近一次记录保存，由于问题是可选回答的，所以用户只需要回答和自己上次的结果不一致的即可。同时，我们对不同问题的回答结果进行了颜色的区分。有色实心代表本次回答，有色空心代表上次回答；橙色代表有症状，绿色代表回答的问题表现良好，没有症状；白色没有填充和边框，为黑字，代表未回答。
 
-在方框内部的问题描述设计上，我们把默认的文字描述，显示为问题描述；一旦用户本次或者上次回答过该问题，则直接显示用户回答的结果。这样做的结果是，第二次用户点进来，就能看到上次的回答结果，这样能够对自己的身体情况有个快速的了解。
+在方框内部的问题描述设计上，如图 \ref{fig:diag_new} 所示，我们把默认的文字描述，显示为问题描述；一旦用户本次或者上次回答过该问题，则直接显示用户回答的结果。这样做的结果是，第二次用户点进来，就能看到上次的回答结果，这样能够对自己的身体情况有个快速的了解。
 
 % \subsubsection{照片上传}
 
@@ -353,26 +353,13 @@ AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应�
 诊断记录页面，能够直观地给出用户近期的健康变化的情况。用户可以点击诊断记录，进入当时的详细诊断结果页面。
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{透明性}
+\section{系统可解释性}
 
 已有大量的研究表明，增加系统的可解释性，是可以提高用户对系统的信任程度的。
-考虑到中医应用的特殊性，普通用户需要提高对应用的理解。因此我们在系统中加入算法的透明性，提升用户的体验。而根据之前的用户调研来看，由于当前诊断和打分模型存在改进的空间，部分的用户也对结果产生了怀疑或者对结果不理解。
+考虑到中医应用的特殊性，普通用户需要提高对应用的理解。因此我们在系统中加入算法的解释性，提升用户的体验。而根据之前的用户调研来看，由于当前诊断和打分模型存在改进的空间，部分的用户也对结果产生了怀疑或者对结果不理解。
 在这个基础上，我们希望通过讲模型的判决过程透明化，并对结果进行解释。
 
-\subsection{诊断结果的透明性}
-\begin{figure}[ht]
-    \centering
-    \subfigure[透明]{
-        \includegraphics[height=10cm]{images/report3.png}
-    }
-    \subfigure[不透明]{
-        \includegraphics[height=10cm]{images/report.png}
-    }
-    \caption{透明/不透明诊断报告}
-    \label{fig:my_label}
-\end{figure}
-
-在具体代码实现的时候，系统对于是否透明是通过用户的类型来进行判断的。
+在具体代码实现的时候，系统对于是否过程透明、对结果进行解释是通过用户的类型来进行判断的。
 
 对于每一个用户，我们通过哈希算法，对用户名计算哈希值，按照哈希值的奇偶性，将奇数用户归类为不透明用户，偶数用户归类为透明用户。
 两类用户在进行面诊舌诊时的流程一样，但是透明用户能够看到背后特征提取算法和诊断算法的中间数据，同时系统为给出的诊断结果进行了解释。
@@ -384,15 +371,75 @@ AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应�
 
 2. 通过雷达图的方式直接显示对结果的影响，交互性比较强。
 
-\subsection{面诊舌诊的透明性}
+\subsection{面诊舌诊过程的解释性}
+
+\begin{figure}
+    \centering
+    \subfigure[不解释]{\includegraphics[width=4.5cm]{images/face_tongue.png}}
+    \subfigure[解释]{\includegraphics[width=4.5cm]{images/exp_face_tongue.png}}
+    \subfigure[解释舌诊中间结果]{\includegraphics[width=4.5cm]{images/exp_tongue.png}}
+    \caption{面诊舌诊的解释}
+    \label{fig:face_diags}
+\end{figure}
 
 面诊和舌诊流程比较类似，添加透明性主要体现在结果的透明性，包括中间结果，和对各种体质倾向的影响。
 这样用户查看解释之后，能够大致了解本次拍照是否成功，并且知道目前面诊的结果，会对最终的健康报告造成哪些影响。
 
+如图 \ref{fig:face_diags} 所示：
+
+a) 普通用户只能看到结果。
+
+b) 透明类型的用户，可以通过点击结果，查看对结果的解释。
+
+c) 透明类型的用户，不仅可以看到当面诊断的中间结果，也能看到这次诊断的体质倾向得分。
+
+
+
 \subsection{问诊的透明性}
 
+\begin{figure}
+    \centering
+    \subfigure[不解释]{\includegraphics[height=10cm]{images/questions.png}}
+    \subfigure[解释]{\includegraphics[height=10cm]{images/questions2.png}}
+    \subfigure[解释体质术语]{
+        \includegraphics[height=10cm]{images/exp_phy.png}
+    }
+    \caption{问诊}
+    \label{fig:questions}
+\end{figure}
+
+如图 \ref{fig:questions} 所示:
+
+a) 普通用户，回答问诊问题之后，没有任何提示或者解释。
+
+b) 透明类型的用户，在进行问诊过程中，可以立即看到每个答案对结果的印象，通过下方的雷达图显示了影响的体质倾向类型和具体的数值。
+雷达图的更新是实时根据用户的选择进行更新的，提高了交互性。
+
+c) 对中医术语中，各种体质的解释，对于体质内容的解释文字引用自 《中医体质分类研究》标准。
+
+
+
+\subsection{诊断结果的透明性}
+\begin{figure}[ht]
+    \centering
+    \subfigure[解释]{
+        \includegraphics[height=10cm]{images/report3.png}
+    }
+    \subfigure[不解释]{
+        \includegraphics[height=10cm]{images/report.png}
+    }
+    \caption{诊断报告}
+    \label{fig:my_label}
+\end{figure}
 
 普通用户在诊断结果页面，可以看到自己的健康分数和体质结果；透明用户可以点击诊断分数，了解这个分数是根据哪些指标，通过哪一个算法计算过来的。
+
+可以点击查看的结果的解释有：面诊舌诊结果的解释，健康分数的解释，体质的解释。
+
+\subsubsection{面诊舌诊结果的透明性}
+
+\subsubsection{健康分数的透明性}
+问诊结果的透明性主要是对用户透明诊断结果是如何计算出来的，以及那些问诊的问题对结果有影响，影响程度多少。
 
 \begin{figure}[h]
     \centering
@@ -421,6 +468,7 @@ AngularJS目前是Google公司的JavaScript框架，支持快速构建移动应�
 
 点击体质分数，可以看到当次诊断中，面诊舌诊和用户自己回答的问题，哪些影响到了最后体质的判断。
 
+\subsubsection{体质的解释}
 
 \begin{figure}[ht]
     \centering
