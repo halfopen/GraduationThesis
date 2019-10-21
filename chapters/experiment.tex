@@ -1,5 +1,145 @@
 \chapter{诊断算法解释性实验}
 
+\section{系统可解释性}
+
+已有大量的研究表明，增加系统的可解释性，是可以提高用户对系统的信任程度的。
+考虑到中医应用的特殊性，普通用户需要提高对应用的理解。因此我们在系统中加入算法的解释性，提升用户的体验。而根据之前的用户调研来看，由于当前诊断和打分模型存在改进的空间，部分的用户也对结果产生了怀疑或者对结果不理解。
+在这个基础上，我们希望通过讲模型的判决过程透明化，并对结果进行解释。
+
+在具体代码实现的时候，系统对于是否过程透明、对结果进行解释是通过用户的类型来进行判断的。
+
+对于每一个用户，我们通过哈希算法，对用户名计算哈希值，按照哈希值的奇偶性，将奇数用户归类为不透明用户，偶数用户归类为透明用户。
+两类用户在进行面诊舌诊时的流程一样，但是透明用户能够看到背后特征提取算法和诊断算法的中间数据，同时系统为给出的诊断结果进行了解释。
+
+
+透明性在呈现的时候，大致可以分为两种：
+
+1. 结果中文字结果是有提示可以进行点击。如果用户点击了健康报告的分数，会通过弹窗进行详细的解释。
+
+2. 通过雷达图的方式直接显示对结果的影响，交互性比较强。
+
+\subsection{面诊舌诊过程的解释性}
+
+\begin{figure}
+    \centering
+    \subfigure[不解释]{\includegraphics[width=4.5cm]{images/face_tongue.png}}
+    \subfigure[解释]{\includegraphics[width=4.5cm]{images/exp_face_tongue.png}}
+    \subfigure[解释舌诊中间结果]{\includegraphics[width=4.5cm]{images/exp_tongue.png}}
+    \caption{面诊舌诊的解释}
+    \label{fig:face_diags}
+\end{figure}
+
+面诊和舌诊流程比较类似，添加透明性主要体现在结果的透明性，包括中间结果，和对各种体质倾向的影响。
+这样用户查看解释之后，能够大致了解本次拍照是否成功，并且知道目前面诊的结果，会对最终的健康报告造成哪些影响。
+
+如图 \ref{fig:face_diags} 所示：
+
+a) 普通用户只能看到结果。
+
+b) 透明类型的用户，可以通过点击结果，查看对结果的解释。
+
+c) 透明类型的用户，不仅可以看到当面诊断的中间结果，也能看到这次诊断的体质倾向得分。
+
+
+
+\subsection{问诊的透明性}
+
+\begin{figure}
+    \centering
+    \subfigure[不解释]{\includegraphics[height=10cm]{images/questions.png}}
+    \subfigure[解释]{\includegraphics[height=10cm]{images/questions2.png}}
+    \subfigure[解释体质术语]{
+        \includegraphics[height=10cm]{images/exp_phy.png}
+    }
+    \caption{问诊}
+    \label{fig:questions}
+\end{figure}
+
+如图 \ref{fig:questions} 所示:
+
+a) 普通用户，回答问诊问题之后，没有任何提示或者解释。
+
+b) 透明类型的用户，在进行问诊过程中，可以立即看到每个答案对结果的印象，通过下方的雷达图显示了影响的体质倾向类型和具体的数值。
+雷达图的更新是实时根据用户的选择进行更新的，提高了交互性。
+
+c) 对中医术语中，各种体质的解释，对于体质内容的解释文字引用自 《中医体质分类研究》标准。
+
+
+
+\subsection{诊断结果的透明性}
+\begin{figure}[ht]
+    \centering
+    \subfigure[解释]{
+        \includegraphics[height=10cm]{images/report3.png}
+    }
+    \subfigure[不解释]{
+        \includegraphics[height=10cm]{images/report.png}
+    }
+    \caption{诊断报告}
+    \label{fig:my_label}
+\end{figure}
+
+普通用户在诊断结果页面，可以看到自己的健康分数和体质结果；透明用户可以点击诊断分数，了解这个分数是根据哪些指标，通过哪一个算法计算过来的。
+
+可以点击查看的结果的解释有：面诊舌诊结果的解释，健康分数的解释，体质的解释。
+
+\subsubsection{面诊舌诊结果的透明性}
+
+\subsubsection{健康分数的透明性}
+问诊结果的透明性主要是对用户透明诊断结果是如何计算出来的，以及那些问诊的问题对结果有影响，影响程度多少。
+
+\begin{figure}[h]
+    \centering
+    \subfigure[相关问题]{
+        \includegraphics[height=7cm]{images/report7.png}
+    }
+    \subfigure[雷达图]{
+        \includegraphics[height=7cm]{images/report8.png}
+    }
+    \subfigure[计算公式]{
+        \includegraphics[height=7cm]{images/report9.png}
+    }
+    \caption{分数的解释}
+    \label{fig:report_expalin_score}
+\end{figure}
+
+如图\ref{fig:report_expalin_score}所示，用户点击诊断页面的分数之后，弹窗里会显示分数相关的问题、雷达图和分数计算公式。
+
+分数相关问题，展示了面诊舌诊对体质分数的影响和问诊对体质分数的影响，无影响的问题则不会显示。其中体质分数的变化分两种，一个是分数的累加，另一种是体质分数的清空。
+
+雷达图对体质分数进行了汇总，给用户展示最终个人的体质倾向的结果。
+
+根据诊断打分模型的内部算法，解释页面的计算公式一共有5种类别，我们使用选项卡的方式，将所有的打分计算公式全部透明给用户，并且默认打开当前计算公式的选项卡。
+
+点击面诊结果，可以看到自己的面部舌部的对于整个诊断的影响。
+
+点击体质分数，可以看到当次诊断中，面诊舌诊和用户自己回答的问题，哪些影响到了最后体质的判断。
+
+\subsubsection{体质的解释}
+
+\begin{figure}[ht]
+    \centering
+    \subfigure[面诊的解释]{
+        \includegraphics[height=7cm]{images/report4.png}
+    }
+    \subfigure[概念的解释]{
+        \includegraphics[height=7cm]{images/report5.png}
+    }
+    \subfigure[体质相关问题]{
+        \includegraphics[height=7cm]{images/report6.png}
+    }
+    \caption{诊断结果的解释}
+    \label{fig:report_explain_phy_1}
+\end{figure}
+
+
+% \section{反馈调研}
+% 在新系统完成之后，我们采访了16名用户。
+% 在本次调研过程中，用户试用的是同时有新旧界面的版本，除了第一次介绍使用的时候，我们会让用户两个版本都是使用一下，后续不做限时。用户具体使用的时候可以根据自己的喜好选择。
+% 经过回访，新版的界面达到了预期，大部分用户觉得使用起来更加地方便。
+% 不过值得注意的是，也有少部分的用户喜欢旧版的将面诊，舌诊，问诊分开为三步进行的方式，因为这样比较符合日常生活的习惯。
+
+
 \section{实验设计}
 我们通过在各大社交平台发布海报招募，如图\ref{fig:poster}，以及使用问卷星的样本服务, 经过筛选之后，一共招募了100位左右的用户。
 \begin{figure}[htb]
