@@ -3,6 +3,8 @@
 \usepackage{graphics}
 \usepackage{multirow}
 \usepackage{booktabs}
+\usepackage[authoryear]{gbt7714}
+
 % 模板选项：
 %   type = doctor|master|bachelor  论文类型，默认为本科论文
 %   oneside|twoside                论文的单双面模式，默认为 twoside
@@ -99,7 +101,7 @@
     % 默认为空，即与参考文献样式保持一致
     % 仅适用于 biblatex；如要填写，需保证相应的 .cbx 格式文件能被调用
     %
-    % bib-resource = {<文件>},
+    bib-resource = {bibliography.bib},
     % 参考文献数据源
     % 可以是单个文件，也可以是用英文逗号 “,” 隔开的一组文件
     % 如果使用 biblatex，则必须明确给出 .bib 后缀名
