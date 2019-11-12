@@ -2,7 +2,57 @@
 
 在第三章我们通过定性研究，得出的设计原则其中一个就是用户希望能够对诊断进行解释，而后续本文实现了一个实验平台。因此，本文通过在实验平台上进行诊断算法的解释性实验，验证解释性规则和实验平台的有效性。
 
-\section{系统可解释性}
+
+\section{实验1：交互验证}
+为了验证本文设计的交互界面的有效性，本文设计了一个交互验证实验，用于验证客户端的实现是否解决了交互的可用性问题。
+
+\subsection{实验设计}
+
+\begin{figure}[h]
+    \centering
+    \subfigure[原型入口]{\includegraphics[width=3.5cm]{images/rukou.png}}
+    \subfigure[本文的设计]{\includegraphics[width=3.5cm]{images/dialog1.png}}
+    \subfigure[云中医的设计]{\includegraphics[width=3.5cm]{images/dialog2.png}}
+    \caption{交互有效性实验}
+    \label{fig:interface}
+\end{figure}
+
+我们在实验平台上，实现了一个用于对比的原型系统， 如图  \ref{fig:interface} 所示。在该原型系统的首页，有两个入口，分别对应本文的设计和云中医的设计，两个设计的功能相同。
+
+用户进入系统之后，可以自由选择使用哪一种入口完成诊断。
+
+\subsection{实验过程}
+
+首先，我们通过海报和社交媒体，招募到了10为志愿者参与实验。
+
+
+
+\subsection{实验结果}
+
+只有两位志愿者选择持续使用云中医的设计完成诊断，原因如下：
+
+\textit{  "界面设计更符合常规，问诊是连贯的，首页内容很清楚"}
+
+\textit{ "旧版界面好看，问诊流程有完成感，雷达图太片面，影响用户心情，并不想知道具体的症状对应什么细节"}
+
+新版界面丑，但旧版问卷很烦；新版实时显示舌诊结果
+
+新版方便，单独做某一块检测；柱状图设计好；给的指示不空洞；有针对性和选择性
+
+新版诊断透彻到位；柱状图帮助了解症状和体质对应的关系；可以选择性地做诊断，知道健康得分的构成，帮助了解中医知识，省时间
+
+想按照顺序回答问卷，新版问诊界面不舒服；柱状图吓人；但是新版的选择性检测比较方便
+
+新版操作更简单，有选择性，但是问诊的选项太少，涵盖不全；旧版健康建议更详细
+
+快速生成报告，柱状图设计直观，但没有注意到新版可以保存历史选项，喜欢走完整流程
+
+界面设计更符合常规，问诊是连贯的，首页内容很清楚；新版圆圈里的不同颜色有提示功能
+
+新版更方便，问的问题更专业，但一个一个问题点开很烦；旧版流程顺利，简单
+
+
+\section{实验2：系统可解释性验证}
 
 已有大量的研究表明，增加系统的可解释性，是可以提高用户对系统的信任程度的。
 考虑到中医应用的特殊性，普通用户需要提高对应用的理解。因此我们在系统中加入算法的解释性，提升用户的体验。而根据之前的用户调研来看，由于当前诊断和打分模型存在改进的空间，部分的用户也对结果产生了怀疑或者对结果不理解。
@@ -24,9 +74,9 @@
 
 \begin{figure}
     \centering
-    \subfigure[不解释]{\includegraphics[width=4.5cm]{images/face_tongue.png}}
-    \subfigure[解释]{\includegraphics[width=4.5cm]{images/exp_face_tongue.png}}
-    \subfigure[解释舌诊中间结果]{\includegraphics[width=4.5cm]{images/exp_tongue.png}}
+    \subfigure[不解释]{\includegraphics[width=3.5cm]{images/face_tongue.png}}
+    \subfigure[解释]{\includegraphics[width=3.5cm]{images/exp_face_tongue.png}}
+    \subfigure[解释舌诊中间结果]{\includegraphics[width=3.5cm]{images/exp_tongue.png}}
     \caption{面诊舌诊的解释}
     \label{fig:face_diags}
 \end{figure}
