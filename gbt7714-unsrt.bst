@@ -341,7 +341,7 @@ FUNCTION {field.or.null}
 FUNCTION {italicize}
 { duplicate$ empty$
     { pop$ "" }
-    { "\textit{" swap$ * "}" * }
+    { "\myfont{" swap$ * "}" * }
   if$
 }
 
