@@ -5,6 +5,10 @@
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage[authoryear]{gbt7714}
+\usepackage{ctex}
+\usepackage{xeCJK}
+
+\newcommand\myfont[1]{\mathit{“#1”}}
 
 % \usepackage{cite}
 
@@ -57,7 +61,7 @@
     % 允许选项：
     %   font-size = -4|5
     %
-    fullwidth-stop = catcode,
+    fullwidth-stop = false,
     % 是否把全角实心句点 “．” 作为默认的句号形状
     % 允许选项：
     %   fullwidth-stop = catcode|mapping|false
@@ -155,6 +159,8 @@
     % 院系
     %
     student-id = {17210240182},
+    % 专硕
+    %
     degree = professional,
     % 作者学号
     %
@@ -221,6 +227,8 @@
 % 2.任务分配与调度
 
 % 3.日志管理
+
+\myfont{test测试}
 
 随着目前人们生活节奏的加快以及养生意识的提高，越来越多的人越来越关注自己的健康问题，但是紧凑的工作时间让大多数人无法单独抽出时间去医院定期检查自己的健康状况。
 随着移动设备的普及已经更新，手机硬件计算能力得到大大地提高，越来越多的实际应用可以在日常场景下完成，大量关于日常场景下的健康追踪技术也在不断深入。

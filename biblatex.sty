@@ -11601,9 +11601,9 @@
 \protected\long\def\blx@imc@mkbibbold#1{%
   \textbf{#1}\blx@imc@setpunctfont\textbf}
 
-\newrobustcmd*{\mkbibitalic}{\textit}
+\newrobustcmd*{\mkbibitalic}{\myfont}
 \protected\long\def\blx@imc@mkbibitalic#1{%
-  \textit{#1}\blx@imc@setpunctfont\textit}
+  \myfont{#1}\blx@imc@setpunctfont\myfont}
 
 \blx@regimcs{\mkbibquote \mkbibemph \mkbibbold \mkbibitalic}
 
