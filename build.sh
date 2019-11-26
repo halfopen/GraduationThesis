@@ -1,4 +1,4 @@
-xetex -synctex=1 -interaction=nonstopmode fduthesis.tex
+xelatex -synctex=1 -interaction=nonstopmode fduthesis.tex
 
 
 rm -rf *.aux
