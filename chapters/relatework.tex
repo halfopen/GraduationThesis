@@ -59,8 +59,14 @@ Amid Ayobi 等\cite{ayobi2017quantifying} 通过对多发性硬化病人的日�
 \subsection{医疗健康}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=4.5cm]{images/yzy.png}
-    \caption{云中医智能镜}
+    \subfigure[面诊仪]{
+        \includegraphics[height=6cm]{images/mzy.png}
+    }
+    \subfigure[云中医智能镜]{
+        \includegraphics[height=6cm]{images/yzy.png}
+    }
+    \caption{读脸技术在医疗健康领域的应用}
+    \label{fig:med}
 \end{figure}
 在医疗领域，读脸技术的应用主要还是供医护人员使用的系统。如在病人失去意识或者无法交流的情况下，利用读脸技术快速获取病人医疗信息的识别系统\cite{nwosu2016mobile}，该系统基于人脸模板管理技和人脸匹配技术快速识别病人确定病人是否在数据库中，同时能够检索相关的医疗信息。Hossain, M. Shamim等\cite{Hossain2015Cloud}开发了一个利用语音和读脸技术，远程监控病人在家中健康状况的监控系统，不过该系统主要识别的是用户是否处于疼痛、紧张或者其他严重的状况等情况。面部特征进行健康监测的有面诊仪、云中医\cite{Zhang2018Study}等。面诊仪如道生面诊仪\cite{邸丹2016手持式舌象仪的研制}是目前某些医院用来采集面部信息的设备，需要在中医医师的指导下，进行舌相面色诊断信息采集，供中医医师进行判断; 在研究方面也有用面诊仪对冠心病的中医疗效进行评价的研究。云中医是一个定点投放在诊所或者公共社区区域，可供用户进行中医面诊的系统，能够让用户在完成面诊舌诊问诊之后，给出健康分数和养生建议。
 云中医虽然功能比较齐全，但是其主要工作是算法和系统实现层面(其中包括云中医诊断机器人\footnote{http://www.sohu.com/a/135358060_205169}，云中医智能镜\cite{李雪2016}，云中医应用\cite{钱鹏基于云中医的健康监测方法及系统}等)，缺乏日常健康环境下的用户调研和交互研究。
@@ -77,18 +83,20 @@ Amid Ayobi 等\cite{ayobi2017quantifying} 通过对多发性硬化病人的日�
     \subfigure[SEMEOTICONS]{
         \includegraphics[width=4.5cm]{images/smile/2-Figure3-1.png}
     }
-    \caption{微笑冰箱}
-    \label{fig:exp_result}
+    \caption{读脸技术在日常场景下的应用}
+    \label{fig:smile}
 \end{figure}
 相关研究也在探索如何将日常行为和读脸技术结合起来。
-微笑冰箱\cite{Tsujita2011Smiling} 是一个通过冰箱上的设备能够监测到用户表情的冰箱，如果监测到用户打开冰箱是的面部是笑容则会自动解锁冰箱，该研究希望借此能够鼓励用户在日常生活中多微笑。 
+
+如图 \ref{fig:smile} 所示，微笑冰箱\cite{Tsujita2011Smiling} 是一个通过冰箱上的设备能够监测到用户表情的冰箱，如果监测到用户打开冰箱是的面部是笑容则会自动解锁冰箱，该研究希望借此能够鼓励用户在日常生活中多微笑。 
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=12cm]{images/mirror.png}
     \caption{SEMEOTICONS}
+    \label{fig:seme}
 \end{figure}
-Yasmina Andreu-Cabedo等  \cite{andreu2015mirror}则开发了SEMEOTICONS, 一款放在家庭室内环境的镜子，通过采集面部信息和体温，监测与心血管疾病相关的户疲劳，压力和焦虑等特征， 让用户能够监测自己的健康情况，并根据量身定制的健康指南来改善用户的生活方式。
+如图 \ref{fig:seme} 所示，Yasmina Andreu-Cabedo等  \cite{andreu2015mirror}则开发了SEMEOTICONS, 一款放在家庭室内环境的镜子，通过采集面部信息和体温，监测与心血管疾病相关的户疲劳，压力和焦虑等特征， 让用户能够监测自己的健康情况，并根据量身定制的健康指南来改善用户的生活方式。
  该研究将面部信息和健康管理结合起来，并且将应用场景拓展到了日常环境。
  他们后续还进行了依次用户调研，调研结果表明\cite{coppini2017user} 他们的原型系统的设计被大多数用户所接受： 虽然测试过程非常耗时，大多数参与研究中的志愿者仍然很愿意完成并按计划进行实验，部分志愿者考虑了系统给出的健康指南，甚至因此改变了自己的生活方式。
 总的来说，该系统通过将诊断和日常的照镜子的行为结合起来，可以很方便与用户的日常生活融合起来，但固定在房间的某个位置使用的方式不够便携，同时该系统需要一系列的传感器设备，也增加了硬件的成本，部署起来也相对麻烦，而且只能在室内使用。
