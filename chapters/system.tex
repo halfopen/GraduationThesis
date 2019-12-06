@@ -356,7 +356,7 @@ Mysql \footnote{https://www.mysql.com/} 是当前比较流行一个关系型的�
 \subsubsection{服务端角色竞选流程}
 \begin{figure}
     \centering
-    \includegraphics[width=12cm]{images/slave-master.png}
+    \includegraphics[width=10cm]{images/slave-master.png}
     \caption{服务端角色竞选}
     \label{fig:slave_master}
 \end{figure}
@@ -377,5 +377,5 @@ Mysql \footnote{https://www.mysql.com/} 是当前比较流行一个关系型的�
 
 \section{本章小结}
 本章介绍了实验平台的方案选型到具体实现，其中实验平台被划分为模型池、服务端和客户端。
-这样，客户端就与模型以及诊断细节实现了独立，只需要关注交互的部分。同时为了方便实验，服务端还提供了日志管理和问卷关联的功能。
+这样，客户端就与模型以及诊断细节实现了独立，只需要关注交互的部分。同时为了方便实验，服务端还提供了日志管理和问卷关联的功能，方便采集用户信息和后续分析用户行为。
 客户端的具体实现和实验内容密切相关，不同的实验中客户端的具体实现不同，所以客户端的内容在下一章具体介绍。
