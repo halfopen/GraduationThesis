@@ -196,15 +196,15 @@ ssojump参数，是问卷星由问卷星平台提供的每一份问卷的唯一�
 (b) 有解释的设计，用户可以通过点击面诊或者舌诊结果，查看对结果的解释。
 
 (c) 点开解释之后，系统会弹窗进行详细的解释，不仅可以看到当面诊断的中间结果，也能看到这次诊断的体质倾向得分。
-在雷达图部分，该原型将最后诊断的规则系统部分规则暴露给了用户。用户不经可以看到自己目前的舌相或者面相对应的特征，还能看到对每个体质影响的权重。该权重在规则系统中会影响最终体质的判断。
+
+接下来介绍该原型中各个解释的细节具体如何实现。
+
 
 \subsubsection{问诊的解释}
 
 \begin{figure}
     \centering
     \subfigure[不解释]{\includegraphics[width=5cm]{images/questions.png}}
-    \subfigure[解释实现1]{\includegraphics[width=5cm]{images/old3.png}}
-    \subfigure[解释实现2]{\includegraphics[width=5cm]{images/questions2.png}}
     \subfigure[解释体质术语]{
         \includegraphics[width=5cm]{images/exp_phy.png}
     }
@@ -220,6 +220,24 @@ ssojump参数，是问卷星由问卷星平台提供的每一份问卷的唯一�
 雷达图的更新是实时根据用户的选择进行更新的，用户可以通过点击不同的选项查看不同选项对应的雷达图。
 
 (c) 点开体质的解释之后，会通过弹框的方式，对中医术语中，各种体质的解释。对于体质内容的解释文字引用自 《中医体质分类研究》标准\cite{王琦20099}。
+
+\subsubsection{影响权重的解释}
+在面诊舌诊和问诊中，都会涉及到本项的诊断对最终体质影响的权重。
+在权重解释这部分，用户不仅可以看到自己目前的舌相或者面相对应的特征，还能看到对每个体质影响的权重，该原型将最后诊断的规则系统部分规则暴露给了用户。
+在向用户解释这个权重的时候，我们使用了图表的方式向用户解释权重。
+\begin{figure}[h]
+    \centering
+    \subfigure[柱状图方式]{\includegraphics[height=10cm]{images/old3.png}}
+    \subfigure[雷达图方式]{\includegraphics[height=10cm]{images/questions2.png}}
+    \caption{影响权重的解释}
+    \label{fig:question_weight}
+\end{figure}
+如图 \ref{fig:question_weight} 所示，在实现的过程中我们先后实现了使用柱状图和雷达图的方式来展示权重。
+但是在实验过程中，经过用户反馈，柱状图有一个明显的缺点就是柱状图容易引起用户对自己身体情况的焦虑感，部分用户的反馈如下：
+\myfont{然后他那个柱状图是太让人心慌了，那么片面的每道题给你一个那么高的值}、
+\myfont{下面那个柱状图非常吓人的，弹出来很高，让我有一种我的脾脏已经不行了的感觉}。
+
+我们需要一种相对"温和"的方式对影响权重进行解释，于是最终选用了雷达图的方式来解释影响权重。
 
 
 
