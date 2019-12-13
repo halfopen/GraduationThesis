@@ -6,6 +6,8 @@
 \usepackage{float}
 \usepackage[authoryear]{gbt7714}
 \usepackage{ctex}
+\usepackage{xcolor}
+\usepackage{listings}
 % \usepackage[AutoFakeBold=true, AutoFakeSlant=true]{xeCJK}
 
 % 引用
@@ -206,6 +208,21 @@
   }
 }
 
+\lstset{
+  numbers=left, %设置行号位置
+  numberstyle=\tiny, %设置行号大小
+  keywordstyle=\color{blue}, %设置关键字颜色
+  commentstyle=\color[cmyk]{1,0,1,0}, %设置注释颜色
+  frame=single, %设置边框格式
+  escapeinside=``, %逃逸字符(1左面的键)，用于显示中文
+  %breaklines, %自动折行
+  extendedchars=false, %解决代码跨页时，章节标题，页眉等汉字不显示的问题
+  xleftmargin=2em,xrightmargin=2em, aboveskip=1em, %设置边距
+  tabsize=4, %设置tab空格数
+  showspaces=false %不显示空格
+}
+
+
 \begin{document}
 
 % \raggedbottom
@@ -229,7 +246,7 @@
 
 % 2.任务分配与调度
 
-% 3.日志管理
+% 3.用户操作记录管理
 
 
 
@@ -243,7 +260,7 @@
 
 (1) 利用技术探针进行日常场景下面诊应用的定性研究，对参与者进行深度访谈，将转录后的录音进行文字编码提取，探索出了日常场景下面诊应用会遇到的问题并提出了设计方面的原则：增加可变性、系统透明性和日常可用性。
 
-(2) 设计并实现了可拓展的实验平台。在开展交互实验之前，为了提高后续实验的效率，同时解决用户设备多样性带来的稳定性的问题，设计并实现了用于快速开展面诊应用相关实验的实验平台：实现了系统高可用，快速迭代，模型任务模块分离，日志管理，问卷关联等功能，提高了系统的稳定性，能够应对后面大规模的用户实验场景，并且快速地开展新的实验。
+(2) 设计并实现了可拓展的实验平台。在开展交互实验之前，为了提高后续实验的效率，同时解决用户设备多样性带来的稳定性的问题，设计并实现了用于快速开展面诊应用相关实验的实验平台：实现了系统高可用，快速迭代，模型任务模块分离，用户操作记录管理，问卷关联等功能，提高了系统的稳定性，能够应对后面大规模的用户实验场景，并且快速地开展新的实验。
 
 % 通过调用实验平台接口对跨平台客户端进行实现并通过实验验证设计方案的有效性。模型运行在服务器，解决了用户设备的差异性带来的稳定性和性能的问题。
 
