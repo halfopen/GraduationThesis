@@ -103,10 +103,16 @@ Android平台编写一套代码，通过JNI调用动态链接库的方式调用�
 % 为什么要模型池
 提出模型池的概念，是为了将模型和服务端独立，方便以后添加或删除模型。同时，将模型独立做成服务，可以动态增加模型运行的实例个数，提高计算能力和稳定性。
 
-% 如何实现的
-模型池维护一个<模型类型, cluster ip> 的映射，记录可用的模型和调用地址， cluster ip是由k8s(kubernetes)提供的集群调用地址。记录通过json文件的格式，记录在本地文件中。
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=15cm]{images/services.png}
+    \caption{模型池配置}
+    \label{fig:services}
+\end{figure}
 
-\lstinputlisting{services.tex}
+% 如何实现的
+如图\ref{fig:services}所示，模型池维护一个<模型类型, cluster ip> 的映射，记录可用的模型和调用地址， cluster ip是由k8s(kubernetes)提供的集群调用地址。记录通过json文件的格式，记录在本地文件中。
+
 
 
 \subsection{模型服务化}
