@@ -1,10 +1,10 @@
 #!/usr/bin/expect
 spawn git push
 expect {
-    "Username*" {send "halfopen\r\n"}
+    "Username*" {send "halfopen\n"}
 }
 expect {
-    "Password*" {send "uCmkTKwWng2te3G\r\n"}
+    "Password*" {send "uCmkTKwWng2te3G\n"}
 }
 
-send_user "done"
+interact # 保持交互，不退出
