@@ -115,6 +115,26 @@ AngularJS \footnote{https://angularjs.org/} 目前是Google公司推出的JavaSc
 
 在问诊方面，新系统实现了最近一次记录保存，由于问题是可选回答的，所以用户只需要回答和自己上次的结果不一致的即可。
 
+\begin{figure}
+    \centering
+    \subfigure[未回答]{
+        \includegraphics[width=3.5cm]{images/question/1.png}
+    }
+    \subfigure[上次回答有症状]{
+        \includegraphics[width=3.5cm]{images/question/2.png}
+    }
+    \subfigure[上次回答无症状]{
+        \includegraphics[width=3.5cm]{images/question/3.png}
+    }
+    \subfigure[本次回答有症状]{
+        \includegraphics[width=3.5cm]{images/question/5.png}
+    }
+    \subfigure[本次回答无症状]{
+        \includegraphics[width=3.5cm]{images/question/4.png}
+    }
+    \caption{问诊元素的状态}
+\end{figure}
+
 同时，我们对不同问题的回答结果进行了颜色的区分。有色实心代表本次回答，有色空心代表上次回答；橙色代表有症状，绿色代表回答的问题表现良好，没有症状；白色没有填充和边框，为黑字，代表未回答。实心颜色的代表的是用户本次有修改的问诊部分。
 
 在方框内部的问题描述设计上，我们把默认的文字描述，显示为问题描述；一旦用户本次或者上次回答过该问题，则直接显示用户回答的结果。这样做的结果是，第二次用户点进来，就能看到上次的回答结果，这样能够对自己的身体情况有个快速的了解。
