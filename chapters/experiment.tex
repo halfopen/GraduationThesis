@@ -104,30 +104,40 @@ AngularJS \footnote{https://angularjs.org/} 目前是Google公司推出的JavaSc
 
 在原始的云中医的设计中，用户在进行面部舌部拍照后，是没有任何提示的。具体的结果需要在用户一次回答13个问题之后，点击诊断才能知道面诊是否成功。
 新界面和之前版本的云中医界面不同的是，诊断界面不仅提供了面诊舌诊问诊的入口，同时会将面诊舌诊的照片和中间结果直接显示在当前页面，给用户对于自己当前身体情况一个直观的感受。
-如果拍照失败会直接显示，不需要等到用户进行点击诊断之后才知道自己的照片不合格。
-    
+
+\subsubsection{迭代过程}
 我们在进行可用性设计的时候，对原型系统进行了多次迭代。每次完成一版之后，会邀请小部分用户进行试用收集反馈并及时修改。
 图\ref{fig:diag_new} 展示了我们的部分中间的迭代版本和最终设计，其中设计1中的圆圈代表用户需要回答的问题，圆圈的大小代表影响的权重；
 设计2简化了界面，统一了圆圈的大小；
 最终设计进一步简化了界面元素，并把圆圈改为长方形，方便显示更多的提示信息。
 
-根据日常可用性的设计方案，新设计简化了诊断的流程，面诊舌诊问诊在一个页面显示，并且所有的问题和操作都是可选的，不会出现必须要先面诊然后舌诊然后才能问诊的问题。其次，新界面对面诊和舌诊进行了中间结果的反馈，面诊在用户拍照确认之后，会立即报告本次照片是否合格已经诊断的结果，用户不需要在点击诊断的时候才被提示照片不合格。
+\subsubsection{面诊问诊设计}
 
+\begin{figure}
+    \centering
+    \includegraphics[]{images/diag_design.png}
+    \caption{面诊元素设计}
+    \label{fig:diag_design}
+\end{figure}
+
+根据日常可用性的设计方案，新设计简化了诊断的流程，面诊舌诊问诊在一个页面显示，并且所有的问题和操作都是可选的，不会出现必须要先面诊然后舌诊然后才能问诊的问题。其次，如图\ref{fig:diag_design}所示，新界面对面诊和舌诊进行了中间结果的反馈，面诊在用户拍照确认之后，会立即报告本次照片是否合格已经诊断的结果，用户不需要在点击诊断的时候才被提示照片不合格。
+
+\subsubsection{问诊元素设计}
 在问诊方面，新系统实现了最近一次记录保存，由于问题是可选回答的，所以用户只需要回答和自己上次的结果不一致的即可。
 
 \begin{figure}
     \centering
     \subfigure[上次回答有症状]{
-        \includegraphics[width=6cm]{images/question/2.png}
-    }
-    \subfigure[上次回答无症状]{
-        \includegraphics[width=6cm]{images/question/3.png}
-    }
-    \subfigure[本次回答有症状]{
         \includegraphics[width=6cm]{images/question/5.png}
     }
-    \subfigure[本次回答无症状]{
+    \subfigure[上次回答无症状]{
         \includegraphics[width=6cm]{images/question/4.png}
+    }
+    \subfigure[本次回答有症状]{
+        \includegraphics[width=6cm]{images/question/2.png}
+    }
+    \subfigure[本次回答无症状]{
+        \includegraphics[width=6cm]{images/question/3.png}
     }
     \subfigure[未回答]{
         \includegraphics[width=6cm]{images/question/1.png}
