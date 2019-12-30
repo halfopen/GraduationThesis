@@ -7,5 +7,7 @@
 *.thm
 *.toc
 *.fdb_latexmk
+*.sty
+*.def
 
 fduthesis.pdf

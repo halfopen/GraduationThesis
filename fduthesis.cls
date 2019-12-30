@@ -251,19 +251,19 @@
     headheight = 15 pt
   }
 \bool_if:NT \g__fdu_draft_bool { \geometry { showframe } }
-\tl_new:N \g__fdu_font_set_tl
-\tl_new:N \g__fdu_cjk_font_set_tl
+\tl_new:N \g__fdu_fontset_tl
+\tl_new:N \g__fdu_cjk_fontset_tl
 \keys_define:nn { fdu / style }
   {
     font .choices:nn =
       { garamond, libertinus, lm, palatino, times, times*, none }
-      { \tl_set_eq:NN \g__fdu_font_set_tl \l_keys_choice_tl }
+      { \tl_set_eq:NN \g__fdu_fontset_tl \l_keys_choice_tl }
   }
 \keys_define:nn { fdu / style }
   {
     cjk-font .choices:nn =
       { adobe, fandol, founder, mac, sinotype, sourcehan, windows, none }
-      { \tl_set_eq:NN \g__fdu_cjk_font_set_tl \l_keys_choice_tl }
+      { \tl_set_eq:NN \g__fdu_cjk_fontset_tl \l_keys_choice_tl }
   }
 \cs_new_protected:Npn \__fdu_setmainfont:nn #1#2
   { \__fontspec_main_setmainfont:nn {#2} {#1} }
@@ -312,6 +312,72 @@
   }
 \clist_map_inline:nn { main, sans, mono, math    } { \__fdu_set_font_helper:n {#1} }
 \clist_map_inline:nn { CJKmain, CJKsans, CJKmono } { \__fdu_set_font_helper:n {#1} }
+\tl_new:N \g__fdu_font_family_libertinus_serif_tl
+\tl_new:N \g__fdu_font_family_libertinus_sans_tl
+\tl_new:N \g__fdu_font_style_libertinus_rm_tl
+\tl_new:N \g__fdu_font_style_libertinus_bf_tl
+\tl_new:N \g__fdu_font_style_libertinus_it_tl
+\tl_new:N \g__fdu_font_style_libertinus_bfit_tl
+\tl_new:N \g__fdu_font_style_libertinus_bfsl_tl
+\tl_new:N \g__fdu_font_family_xits_tl
+\tl_new:N \g__fdu_font_style_xits_rm_tl
+\tl_new:N \g__fdu_font_style_xits_bf_tl
+\tl_new:N \g__fdu_font_style_xits_it_tl
+\tl_new:N \g__fdu_font_style_xits_bfit_tl
+\tl_new:N \g__fdu_font_name_libertinus_serif_tl
+\tl_new:N \g__fdu_font_name_libertinus_sans_tl
+\tl_new:N \g__fdu_font_name_libertinus_math_tl
+\tl_new:N \g__fdu_font_name_xits_tl
+\tl_new:N \g__fdu_font_name_xits_math_rm_tl
+\tl_new:N \g__fdu_font_name_xits_math_bf_tl
+\fontspec_font_if_exist:nTF { LibertinusSerif-Regular.otf }
+  {
+    \tl_set:Nn \g__fdu_font_family_libertinus_serif_tl { LibertinusSerif }
+    \tl_set:Nn \g__fdu_font_family_libertinus_sans_tl  { LibertinusSans  }
+    \tl_set:Nn \g__fdu_font_family_libertinus_math_tl  { LibertinusMath  }
+    \tl_set:Nn \g__fdu_font_style_libertinus_rm_tl     { Regular         }
+    \tl_set:Nn \g__fdu_font_style_libertinus_bf_tl     { Bold            }
+    \tl_set:Nn \g__fdu_font_style_libertinus_it_tl     { Italic          }
+    \tl_set:Nn \g__fdu_font_style_libertinus_bfit_tl   { BoldItalic      }
+    \tl_set:Nn \g__fdu_font_style_libertinus_bfsl_tl   { BoldOblique     }
+  }
+  {
+    \tl_set:Nn \g__fdu_font_family_libertinus_serif_tl { libertinusserif }
+    \tl_set:Nn \g__fdu_font_family_libertinus_sans_tl  { libertinussans  }
+    \tl_set:Nn \g__fdu_font_family_libertinus_math_tl  { libertinusmath  }
+    \tl_set:Nn \g__fdu_font_style_libertinus_rm_tl     { regular         }
+    \tl_set:Nn \g__fdu_font_style_libertinus_bf_tl     { bold            }
+    \tl_set:Nn \g__fdu_font_style_libertinus_it_tl     { italic          }
+    \tl_set:Nn \g__fdu_font_style_libertinus_bfit_tl   { bolditalic      }
+    \tl_set:Nn \g__fdu_font_style_libertinus_bfsl_tl   { bolditalic      }
+  }
+\fontspec_font_if_exist:nTF { XITS-Regular.otf }
+  {
+    \tl_set:Nn \g__fdu_font_family_xits_tl        { XITS             }
+    \tl_set:Nn \g__fdu_font_style_xits_rm_tl      { Regular          }
+    \tl_set:Nn \g__fdu_font_style_xits_bf_tl      { Bold             }
+    \tl_set:Nn \g__fdu_font_style_xits_it_tl      { Italic           }
+    \tl_set:Nn \g__fdu_font_style_xits_bfit_tl    { BoldItalic       }
+    \tl_set:Nn \g__fdu_font_name_xits_math_rm_tl  { XITSMath-Regular }
+    \tl_set:Nn \g__fdu_font_name_xits_math_bf_tl  { XITSMath-Bold    }
+  }
+  {
+    \tl_set:Nn \g__fdu_font_family_xits_tl        { xits          }
+    \tl_set:Nn \g__fdu_font_style_xits_rm_tl      { regular       }
+    \tl_set:Nn \g__fdu_font_style_xits_bf_tl      { bold          }
+    \tl_set:Nn \g__fdu_font_style_xits_it_tl      { italic        }
+    \tl_set:Nn \g__fdu_font_style_xits_bfit_tl    { bolditalic    }
+    \tl_set:Nn \g__fdu_font_name_xits_math_rm_tl  { xits-math     }
+    \tl_set:Nn \g__fdu_font_name_xits_math_bf_tl  { xits-mathbold }
+  }
+\tl_set:Nx \g__fdu_font_name_libertinus_serif_tl
+  { \g__fdu_font_family_libertinus_serif_tl - \g__fdu_font_style_libertinus_rm_tl }
+\tl_set:Nx \g__fdu_font_name_libertinus_sans_tl
+  { \g__fdu_font_family_libertinus_sans_tl  - \g__fdu_font_style_libertinus_rm_tl }
+\tl_set:Nx \g__fdu_font_name_libertinus_math_tl
+  { \g__fdu_font_family_libertinus_math_tl  - \g__fdu_font_style_libertinus_rm_tl }
+\tl_set:Nx \g__fdu_font_name_xits_tl
+  { \g__fdu_font_family_xits_tl - \g__fdu_font_style_xits_rm_tl }
 \cs_new_protected:Npn \__fdu_load_font_garamond:
   {
     \__fdu_setmainfont:nn { EBGaramond }
@@ -322,13 +388,13 @@
         ItalicFont     = *-Italic,
         BoldItalicFont = *-BoldItalic
       }
-    \__fdu_setsansfont:nn { libertinussans }
+    \__fdu_setsansfont:nn { \g__fdu_font_family_libertinus_sans_tl }
       {
         Extension      = .otf,
-        UprightFont    = *-regular,
-        BoldFont       = *-bold,
-        ItalicFont     = *-italic,
-        BoldItalicFont = *-bolditalic
+        UprightFont    = *-\g__fdu_font_style_libertinus_rm_tl,
+        BoldFont       = *-\g__fdu_font_style_libertinus_bf_tl,
+        ItalicFont     = *-\g__fdu_font_style_libertinus_it_tl,
+        BoldItalicFont = *-\g__fdu_font_style_libertinus_bfsl_tl
       }
     \__fdu_setmonofont:nn { lmmonolt10 }
       {
@@ -342,21 +408,21 @@
   }
 \cs_new_protected:Npn \__fdu_load_font_libertinus:
   {
-    \__fdu_setmainfont:nn { libertinusserif }
+    \__fdu_setmainfont:nn { \g__fdu_font_family_libertinus_serif_tl }
       {
         Extension      = .otf,
-        UprightFont    = *-regular,
-        BoldFont       = *-bold,
-        ItalicFont     = *-italic,
-        BoldItalicFont = *-bolditalic
+        UprightFont    = *-\g__fdu_font_style_libertinus_rm_tl,
+        BoldFont       = *-\g__fdu_font_style_libertinus_bf_tl,
+        ItalicFont     = *-\g__fdu_font_style_libertinus_it_tl,
+        BoldItalicFont = *-\g__fdu_font_style_libertinus_bfit_tl
       }
-    \__fdu_setsansfont:nn { libertinussans }
+    \__fdu_setsansfont:nn { \g__fdu_font_family_libertinus_sans_tl }
       {
         Extension      = .otf,
-        UprightFont    = *-regular,
-        BoldFont       = *-bold,
-        ItalicFont     = *-italic,
-        BoldItalicFont = *-bolditalic
+        UprightFont    = *-\g__fdu_font_style_libertinus_rm_tl,
+        BoldFont       = *-\g__fdu_font_style_libertinus_bf_tl,
+        ItalicFont     = *-\g__fdu_font_style_libertinus_it_tl,
+        BoldItalicFont = *-\g__fdu_font_style_libertinus_bfsl_tl
       }
     \__fdu_setmonofont:nn { lmmonolt10 }
       {
@@ -366,7 +432,7 @@
         ItalicFont     = *-oblique,
         BoldItalicFont = *-boldoblique
       }
-    \__fdu_setmathfont:nn { libertinusmath-regular.otf } { }
+    \__fdu_setmathfont:nn { \g__fdu_font_name_libertinus_math_tl .otf } { }
   }
 \cs_new_protected:Npn \__fdu_load_font_lm:
   { \__fdu_setmathfont:nn { latinmodern-math.otf } { } }
@@ -380,13 +446,13 @@
         ItalicFont     = *-italic,
         BoldItalicFont = *-bolditalic
       }
-    \__fdu_setsansfont:nn { libertinussans }
+    \__fdu_setsansfont:nn { \g__fdu_font_family_libertinus_sans_tl }
       {
         Extension      = .otf,
-        UprightFont    = *-regular,
-        BoldFont       = *-bold,
-        ItalicFont     = *-italic,
-        BoldItalicFont = *-bolditalic,
+        UprightFont    = *-\g__fdu_font_style_libertinus_rm_tl,
+        BoldFont       = *-\g__fdu_font_style_libertinus_bf_tl,
+        ItalicFont     = *-\g__fdu_font_style_libertinus_it_tl,
+        BoldItalicFont = *-\g__fdu_font_style_libertinus_bfsl_tl,
         Scale          = MatchUppercase
       }
     \__fdu_setmonofont:nn { lmmonolt10 }
@@ -401,17 +467,13 @@
   }
 \cs_new_protected:Npn \__fdu_load_font_times:
   {
-    \__fdu_setmainfont:nn { XITS }
+    \__fdu_setmainfont:nn { \g__fdu_font_family_xits_tl }
       {
         Extension          = .otf,
-        UprightFont        = *-Regular,
-        BoldFont           = *-Bold,
-        ItalicFont         = *-Italic,
-        BoldItalicFont     = *-BoldItalic,
-        UprightFeatures    = { SmallCapsFont = *-Regular    },
-        BoldFeatures       = { SmallCapsFont = *-Bold       },
-        ItalicFeatures     = { SmallCapsFont = *-Italic     },
-        BoldItalicFeatures = { SmallCapsFont = *-BoldItalic }
+        UprightFont        = *-\g__fdu_font_style_xits_rm_tl,
+        BoldFont           = *-\g__fdu_font_style_xits_bf_tl,
+        ItalicFont         = *-\g__fdu_font_style_xits_it_tl,
+        BoldItalicFont     = *-\g__fdu_font_style_xits_bfit_tl
       }
     \__fdu_setsansfont:nn { texgyreheros }
       {
@@ -430,14 +492,16 @@
         BoldItalicFont = *-bolditalic,
         Ligatures      = CommonOff
       }
-    \__fdu_setmathfont:nn { XITSMath-Regular.otf }{ BoldFont = XITSMath-Bold.otf }
+    \__fdu_setmathfont:nn { \g__fdu_font_name_xits_math_rm_tl .otf }
+      { BoldFont = \g__fdu_font_name_xits_math_bf_tl .otf }
   }
 \cs_new_protected:cpn { __fdu_load_font_ times* : }
   {
     \__fdu_setmainfont:nn { Times~ New~ Roman    } { }
     \__fdu_setsansfont:nn { Arial                } { }
     \__fdu_setmonofont:nn { Courier~ New         } { }
-    \__fdu_setmathfont:nn { XITSMath-Regular.otf }{ BoldFont = XITSMath-Bold.otf }
+    \__fdu_setmathfont:nn { \g__fdu_font_name_xits_math_rm_tl .otf }
+      { BoldFont = \g__fdu_font_name_xits_math_bf_tl .otf }
   }
 \cs_new_protected:Npn \__fdu_load_cjk_font_adobe:
   {
@@ -549,8 +613,8 @@
   }
 \cs_new_protected:Npn \__fdu_load_font:
   {
-    \use:c { __fdu_load_font_     \g__fdu_font_set_tl     : }
-    \use:c { __fdu_load_cjk_font_ \g__fdu_cjk_font_set_tl : }
+    \use:c { __fdu_load_font_     \g__fdu_fontset_tl     : }
+    \use:c { __fdu_load_cjk_font_ \g__fdu_cjk_fontset_tl : }
   }
 \ctex_at_end_preamble:n { \__fdu_load_font: }
 \keys_set:nn { unicode-math }
@@ -733,8 +797,7 @@
       { \__fdu_symbol:n { \int_eval:n { "24EB - 11 + #1 } } }
       { \__fdu_symbol:n { \int_eval:n { "2776 -  1 + #1 } } }
   }
-\cs_new_eq:NN \__fdu_fn_symbol_libertinus_sans:n
-  \__fdu_fn_symbol_libertinus:n
+\cs_new_eq:NN \__fdu_fn_symbol_libertinus_sans:n \__fdu_fn_symbol_libertinus:n
 \cs_new:Npn \__fdu_fn_symbol_pifont:n #1
   { \ding { \int_eval:n { 171 + #1 } } }
 \cs_new:Npn \__fdu_fn_symbol_pifont_neg:n #1
@@ -766,17 +829,17 @@
           { \int_use:N #1 }
         \c__fdu_fn_style_libertinus_tl
           {
-            \fontspec { libertinusserif-regular.otf }
+            \fontspec { \g__fdu_font_name_libertinus_serif_tl .otf }
             \__fdu_fn_symbol_libertinus:n {#1}
           }
         \c__fdu_fn_style_libertinus_neg_tl
           {
-            \fontspec { libertinusserif-regular.otf }
+            \fontspec { \g__fdu_font_name_libertinus_serif_tl .otf }
             \__fdu_fn_symbol_libertinus_neg:n {#1}
           }
         \c__fdu_fn_style_libertinus_sans_tl
           {
-            \fontspec { libertinussans-regular.otf }
+            \fontspec { \g__fdu_font_name_libertinus_sans_tl .otf }
             \__fdu_fn_symbol_libertinus_sans:n {#1}
           }
         \c__fdu_fn_style_pifont_tl
@@ -789,17 +852,17 @@
           { \__fdu_fn_symbol_pifont_sans_neg:n {#1} }
         \c__fdu_fn_style_xits_tl
           {
-            \fontspec { XITS-Regular.otf }
+            \fontspec { \g__fdu_font_name_xits_tl .otf }
             \__fdu_fn_symbol_xits:n {#1}
           }
         \c__fdu_fn_style_xits_sans_tl
           {
-            \fontspec { XITS-Regular.otf }
+            \fontspec { \g__fdu_font_name_xits_tl .otf }
             \__fdu_fn_symbol_xits_sans:n {#1}
           }
         \c__fdu_fn_style_xits_sans_neg_tl
           {
-            \fontspec { XITS-Regular.otf }
+            \fontspec { \g__fdu_font_name_xits_tl .otf }
             \__fdu_fn_symbol_xits_sans_neg:n {#1}
           }
       }
@@ -1319,9 +1382,9 @@
     authorization-decl-sig  / content     =
       \__fdu_cover_signature:N \c__fdu_auth_decl_sign_clist,
     originality-decl-name   / format      =
-      \__fdu_line_spread:n { 1.2 } \zihao { -2 } \sffamily,
+      \__fdu_line_spread:n { 1.2 } \zihao { -2 } \bfseries,
     authorization-decl-name / format      =
-      \__fdu_line_spread:n { 1.2 } \zihao { -2 } \sffamily,
+      \__fdu_line_spread:n { 1.2 } \zihao { -2 } \bfseries,
     originality-decl-name   / bottom-skip = 0.4 cm,
     originality-decl-text   / bottom-skip = 0.4 cm,
     originality-decl-sig    / bottom-skip = 0 pt plus 2.5 fill,
@@ -1351,7 +1414,9 @@
   { \bool_if:NT \l__fdu_auto_make_cover_bool { \makecoveriii } }
 \keys_set:nn { ctex }
   {
-    contentsname = \c__fdu_name_toc_tl,
+    contentsname   = \c__fdu_name_toc_tl,
+    listfigurename = \c__fdu_name_lof_tl,
+    listtablename  = \c__fdu_name_lot_tl,
     chapter / tocline =
       {
         \normalfont \sffamily
@@ -1370,10 +1435,24 @@
 \__fdu_patch_cmd:Nnn \tableofcontents
   {
     \chapter*{\contentsname
-      \@mkboth{%
-        \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
+      \@mkboth{\MakeUppercase\contentsname}
+              {\MakeUppercase\contentsname}}
   }
   { \__fdu_chapter_no_toc:V \contentsname }
+\__fdu_patch_cmd:Nnn \listoffigures
+  {
+    \chapter*{\listfigurename}
+    \@mkboth{\MakeUppercase\listfigurename}
+            {\MakeUppercase\listfigurename}
+  }
+  { \__fdu_chapter:V \listfigurename }
+\__fdu_patch_cmd:Nnn \listoftables
+  {
+    \chapter*{\listtablename}
+    \@mkboth{\MakeUppercase\listtablename}
+            {\MakeUppercase\listtablename}
+  }
+  { \__fdu_chapter:V \listtablename }
 \NewDocumentEnvironment { abstract  } { }
   { \__fdu_abstract_begin:    } { \__fdu_abstract_end:      }
 \NewDocumentEnvironment { abstract* } { }
@@ -1633,6 +1712,8 @@
     \hypersetup
       {
         bookmarksnumbered = true,
+        psdextra          = true,
+        unicode           = true,
         pdftitle    = \l__fdu_info_title_tl,
         pdfauthor   = \l__fdu_info_author_tl,
         pdfkeywords = \l__fdu_info_keywords_clist,
