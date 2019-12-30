@@ -112,38 +112,49 @@ Android平台编写一套代码，通过JNI调用动态链接库的方式调用�
 % 为什么要模型池
 提出模型池的概念，是为了将模型和服务端独立，方便以后添加或删除模型。同时，将模型独立做成服务，可以动态增加模型运行的实例个数，提高计算能力和稳定性。
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=15cm]{images/services.pdf}
-    \caption{模型池配置}
-    \label{fig:services}
-\end{figure}
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=15cm]{images/services2.png}
+%     \caption{模型池配置}
+%     \label{fig:services}
+% \end{figure}
 
-% \begin{lstlisting}[language={HTML}, title=模型池配置]
-% {
-%     "face": {
-%         "cluster_ip": "https://server_address:32200",
-%         "callback":"https://server_address/callback",
-%         "sync": false
-%     }, 
+\begin{lstlisting}[language={Python}, title=services.json]
+[
+    {
+        "name":"face",
+        "cluster_ip": "https://server_address:32200",
+        "callback":"https://server_address/callback",
+        "timeout": "600000",
+        "interval": "200",
+        "sync": false
+    }, 
     
-%     "tongue": {
-%         "cluster_ip": "https://server_address:32201",
-%         "callback":"https://server_address/callback",
-%         "sync": false
-%     },
+    {
+        "name": "tongue",
+        "cluster_ip": "https://server_address:32201",
+        "callback":"https://server_address/callback",
+        "timeout": "600000",
+        "interval": "200",
+        "sync": false
+    },
     
-%     "diagnosis": {
-%         "cluster_ip": "https://server_address:32202",
-%         "callback":"https://server_address/callback",
-%         "sync": false
-%     }
-% }
-% \end{lstlisting}
+    {
+        "name": "diagnosis",
+        "cluster_ip": "https://server_address:32202",
+        "callback":"https://server_address/callback",
+        "timeout": "3000000",
+        "interval": "200",
+        "sync": false
+    }
+]
+    
+\end{lstlisting}
 
 % 如何实现的
-如图\ref{fig:services}所示，模型池维护一个<模型类型, cluster ip> 的映射，记录可用的模型和调用地址， cluster ip是由k8s(kubernetes)提供的集群调用地址。记录通过json文件的格式，记录在本地文件中。
-其中sync参数代表是否同步返回结果，如果设置成异步返回，则通过调用callback地址将结果回调给服务端。
+如services.json所示，模型池维护一个<模型类型, cluster ip> 的映射，记录可用的模型和调用地址， cluster ip是由k8s(kubernetes)提供的集群调用地址。记录通过json文件的格式，记录在本地文件中。
+其中sync参数代表是否同步返回结果，如果设置成异步返回，则通过调用callback地址将结果回调给服务端。timeout字段用于预先设置服务的超时时间，由于不同的服务计算时间不同，可以根据模型的实际运行速度进行调整。
+interval字段表示失败或者超时的重试间隔，默认设置为200毫秒。
 
 
 \subsection{模型服务化}
@@ -155,7 +166,32 @@ docker和k8s是容器化解决方案和容器编排工具，能够很方便地�
 
 为了减少服务之间读写的竞争，模型池中的服务只进行计算，不进行对mysql和redis的读写，结果的持久化由服务端完成。
 
-Flask\footnote{https://palletsprojects.com/p/flask/}是一个基于Python语言的轻量级Web框架，使用者通过极少的代码可以快速实现一个Http服务。服务化的过程是通过Flask框架建立一个Http的服务，把特征提取模型打包成服务。每个特征提取服务，接受http的请求，对传过来的图片进行特征提取。
+Flask\footnote{https://palletsprojects.com/p/flask/}是一个基于Python语言的轻量级Web框架，使用者通过极少的代码可以快速实现一个Http服务。服务化的过程是通过Flask框架建立一个Http的服务，把特征提取模型打包成服务。
+
+\begin{lstlisting}[language={Python}, title=server.py]
+# coding: utf-8
+
+from flask import Flask, request
+from handler import Handler
+from flask_json import FlaskJSON, as_json
+
+app = Flask(__name__)
+json = FlaskJSON(app)
+
+@app.route('/', methods = ['POST', 'GET'])
+@as_json
+def serve():
+    if request.method == "GET":
+        return "OK"
+    hdl = Handler(request.form)
+    return hdl.handle()
+
+if __name__ == "__main__":
+    app.run()
+    
+\end{lstlisting}
+
+每个特征提取服务，接受http的请求，对传过来的图片进行特征提取。
 模型的计算能力如 表\ref{tab:face-feature}, 表\ref{tab:tongue-feature}, 表\ref{tab:diag-feature}所示。
 
 基于在云中医技术探针工作的基础上， 目前现有两类已实现的模型，特征提取模型(面部和舌部两种)和诊断打分模型，分别有对图片进行特征提取和对特征进行打分的能力。
