@@ -1,11 +1,3 @@
-*.bbl
-*.blg
-*.aux
-*.log
-*.out
-*.gz
-*.thm
-*.toc
-*.fdb_latexmk
+
 
 fduthesis.pdf
