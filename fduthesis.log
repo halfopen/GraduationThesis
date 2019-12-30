@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2019.12.29)  30 DEC 2019 11:37
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2019.12.29)  30 DEC 2019 13:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -761,10 +761,14 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks43
 \@floatcapt=\box63
 )
+(c:/texlive/2019/texmf-dist/tex/latex/tools/enumerate.sty
+Package: enumerate 2015/07/23 v3.00 enumerate extensions (DPC)
+\@enLab=\toks44
+)
 (c:/texlive/2019/texmf-dist/tex/latex/listings/listings.sty
 \lst@mode=\count336
 \lst@gtempboxa=\box64
-\lst@token=\toks44
+\lst@token=\toks45
 \lst@length=\count337
 \lst@currlwidth=\dimen284
 \lst@column=\count338
@@ -1107,7 +1111,8 @@ Package: xeCJK-listings 2019/04/07 v3.7.2 xeCJK patch file for listings
 \l__xeCJK_listings_flag_int=\count358
 )
 (./fduthesis.aux (./chapters/intro.aux) (./chapters/relatework.aux)
-(./chapters/user_study.aux) (./chapters/system.aux) (./chapters/experiment.aux)
+(./chapters/user_study.aux) (./chapters/system.aux)
+No file chapters/experiment.aux.
 (./chapters/conclution.aux) (./chapters/ack.aux))
 \openout1 = `fduthesis.aux'.
 
@@ -1312,25 +1317,110 @@ oldItalicFont={*-Regular},BoldFont={*-Regular},ItalicFont={*-Regular}].
 [1
 
 
-] [2])
+])
 \tf@toc=\write4
 \openout4 = `fduthesis.toc'.
 
- [3] [4
+ [2] [3
+
+] [4
 
 ] [5] [6
-
-] [7] [8
 
 ]
 \openout2 = `chapters/intro.aux'.
 
  (./chapters/intro.tex
 第1章
+
+Package natbib Warning: Citation `he2015delving' on page 1 undefined on input l
+ine 11.
+
+
+Package natbib Warning: Citation `Zhang2016Joint' on page 1 undefined on input 
+line 14.
+
+
+Package natbib Warning: Citation `Schroff2015FaceNet' on page 1 undefined on in
+put line 14.
+
+
+Package natbib Warning: Citation `surekha2017attendance' on page 1 undefined on
+ input line 14.
+
+
+Package natbib Warning: Citation `atick2000continuous' on page 1 undefined on i
+nput line 14.
+
+
+Package natbib Warning: Citation `liu2005ibotguard' on page 1 undefined on inpu
+t line 14.
+
+
+Package natbib Warning: Citation `corneanu2016survey' on page 1 undefined on in
+put line 15.
+
+
+Package natbib Warning: Citation `Li2007Online' on page 1 undefined on input li
+ne 15.
+
+
+Package natbib Warning: Citation `Tempark2012Chinese' on page 1 undefined on in
+put line 15.
+
+
+Package natbib Warning: Citation `Kleisner2014Perceived' on page 1 undefined on
+ input line 15.
+
+
+Package natbib Warning: Citation `Clifford2006Shortliffe' on page 1 undefined o
+n input line 20.
+
+
+Package natbib Warning: Citation `Li2008Therapeutic' on page 1 undefined on inp
+ut line 20.
+
+
+Package natbib Warning: Citation `杨淑芳2002伤寒六经辨证初探' on page 1 undefined on input
+ line 23.
+
+
+Package natbib Warning: Citation `杨宏志2007慢性乙型肝炎肝硬化中医面部五色诊断与临床病理的相关性研究' on page 
+1 undefined on input line 24.
+
+
+Package natbib Warning: Citation `艾英1998黄疸病人面部色泽定量实验研究' on page 1 undefined on 
+input line 24.
+
+
+Package natbib Warning: Citation `Liu2014Computerized' on page 1 undefined on i
+nput line 26.
+
+
+Package natbib Warning: Citation `Wang2004An' on page 1 undefined on input line
+ 26.
+
+
+Package natbib Warning: Citation `Shu2007Developing' on page 1 undefined on inp
+ut line 26.
+
 [1
 
 
-] [2]) [3]
+]
+
+Package natbib Warning: Citation `Clawson2015No' on page 2 undefined on input l
+ine 31.
+
+
+Package natbib Warning: Citation `Epstein2016Beyond' on page 2 undefined on inp
+ut line 31.
+
+
+Package natbib Warning: Citation `lupton2017self-tracking' on page 2 undefined 
+on input line 31.
+
+[2]) [3]
 \openout2 = `chapters/relatework.aux'.
 
  (./chapters/relatework.tex [4
@@ -1339,6 +1429,14 @@ oldItalicFont={*-Regular},BoldFont={*-Regular},ItalicFont={*-Regular}].
 
 ]
 第2章
+
+Package natbib Warning: Citation `patel2014development' on page 5 undefined on 
+input line 8.
+
+
+Package natbib Warning: Citation `Owayjan2013Face' on page 5 undefined on input
+ line 8.
+
 File: images/mzy.png Graphic file (type bmp)
 <images/mzy.png>
 File: images/yzy.png Graphic file (type bmp)
@@ -1346,21 +1444,162 @@ File: images/yzy.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+
+Package natbib Warning: Citation `nwosu2016mobile' on page 5 undefined on input
+ line 25.
+
+
+Package natbib Warning: Citation `Hossain2015Cloud' on page 5 undefined on inpu
+t line 26.
+
+
+Package natbib Warning: Citation `Zhang2018Study' on page 5 undefined on input 
+line 26.
+
+
+Package natbib Warning: Citation `邸丹2016手持式舌象仪的研制' on page 5 undefined on input
+ line 26.
+
+
+Package natbib Warning: Citation `李雪2016' on page 5 undefined on input line 27.
+
+
+
+Package natbib Warning: Citation `钱鹏基于云中医的健康监测方法及系统' on page 5 undefined on inp
+ut line 27.
+
 [5]
+
+Package natbib Warning: Citation `Sephora' on page 6 undefined on input line 30
+.
+
 File: images/smile/6-Figure8-1.png Graphic file (type bmp)
 <images/smile/6-Figure8-1.png>
 File: images/smile/2-Figure3-1.png Graphic file (type bmp)
 <images/smile/2-Figure3-1.png>
 
-
 LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Package natbib Warning: Citation `williamarticle' on page 6 undefined on input 
+line 47.
+
+
+Package natbib Warning: Citation `Tsujita2011Smiling' on page 6 undefined on in
+put line 47.
 
 File: images/mirror.png Graphic file (type bmp)
 <images/mirror.png>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6] [7] [8]) [9]
+
+Package natbib Warning: Citation `andreu2015mirror' on page 6 undefined on inpu
+t line 57.
+
+
+Package natbib Warning: Citation `coppini2017user' on page 6 undefined on input
+ line 60.
+
+[6]
+
+Package natbib Warning: Citation `nunes2015self-care' on page 7 undefined on in
+put line 68.
+
+
+Package natbib Warning: Citation `nunes2015self-care' on page 7 undefined on in
+put line 69.
+
+[7]
+
+Package natbib Warning: Citation `OlshanskyDEMOGRAPHY' on page 8 undefined on i
+nput line 72.
+
+
+Package natbib Warning: Citation `kaye2006overview' on page 8 undefined on inpu
+t line 72.
+
+
+Package natbib Warning: Citation `Ben2002A' on page 8 undefined on input line 7
+2.
+
+
+Package natbib Warning: Citation `mamykina2008mahi:' on page 8 undefined on inp
+ut line 75.
+
+
+Package natbib Warning: Citation `yasuda2009remote' on page 8 undefined on inpu
+t line 77.
+
+
+Package natbib Warning: Citation `ayobi2017quantifying' on page 8 undefined on 
+input line 78.
+
+
+Package natbib Warning: Citation `bardram2013designing' on page 8 undefined on 
+input line 80.
+
+
+Package natbib Warning: Citation `nunes2018understanding' on page 8 undefined o
+n input line 83.
+
+
+Package natbib Warning: Citation `ayobi2017quantifying' on page 8 undefined on 
+input line 84.
+
+
+Package natbib Warning: Citation `purpura2011fit4life' on page 8 undefined on i
+nput line 92.
+
+
+Package natbib Warning: Citation `Inagawa2013A' on page 8 undefined on input li
+ne 92.
+
+
+Package natbib Warning: Citation `bravata2007using' on page 8 undefined on inpu
+t line 92.
+
+
+Package natbib Warning: Citation `cordeiro2015barriers' on page 8 undefined on 
+input line 92.
+
+
+Package natbib Warning: Citation `lin2006fish' on page 8 undefined on input lin
+e 92.
+
+
+Package natbib Warning: Citation `miller2014stepstream' on page 8 undefined on 
+input line 92.
+
+
+Package natbib Warning: Citation `Inagawa2013A' on page 8 undefined on input li
+ne 92.
+
+
+Package natbib Warning: Citation `kay2012lullaby' on page 8 undefined on input 
+line 95.
+
+
+Package natbib Warning: Citation `gronvall2013beyond' on page 8 undefined on in
+put line 95.
+
+
+Package natbib Warning: Citation `logan2007mobile' on page 8 undefined on input
+ line 95.
+
+
+Package natbib Warning: Citation `walters2010a' on page 8 undefined on input li
+ne 95.
+
+
+Package natbib Warning: Citation `purpura2011fit4life' on page 8 undefined on i
+nput line 99.
+
+
+Package natbib Warning: Citation `kay2012lullaby' on page 8 undefined on input 
+line 100.
+
+[8]) [9]
 \openout2 = `chapters/user_study.aux'.
 
  (./chapters/user_study.tex [10
@@ -1369,36 +1608,91 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 ]
 第3章
+
+Package natbib Warning: Citation `Hutchinson2003Technology' on page 11 undefine
+d on input line 4.
+
+
+Package natbib Warning: Citation `Hutchinson2003Technology' on page 11 undefine
+d on input line 21.
+
+
+Package natbib Warning: Citation `papi2015knee' on page 11 undefined on input l
+ine 23.
+
+
+Package natbib Warning: Citation `singh2017supporting' on page 11 undefined on 
+input line 23.
+
 File: images/main1.jpg Graphic file (type bmp)
 <images/main1.jpg>
 File: images/main2.jpg Graphic file (type bmp)
 <images/main2.jpg>
 File: images/main3.jpg Graphic file (type bmp)
 <images/main3.jpg>
-[11]
-File: images/poster.png Graphic file (type bmp)
-<images/poster.png>
-
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Package caption Warning: \label without proper reference on input line 81.
+Package natbib Warning: Citation `Zhang2018Study' on page 11 undefined on input
+ line 40.
+
+
+Package natbib Warning: Citation `崔岩2011统计分析中的定量与定性研究' on page 11 undefined on 
+input line 52.
+
+
+Package natbib Warning: Citation `李晓凤2006质性研究方法' on page 11 undefined on input 
+line 52.
+
+[11]
+
+Package natbib Warning: Citation `DiciccoThe' on page 12 undefined on input lin
+e 55.
+
+File: images/poster.png Graphic file (type bmp)
+<images/poster.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Package caption Warning: \label without proper reference on input line 85.
 See the caption package documentation for explanation.
 
 
 LaTeX Warning: Reference `tab:Participants' on page 12 undefined on input line 
-85.
+89.
 
-[12]
-Overfull \hbox (44.09726pt too wide) in paragraph at lines 98--111
+
+Overfull \hbox (44.09726pt too wide) in paragraph at lines 102--115
 [][] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[13] [14] [15] [16] [17] [18] [19]) [20]
+
+Package natbib Warning: Citation `SchwandtQualitative' on page 12 undefined on 
+input line 120.
+
+[12] [13] [14] [15] [16]
+Underfull \vbox (badness 1019) has occurred while \output is active []
+
+ [17]
+
+Package natbib Warning: Citation `Toscos2013Designing' on page 18 undefined on 
+input line 252.
+
+[18]
+
+Package natbib Warning: Citation `Clawson2015No' on page 19 undefined on input 
+line 262.
+
+
+Package natbib Warning: Citation `Epstein2016Beyond' on page 19 undefined on in
+put line 262.
+
+[19]) [20]
 \openout2 = `chapters/system.aux'.
 
  (./chapters/system.tex
@@ -1411,26 +1705,24 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 File: images/system2.pdf Graphic file (type pdf)
 <use images/system2.pdf>
 
-Overfull \hbox (10.24257pt too wide) in paragraph at lines 89--90
+Overfull \hbox (10.24257pt too wide) in paragraph at lines 88--89
  [][] 
  []
 
-[22]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [23]
-(c:/texlive/2019/texmf-dist/tex/latex/listings/lstlang1.sty
+[22] [23] (c:/texlive/2019/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2019/02/27 1.8b listings language file
-) [24] [25] [26]
-Underfull \vbox (badness 1097) has occurred while \output is active []
+) [24]
+[25]
 
- [27]
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[26] [27]
 File: images/server.pdf Graphic file (type pdf)
 <use images/server.pdf>
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 329.
+               Default added (so using `tbp') on input line 330.
 
 File: images/op_log.png Graphic file (type bmp)
 <images/op_log.png>
@@ -1442,13 +1734,13 @@ File: images/wjx1.png Graphic file (type bmp)
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 384.
-
-
-Underfull \vbox (badness 7451) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [29]
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 385.
+
 [30]
 File: images/sketch.pdf Graphic file (type pdf)
 <use images/sketch.pdf>
@@ -1464,29 +1756,51 @@ File: images/slave-master.png Graphic file (type bmp)
 
 ]
 第5章
-[35]
 File: images/login.png Graphic file (type bmp)
 <images/login.png>
 File: images/history.png Graphic file (type bmp)
 <images/history.png>
 File: images/crop.png Graphic file (type bmp)
 <images/crop.png>
- [36]
+[35]
+
+LaTeX Warning: Reference `fig:client' on page 36 undefined on input line 50.
+
+
+LaTeX Warning: Reference `fig:client' on page 36 undefined on input line 58.
+
+
+LaTeX Warning: Reference `fig:client' on page 36 undefined on input line 62.
+
+[36]
 File: images/rukou.png Graphic file (type bmp)
 <images/rukou.png>
 File: images/dialog1.png Graphic file (type bmp)
 <images/dialog1.png>
 File: images/dialog2.png Graphic file (type bmp)
 <images/dialog2.png>
+
+
+LaTeX Warning: Reference `fig:interface' on page 37 undefined on input line 85.
+
+
 File: images/old1.png Graphic file (type bmp)
 <images/old1.png>
 File: images/old2.png Graphic file (type bmp)
 <images/old2.png>
 File: images/ui-1-1.png Graphic file (type bmp)
 <images/ui-1-1.png>
- [37]
+[37]
+
+LaTeX Warning: Reference `fig:diag_new' on page 38 undefined on input line 112.
+
+
 File: images/diag_design.png Graphic file (type bmp)
 <images/diag_design.png>
+
+LaTeX Warning: Reference `fig:diag_design' on page 38 undefined on input line 1
+25.
+
 File: images/question/5.png Graphic file (type bmp)
 <images/question/5.png>
 File: images/question/4.png Graphic file (type bmp)
@@ -1497,10 +1811,33 @@ File: images/question/3.png Graphic file (type bmp)
 <images/question/3.png>
 File: images/question/1.png Graphic file (type bmp)
 <images/question/1.png>
- [38]
+[38]
+
+LaTeX Warning: Reference `fig:question_status' on page 39 undefined on input li
+ne 151.
+
 File: images/ui-exp.png Graphic file (type bmp)
 <images/ui-exp.png>
- [39] [40]
+
+LaTeX Warning: Reference `fig:ui-exp' on page 39 undefined on input line 181.
+
+[39] [40]
+
+Package natbib Warning: Citation `wang2019designing' on page 41 undefined on in
+put line 220.
+
+
+Package natbib Warning: Citation `lim2009and' on page 41 undefined on input lin
+e 220.
+
+
+Package natbib Warning: Citation `wang2019designing' on page 41 undefined on in
+put line 226.
+
+
+Package natbib Warning: Citation `kocielnik2019will' on page 41 undefined on in
+put line 227.
+
 File: images/face_tongue.png Graphic file (type bmp)
 <images/face_tongue.png>
 File: images/exp_face_tongue.png Graphic file (type bmp)
@@ -1508,8 +1845,11 @@ File: images/exp_face_tongue.png Graphic file (type bmp)
 File: images/exp_tongue.png Graphic file (type bmp)
 <images/exp_tongue.png>
 
-
 LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: Reference `fig:face_diags' on page 41 undefined on input line 24
+9.
 
 [41]
 File: images/questions.png Graphic file (type bmp)
@@ -1520,22 +1860,42 @@ File: images/exp_phy.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+
+LaTeX Warning: Reference `fig:questions' on page 42 undefined on input line 272
+.
+
+
+Package natbib Warning: Citation `王琦20099' on page 42 undefined on input line 2
+79.
+
 File: images/old3.png Graphic file (type bmp)
 <images/old3.png>
 File: images/questions2.png Graphic file (type bmp)
 <images/questions2.png>
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+LaTeX Warning: Reference `fig:question_weight' on page 42 undefined on input li
+ne 292.
 
 [42]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 File: images/report.png Graphic file (type bmp)
 <images/report.png>
 File: images/report3.png Graphic file (type bmp)
 <images/report3.png>
 
-
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+
+LaTeX Warning: Reference `fig:exp_result' on page 43 undefined on input line 31
+4.
+
+
+LaTeX Warning: Reference `fig:exp_result' on page 43 undefined on input line 32
+0.
+
+[43]
 File: images/report7.png Graphic file (type bmp)
 <images/report7.png>
 File: images/report8.png Graphic file (type bmp)
@@ -1543,11 +1903,12 @@ File: images/report8.png Graphic file (type bmp)
 File: images/report9.png Graphic file (type bmp)
 <images/report9.png>
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [43]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: Reference `fig:report_expalin_score' on page 44 undefined on inp
+ut line 342.
 
 File: images/report5.png Graphic file (type bmp)
 <images/report5.png>
@@ -1556,18 +1917,27 @@ File: images/report6.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[44]
-Underfull \vbox (badness 3312) has occurred while \output is active []
 
- [45]
+LaTeX Warning: Reference `fig:report_explain_phy_1' on page 44 undefined on inp
+ut line 368.
+
+
+Underfull \vbox (badness 2556) has occurred while \output is active []
+
+ [44]
+[45]
+
+LaTeX Warning: Reference `tab:exp_data' on page 46 undefined on input line 410.
+
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[46] [47]
-Underfull \vbox (badness 3769) has occurred while \output is active []
 
- [48]
-[49]) [50]
+LaTeX Warning: Reference `tab:exp_data' on page 46 undefined on input line 436.
+
+
+[46] [47] [48] [49]) [50]
 \openout2 = `chapters/conclution.aux'.
 
  (./chapters/conclution.tex
@@ -1576,46 +1946,51 @@ Underfull \vbox (badness 3769) has occurred while \output is active []
 
 
 
-]) [52] (./fduthesis.bbl [53
-
-
-
-] [54] [55] [56] [57]) [58]
+]) [52]
+No file fduthesis.bbl.
 \openout2 = `chapters/ack.aux'.
 
- (./chapters/ack.tex) [59
+(./chapters/ack.tex) [53
+
+
 
 
 ]
 \tf@thm=\write5
 \openout5 = `fduthesis.thm'.
 
- [60
+ [54
 
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 311.
- [61]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 311.
- (./fduthesis.aux (./chapters/intro.aux)
-(./chapters/relatework.aux) (./chapters/user_study.aux) (./chapters/system.aux)
-(./chapters/experiment.aux) (./chapters/conclution.aux) (./chapters/ack.aux))
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 311.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 311.
+
+Package natbib Warning: There were undefined citations.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 317.
+[55]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 317.
+ (./fduthesis.aux (./chapters/intro.aux) (./chapters/relatework.aux)
+(./chapters/user_study.aux) (./chapters/system.aux) (./chapters/experiment.aux)
+(./chapters/conclution.aux) (./chapters/ack.aux))
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 317.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 317.
 Package rerunfilecheck Info: File `fduthesis.out' has not changed.
-(rerunfilecheck)             Checksum: 476F1AA260E9613496921D85CD5DC172.
+(rerunfilecheck)             Checksum: DA982FBEF408AC7BAA260B1FD932CB88.
 
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 35326 strings out of 492922
- 689525 string characters out of 6136750
- 1053765 words of memory out of 5000000
- 38928 multiletter control sequences out of 15000+600000
- 538099 words of font info for 110 fonts, out of 8000000 for 9000
+ 35128 strings out of 492922
+ 683650 string characters out of 6136750
+ 1049749 words of memory out of 5000000
+ 38730 multiletter control sequences out of 15000+600000
+ 538107 words of font info for 111 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 58i,12n,109p,870b,2279s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 58i,12n,109p,870b,2100s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on fduthesis.pdf (71 pages).
+Output written on fduthesis.pdf (63 pages).

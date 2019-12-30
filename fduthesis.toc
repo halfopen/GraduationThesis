@@ -1,5 +1,5 @@
-\contentsline {chapter}{\normalfont \sffamily 摘\hskip 1em\relax 要}{v}{chapter*.2}% 
-\contentsline {chapter}{\normalfont \sffamily Abstract}{vii}{chapter*.3}% 
+\contentsline {chapter}{\normalfont \sffamily 摘\hskip 1em\relax 要}{iii}{chapter*.2}% 
+\contentsline {chapter}{\normalfont \sffamily Abstract}{v}{chapter*.3}% 
 \contentsline {chapter}{\normalfont \sffamily \numberline {第1章}绪论}{1}{chapter.1}% 
 \contentsline {section}{\numberline {1.1}研究背景}{1}{section.1.1}% 
 \contentsline {section}{\numberline {1.2}本文研究内容与创新}{2}{section.1.2}% 
@@ -16,10 +16,10 @@
 \contentsline {section}{\numberline {2.3}本章小结}{9}{section.2.3}% 
 \contentsline {chapter}{\normalfont \sffamily \numberline {第3章}用户调研}{11}{chapter.3}% 
 \contentsline {section}{\numberline {3.1}技术探针}{11}{section.3.1}% 
-\contentsline {section}{\numberline {3.2}定性实验}{12}{section.3.2}% 
+\contentsline {section}{\numberline {3.2}定性实验}{11}{section.3.2}% 
 \contentsline {subsection}{\fdu@kai \numberline {3.2.1}实验过程}{12}{subsection.3.2.1}% 
-\contentsline {subsection}{\fdu@kai \numberline {3.2.2}数据分析过程}{13}{subsection.3.2.2}% 
-\contentsline {section}{\numberline {3.3}研究发现}{14}{section.3.3}% 
+\contentsline {subsection}{\fdu@kai \numberline {3.2.2}数据分析过程}{12}{subsection.3.2.2}% 
+\contentsline {section}{\numberline {3.3}研究发现}{13}{section.3.3}% 
 \contentsline {subsection}{\fdu@kai \numberline {3.3.1}潜在的使用场景}{14}{subsection.3.3.1}% 
 \contentsline {subsubsection}{1.了解身体状态}{14}{subsubsection*.11}% 
 \contentsline {subsubsection}{2.医患沟通的工具}{15}{subsubsection*.12}% 
@@ -28,11 +28,11 @@
 \contentsline {subsubsection}{2.自适应环境信息}{16}{subsubsection*.14}% 
 \contentsline {subsection}{\fdu@kai \numberline {3.3.3}实用性}{16}{subsection.3.3.3}% 
 \contentsline {subsubsection}{1.中医术语}{16}{subsubsection*.15}% 
-\contentsline {subsubsection}{2.养生建议合理性}{16}{subsubsection*.16}% 
+\contentsline {subsubsection}{2.养生建议合理性}{17}{subsubsection*.16}% 
 \contentsline {subsection}{\fdu@kai \numberline {3.3.4}敏感性}{17}{subsection.3.3.4}% 
 \contentsline {subsubsection}{1.文化敏感性}{17}{subsubsection*.17}% 
 \contentsline {subsubsection}{2.技术敏感性}{17}{subsubsection*.18}% 
-\contentsline {subsubsection}{3.社交敏感性}{17}{subsubsection*.19}% 
+\contentsline {subsubsection}{3.社交敏感性}{18}{subsubsection*.19}% 
 \contentsline {subsection}{\fdu@kai \numberline {3.3.5}信赖与情绪的问题}{18}{subsection.3.3.5}% 
 \contentsline {section}{\numberline {3.4}设计方案}{19}{section.3.4}% 
 \contentsline {subsection}{\fdu@kai \numberline {3.4.1}增加可变性}{19}{subsection.3.4.1}% 
@@ -53,11 +53,11 @@
 \contentsline {subsection}{\fdu@kai \numberline {4.2.4}诊断模型}{27}{subsection.4.2.4}% 
 \contentsline {section}{\numberline {4.3}服务端}{28}{section.4.3}% 
 \contentsline {subsection}{\fdu@kai \numberline {4.3.1}用户操作记录管理}{28}{subsection.4.3.1}% 
-\contentsline {subsection}{\fdu@kai \numberline {4.3.2}第三方问卷关联}{28}{subsection.4.3.2}% 
-\contentsline {subsection}{\fdu@kai \numberline {4.3.3}任务处理}{29}{subsection.4.3.3}% 
+\contentsline {subsection}{\fdu@kai \numberline {4.3.2}第三方问卷关联}{29}{subsection.4.3.2}% 
+\contentsline {subsection}{\fdu@kai \numberline {4.3.3}任务处理}{30}{subsection.4.3.3}% 
 \contentsline {subsubsection}{计算任务}{30}{subsubsection*.30}% 
 \contentsline {subsubsection}{诊断任务}{31}{subsubsection*.32}% 
-\contentsline {subsection}{\fdu@kai \numberline {4.3.4}任务分配}{31}{subsection.4.3.4}% 
+\contentsline {subsection}{\fdu@kai \numberline {4.3.4}任务分配}{32}{subsection.4.3.4}% 
 \contentsline {subsubsection}{主从节点}{32}{subsubsection*.34}% 
 \contentsline {subsubsection}{角色竞选流程}{32}{subsubsection*.35}% 
 \contentsline {section}{\numberline {4.4}本章小结}{33}{section.4.4}% 
@@ -75,7 +75,7 @@
 \contentsline {subsubsection}{面诊问诊设计}{38}{subsubsection*.44}% 
 \contentsline {subsubsection}{问诊元素设计}{39}{subsubsection*.46}% 
 \contentsline {subsection}{\fdu@kai \numberline {5.2.3}实验过程}{39}{subsection.5.2.3}% 
-\contentsline {subsection}{\fdu@kai \numberline {5.2.4}实验结果}{39}{subsection.5.2.4}% 
+\contentsline {subsection}{\fdu@kai \numberline {5.2.4}实验结果}{40}{subsection.5.2.4}% 
 \contentsline {subsubsection}{喜欢新设计}{40}{subsubsection*.49}% 
 \contentsline {subsubsection}{喜欢原设计}{40}{subsubsection*.50}% 
 \contentsline {subsubsection}{各有优缺点}{41}{subsubsection*.51}% 
@@ -87,7 +87,7 @@
 \contentsline {subsubsection}{影响权重的解释}{42}{subsubsection*.57}% 
 \contentsline {subsubsection}{诊断结果的解释}{43}{subsubsection*.59}% 
 \contentsline {subsubsection}{健康分数的解释}{44}{subsubsection*.61}% 
-\contentsline {subsubsection}{体质的解释}{44}{subsubsection*.63}% 
+\contentsline {subsubsection}{体质的解释}{45}{subsubsection*.63}% 
 \contentsline {subsection}{\fdu@kai \numberline {5.3.2}实验设计}{45}{subsection.5.3.2}% 
 \contentsline {subsection}{\fdu@kai \numberline {5.3.3}实验数据}{45}{subsection.5.3.3}% 
 \contentsline {subsubsection}{可用数据}{46}{subsubsection*.65}% 
@@ -103,5 +103,4 @@
 \contentsline {chapter}{\normalfont \sffamily \numberline {第6章}总结与展望}{51}{chapter.6}% 
 \contentsline {section}{\numberline {6.1}总结}{51}{section.6.1}% 
 \contentsline {section}{\numberline {6.2}展望}{51}{section.6.2}% 
-\contentsline {chapter}{\normalfont \sffamily 参考文献}{53}{chapter*.73}% 
-\contentsline {chapter}{致谢}{59}{chapter*.74}% 
+\contentsline {chapter}{致谢}{53}{chapter*.73}% 
