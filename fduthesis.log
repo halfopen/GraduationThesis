@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019) (preloaded format=xelatex 2019.10.10)  31 DEC 2019 13:43
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019) (preloaded format=xelatex 2019.10.10)  6 JAN 2020 14:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1800,26 +1800,22 @@ File: images/ui-exp.pdf Graphic file (type pdf)
 File: images/time.pdf Graphic file (type pdf)
 <use images/time.pdf>
 
-Overfull \hbox (10.24257pt too wide) in paragraph at lines 220--221
- [][] 
- []
+
+Package natbib Warning: Citation `wang2019designing' on page 41 undefined on in
+put line 242.
+
+
+Package natbib Warning: Citation `lim2009and' on page 41 undefined on input lin
+e 242.
 
 [41]
 
 Package natbib Warning: Citation `wang2019designing' on page 42 undefined on in
-put line 242.
-
-
-Package natbib Warning: Citation `lim2009and' on page 42 undefined on input lin
-e 242.
-
-
-Package natbib Warning: Citation `wang2019designing' on page 42 undefined on in
-put line 248.
+put line 263.
 
 
 Package natbib Warning: Citation `kocielnik2019will' on page 42 undefined on in
-put line 249.
+put line 264.
 
 File: images/face_tongue.png Graphic file (type bmp)
 <images/face_tongue.png>
@@ -1827,20 +1823,21 @@ File: images/exp_face_tongue.png Graphic file (type bmp)
 <images/exp_face_tongue.png>
 File: images/exp_tongue.png Graphic file (type bmp)
 <images/exp_tongue.png>
+[42]
 File: images/questions.png Graphic file (type bmp)
 <images/questions.png>
 File: images/exp_phy.png Graphic file (type bmp)
 <images/exp_phy.png>
-[42] [43]
 
-Package natbib Warning: Citation `王琦20099' on page 44 undefined on input line 3
-01.
+
+Package natbib Warning: Citation `王琦20099' on page 43 undefined on input line 3
+18.
 
 File: images/old3.png Graphic file (type bmp)
 <images/old3.png>
 File: images/questions2.png Graphic file (type bmp)
 <images/questions2.png>
-[44]
+[43] [44]
 File: images/report.png Graphic file (type bmp)
 <images/report.png>
 File: images/report3.png Graphic file (type bmp)
@@ -1851,16 +1848,24 @@ File: images/report8.png Graphic file (type bmp)
 <images/report8.png>
 File: images/report9.png Graphic file (type bmp)
 <images/report9.png>
+
+Underfull \vbox (badness 3343) has occurred while \output is active []
+
  [45]
 File: images/report5.png Graphic file (type bmp)
 <images/report5.png>
 File: images/report6.png Graphic file (type bmp)
 <images/report6.png>
- [46]
-Underfull \vbox (badness 2020) has occurred while \output is active []
 
- [47]
-[48] [49] [50]) [51]
+[46]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[47] [48] [49]
+Underfull \vbox (badness 1484) has occurred while \output is active []
+
+ [50])
+[51]
 \openout2 = `chapters/conclution.aux'.
 
  (./chapters/conclution.tex [52
@@ -1898,16 +1903,19 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 316.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 316.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 316.
 Package rerunfilecheck Info: File `fduthesis.out' has not changed.
-(rerunfilecheck)             Checksum: E51FE87F7B35343492833E4193AA663B.
+(rerunfilecheck)             Checksum: 779E176AF1C8E7A93BEBDD0266A7CAE4.
 
 
 LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
  35114 strings out of 492922
  684194 string characters out of 6133406
- 1051216 words of memory out of 5000000
+ 1051214 words of memory out of 5000000
  38715 multiletter control sequences out of 15000+600000
  538107 words of font info for 111 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
