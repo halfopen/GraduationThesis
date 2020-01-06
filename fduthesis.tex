@@ -195,11 +195,11 @@
     % 使用英文逗号 “,” 分隔
     % 如有需要，可以用 \quad 手工对齐
     %
-    keywords = {人机交互, 面诊系统, 日常健康追踪},
+    keywords = {人机交互, 面诊系统, 日常健康},
     % 中文关键字
     % 使用英文逗号 “,” 分隔
     %
-    keywords* = {Uncertainty principle, quantum mechanics, theoretical physics},
+    keywords* = {HCI, face diagnosis system, everyday health},
     % 英文关键字
     % 使用英文逗号 “,” 分隔
     %
@@ -257,7 +257,7 @@
 % 通过调用实验平台接口对跨平台客户端进行实现并通过实验验证设计方案的有效性。模型运行在服务器，解决了用户设备的差异性带来的稳定性和性能的问题。
 
 	\item 利用实验平台，分别验证并分析了增加系统透明性和增加日常可用性的设计方案。
-为了验证设计方案，本文分别实现了解决可用性问题的原型和添加解释的原型，并通过实地调研的方式验证了设计方案的有效性。
+为了验证设计方案，本文分别实现了解决可用性问题的原型和添加解释的原型，并通过实地调研的方式验证了设计方案的有效性。在实现可解释的设计过程中，探索了如何对系统的背后原理以及影响权重进行解释。
 实验的结果和分析表明，本文提出的提高可用性的设计方案的确能够提高系统使用的便利性，能够方便用户在日常健康的场景下使用；
 而本文提出的增加系统透明性的设计方案，的确能够在目前算法的结果不完美的情况下，提高用户对系统的信赖程度和对结果的接受程度。
 
@@ -269,6 +269,39 @@
 
 \begin{abstract*}
 
+  With the development of economy, the acceleration of people's life rhythm and the gradual improvement of health care awareness, more and more people begin to pay attention to their own health problems, but the compact working time makes the vast majority of people unable to take the time to go to the hospital alone to check their health condition regularly.
+
+  In recent years, with the popularity and development of mobile devices, the performance of mobile devices has been greatly improved, and a large number of health tracking technologies in daily scenes are also in-depth.
+  
+  With the rapid development of artificial intelligence technology, the ability of health diagnosis algorithm is also constantly improving, especially based on facial information diagnosis technology is also constantly breaking through, it is possible to carry out daily health diagnosis based on facial information on mobile devices.
+  
+  
+  
+  At present, the main application scenario of the existing face-to-face clinic information technology is in the clinic environment. Although there are a lot of health management technologies in the field of human-computer interaction (HCI) in the daily scenario, they mainly focus on user health behavior guidance and how to help users better manage chronic diseases.
+  
+  In this context, this paper explores how to design the interaction technology of face-to-face diagnosis in the daily environment, puts forward the corresponding design scheme and verifies it through the experimental platform.
+  
+  The main work of this paper is as follows:
+  
+  \begin{enumerate}
+  
+  \item Qualitative study of the application of the technique probe in the daily scene.
+  Through in-depth interviews with participants and analysis of the interview materials transcribed into text, the problems encountered in the clinical application under the daily scenario are explored and the design scheme is proposed: increase variability, system transparency and daily availability.
+  
+  
+  
+  \item The experiment platform is designed and implemented.
+ Before the interactive experiment, in order to improve the efficiency of the follow-up experiment and solve the problem of stability brought by the diversity of user equipment, the experimental platform for the rapid development of face-to-face clinical application experiments is designed and implemented: the system is highly available, fast iterative, model task module separation, user operation record management, questionnaire correlation and other functions are realized, which improves the stability of the system Qualitative, can deal with the large-scale user experiment scene, and quickly carry out new experiments.
+  
+  
+  
+  
+    \item  Using the experimental platform, we verify and analyze the design scheme of increasing the system transparency and increasing the daily availability.
+   In order to verify the design scheme, this paper implements the prototype to solve the usability problem and the prototype to add interpretation, and verifies the effectiveness of the design scheme through field research. In the process of realizing the interpretable design, it explores how to explain the back principle and influence weight of the system.
+  The experimental results and analysis show that the design scheme proposed in this paper can indeed improve the convenience of the system, and can facilitate the user to use in the daily healthy scenarios;
+  The design scheme of increasing the transparency of the system proposed in this paper can indeed improve the user's trust and acceptance of the results when the current algorithm results are not perfect.
+
+  \end{enumerate}
 \end{abstract*}
 
 % \begin{notation}
