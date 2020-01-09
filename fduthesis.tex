@@ -195,11 +195,11 @@
     % 使用英文逗号 “,” 分隔
     % 如有需要，可以用 \quad 手工对齐
     %
-    keywords = {人机交互, 面诊系统, 日常健康追踪},
+    keywords = {人机交互, 面诊系统, 日常健康},
     % 中文关键字
     % 使用英文逗号 “,” 分隔
     %
-    keywords* = {Uncertainty principle, quantum mechanics, theoretical physics},
+    keywords* = {HCI, face diagnosis system, everyday health},
     % 英文关键字
     % 使用英文逗号 “,” 分隔
     %
@@ -238,9 +238,9 @@
 
 
 
-随着经济的发展，人们生活节奏的加快以及养生意识的逐步提高，越来越多的人开始关注自己的健康问题，但是紧凑的工作时间让绝大多数人无法单独抽出时间去医院定期检查自己的健康状况。
-近些年移动设备的普及和发展，移动设备的性能得到大大地提高，大量关于日常场景下的健康追踪技术也在不断深入。
-而随着人工智能技术的快速发展，健康诊断算法的能力也在不断地提高，特别是基于面部信息诊断技术也在不断突破，在移动设备上基于面部信息进行日常健康诊断已经成为可能。
+随着经济的发展、人们生活节奏的加快以及养生意识的逐步提高，越来越多的人开始关注自己的健康问题，与之矛盾的是紧凑的工作时间让绝大多数人无法单独抽出时间去医院定期检查自己的健康状况。
+近些年移动设备日渐普及和快速发展，移动设备的性能也得到大大地提高，大量关于日常场景下健康技术的研究也在不断深入。
+同时人工智能技术的快速发展，健康诊断算法的能力也在不断地提高，特别是基于面部信息诊断技术也在不断突破，在移动设备上基于面部信息进行日常健康诊断已经成为可能。
 
 目前已有的面诊信息化技术主要应用场景还是诊所环境下，而人机交互(HCI)领域虽然有大量关于日常场景下的健康管理技术，但主要集中在用户健康行为引导和如何帮助用户更好地进行慢性病管理等方面。
 在这个背景下，本文对日常环境下的面诊交互技术应该如何设计的问题进行了探索，提出了对应的设计方案并通过实验平台进行了验证。
@@ -249,15 +249,16 @@
 \begin{enumerate}
 
 	\item 利用技术探针进行日常场景下面诊应用的定性研究。
-通过对参与者进行深度访谈，分析转录成文字后的访谈资料，探索出了日常场景下面诊应用会遇到的问题并提出了设计方案：增加可变性、系统透明性和日常可用性。
+通过对参与者进行深度访谈，分析转录成文字后的访谈资料，探索了日常场景下面诊应用会遇到的问题并提出了设计方案：增加可变性、系统透明性和日常可用性。
 
-	\item 设计并实现了可拓展的实验平台。
-在开展交互实验之前，为了提高后续实验的效率，同时解决用户设备多样性带来的稳定性的问题，设计并实现了用于快速开展面诊应用相关实验的实验平台：实现了系统高可用，快速迭代，模型任务模块分离，用户操作记录管理，问卷关联等功能，提高了系统的稳定性，能够应对后面大规模的用户实验场景，并且快速地开展新的实验。
+	\item 设计并实现了可拓展的面诊应用实验平台。
+在开展交互实验之前，为了提高后续实验的效率，同时解决用户设备多样性带来的稳定性的问题，设计并实现了用于快速开展面诊应用相关实验的实验平台：系统实现了系统高可用，快速迭代，模型任务与客户端分离，用户操作记录管理，问卷关联等功能，提高了系统的稳定性，能够应对后面大规模的用户实验场景，并且快速地开展新的实验。
 
 % 通过调用实验平台接口对跨平台客户端进行实现并通过实验验证设计方案的有效性。模型运行在服务器，解决了用户设备的差异性带来的稳定性和性能的问题。
 
 	\item 利用实验平台，分别验证并分析了增加系统透明性和增加日常可用性的设计方案。
-为了验证设计方案，本文分别实现了解决可用性问题的原型和添加解释的原型，并通过实地调研的方式验证了设计方案的有效性。
+为了验证设计方案，本文分别探索了解决可用性问题和添加解释的设计，并通过实地调研的方式验证了设计方案的有效性。
+在实现可解释的设计过程中，探索了如何对系统的背后原理以及影响权重进行解释。
 实验的结果和分析表明，本文提出的提高可用性的设计方案的确能够提高系统使用的便利性，能够方便用户在日常健康的场景下使用；
 而本文提出的增加系统透明性的设计方案，的确能够在目前算法的结果不完美的情况下，提高用户对系统的信赖程度和对结果的接受程度。
 
@@ -269,6 +270,34 @@
 
 \begin{abstract*}
 
+With the rapid development of economy, people nowadays have a faster life and Increasing focus on health issues, however the tight working hours prevent most people from taking the time to go to the hospital to check their health regularly.
+
+In recent years, mobile devices are becoming more and more popular, and the performance of mobile devices has been greatly improved. A large number of tracking technologies in everyday health are under study.
+  
+At the same time, with the rapid development of artificial intelligence technology, the ability of health diagnosis algorithm is also constantly improving, especially face reading technologies made a breakthrough, everyday health diagnosis based on face reading technologies on mobile devices has become possible.
+  
+  
+On one hand, the main application scenario of the existing face diagnosis technologies are in the clinic setting. On the other hand, there are a lot of everyday health management technologies in human-computer interaction (HCI), but these technologies are mainly focus on user health behavior guidance and how to help users better manage chronic diseases.
+  
+In this context, this paper explores how to design the interaction technology of face-to-face diagnosis in the daily environment, puts forward the corresponding design scheme and verifies it through the experimental platform.
+  
+In the view of above, the major work of this paper is as follows:
+  
+  \begin{enumerate}
+  
+  \item Qualitative research on face reading technologies in everyday health using technology probes.
+We conducted a qualitative research to explore the issues of face reading technologies in everyday health and proposed our design implications: Sustainable Everyday Use of Health Technologies, Transparency for Reliability Assessment and Striking a Balance for Everyday Use.
+  
+  \item a platform is designed and implemented for interactive experiment of face reading technologies.
+To improve the efficiency of subsequent experiments and simultaneously solve the stability problems caused by the diversity of user equipment, an experimental platform was designed and implemented for rapid experiments of face reading technologies.
+  
+    \item verify and analyze the design implications of Transparency for Reliability Assessment and Striking a Balance for Everyday Use using the platform.
+  % TODO
+   In order to verify the design scheme, this paper implements the prototype to solve the usability problem and the prototype to add interpretation, and verifies the effectiveness of the design scheme through field research. In the process of realizing the interpretable design, it explores how to explain the back principle and influence weight of the system.
+  The experimental results and analysis show that the design scheme proposed in this paper can indeed improve the convenience of the system, and can facilitate the user to use in the daily healthy scenarios;
+  The design scheme of increasing the transparency of the system proposed in this paper can indeed improve the user's trust and acceptan ce of the results when the current algorithm results are not perfect.
+
+  \end{enumerate}
 \end{abstract*}
 
 % \begin{notation}
