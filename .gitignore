@@ -5,3 +5,7 @@ chapters/*.aux
 *.aux
 *.log
 *.gz
+*.bbl
+*.blg
+*.out
+*.toc

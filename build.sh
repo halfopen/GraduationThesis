@@ -1,6 +1,8 @@
 #!/bin/bash 
-xelatex -synctex=1 -interaction=nonstopmode fduthesis.tex
+xelatex  fduthesis
 
+bibtex fduthesis
 
-rm -rf *.aux
-rm -rf chapters/*.aux
+xelatex fduthesis
+
+xelatex fduthesis
