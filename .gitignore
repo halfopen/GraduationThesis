@@ -9,3 +9,4 @@ chapters/*.aux
 *.blg
 *.out
 *.toc
+*.fdb_latexmk
