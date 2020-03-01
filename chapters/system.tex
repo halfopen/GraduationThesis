@@ -169,34 +169,20 @@ interval字段表示失败或者超时的重试间隔，默认设置为200毫秒
 Flask\footnote{https://palletsprojects.com/p/flask/}是一个基于Python语言的轻量级Web框架，开发者通过极少的代码可以快速实现一个Http服务。服务化的过程是通过Flask框架建立一个Http的服务，把特征提取模型打包成服务。
 
 \begin{lstlisting}[language={Python}, title=server.py]
-# coding: utf-8
-
-from flask import Flask, request
-from handler import Handler
-from flask_json import FlaskJSON, as_json
-
-app = Flask(__name__)
-json = FlaskJSON(app)
-
-@app.route('/', methods = ['POST', 'GET'])
+@app.route('/', methods = ['POST'])
 @as_json
 def serve():
-    if request.method == "GET":
-        return "OK"
-    hdl = Handler(request.form)
-    return hdl.handle()
-
-if __name__ == "__main__":
-    app.run()
+    service = route_request(request)
+    return service.handle()
     
 \end{lstlisting}
 
-本系统对模型的接入规定如server.py所示，每个模型池中的服务，接受http的请求，对传过来的数据进行计算。而Handler根据模型计算能力的不同，需要具体独立实现。在实现Handler的时候需要注意，为了减少服务之间读写的竞争，模型池中的服务只进行计算，不进行对mysql和redis的读写，结果的持久化由服务端完成。Handler的内部逻辑需要把服务设计成无状态：如果模型计算需要创建临时文件，计算结束需要删除临时文件。
+本系统对模型的接入规定如server.py所示，每个模型池中的服务，接受http的请求，对传过来的数据进行计算。每个请求通过路由规则找到需要请求的模型服务。模型服务service根据模型计算能力的不同，需要具体独立实现。在实现service的时候，为了减少服务之间读写的竞争，模型池中的服务只进行计算，不进行对mysql和redis的读写，结果的持久化由服务端完成。service的内部逻辑需要把服务设计成无状态：如果模型计算需要创建临时文件，计算结束需要删除临时文件。使用json作为通讯格式，方便模型服务与系统快速接入。
 
 基于在云中医技术探针工作的基础上， 目前现有两类已实现的模型，特征提取模型(面部和舌部两种)和诊断打分模型，分别有对图片进行特征提取和对特征进行打分的能力。
 特征提取模型对用户输入的特征(面部或者舌部图片)进行特征提取，而诊断打分模型，由一系列规则组成，定义了每一个特征对最终的打分输出影响的规则。
 
-由于模型中的算法来自云中医，不属于本文的工作，因此接下来只介绍模型的输入输出的功能，模型的计算能力如表\ref{tab:face-feature}, 表\ref{tab:tongue-feature}, 表\ref{tab:diag-feature}所示，算法的具体实现不多做介绍。
+由于模型中的算法来自云中医，不属于本文的工作，因此算法的具体实现不多做介绍，接下来只介绍模型的输入输出的功能，模型的计算能力如表\ref{tab:face-feature}, 表\ref{tab:tongue-feature}, 表\ref{tab:diag-feature}所示。
 
 
 \subsection{脸部特征提取模型}
