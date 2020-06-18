@@ -8,6 +8,7 @@
 \usepackage{ctex}
 \usepackage{xcolor}
 \usepackage{listings}
+% \usepackage{pdfpages}
 % \usepackage[AutoFakeBold=true, AutoFakeSlant=true]{xeCJK}
 
 % 引用
@@ -128,7 +129,7 @@
     % 设置校名图片的大小
     % 通常不需要调整
     %
-    % auto-make-cover = true
+    auto-make-cover = false
     % 是否自动生成论文封面(封一)、指导小组成员名单(封二)和声明页(封三)
     % 除非特殊需要(e.g. 不要封面)，否则不建议设为 false
   },
@@ -296,8 +297,11 @@ To address such a gap, this thesis explores how to design FRT based health track
 %   \end{notation}
 % 可选参数与 LaTeX 标准表格的列格式说明语法一致
 % 这里的 “ll” 表示两列均为自动宽度，并且左对齐
-
+% \includepdf{cover.pdf}
 \mainmatter
+
+
+
 % 1.背景介绍
 \include{chapters/intro}
 % 2.相关工作
@@ -321,6 +325,6 @@ To address such a gap, this thesis explores how to design FRT based health track
 
 \normalsize
 % 致谢
-\include{chapters/ack}
+% \include{chapters/ack}
 
 \end{document}
