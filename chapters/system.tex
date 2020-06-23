@@ -483,7 +483,254 @@ Mysql \footnote{https://www.mysql.com/} 是当前比较流行一个关系型的�
     \item 从节点：从节点每次从redis里获取主节点的信息，如果主节点信息无效或者长时间没有心跳(默认设置为两轮心跳周期)，则开始抢占竞选锁，尝试更新redis的信息让自己成为主节点；如果redis的主节点信息已经是本节点，说明上一轮抢占成功，将本节点的角色更新为主节点。 
 \end{enumerate}
 
+\section{交互实现}
 
+\section{交互原型1：日常可用性设计}
+% 介绍原设计存在的缺点
+
+% 在之前的研究中我们发现，目前的面诊交互设计在用户日常使用过程中存在以下问题：
+在之前的研究中我们发现，目前的面诊交互设计在用户日常使用过程中存在以下具体的可用性问题：
+\begin{itemize}
+    \item 舌诊、面诊不能可选。与诊所环境不同，由于文化敏感性的问题，大部分中国人认为公共场合伸出舌头是非常不雅观的行为；部分用户也因为各种原因不愿意在非私人空间下拍自己的面部。这种设计对用户的日常使用产生了非常大的阻碍。
+    \item 操作繁琐。在用户持续使用的时候，用户每次诊断和上一次通常没有太大的变化。每次让用户重复相同的操作不仅非常费时，而且影响使用的积极性。
+\end{itemize}
+
+根据第三章增加日常可用性的思路，本文同样用让用户参与设计过程的设计方法，通过实验平台在线更新设计原型的版本，邀请用户在日常使用的过程中参与迭代过程，最后实现了可用性设计原型。
+
+\subsection{可用性设计原型实现}
+
+\begin{figure}[h]
+    \centering
+    \subfigure[原型入口]{\includegraphics[width=4.5cm]{images/rukou.png}}
+    \subfigure[新设计]{\includegraphics[width=4.5cm]{images/dialog1.png}}
+    \subfigure[原设计]{\includegraphics[width=4.5cm]{images/dialog2.png}}
+    \caption{日常可用性验证实验}
+    \label{fig:interface}
+\end{figure}
+
+
+在原始的云中医的设计中，用户在进行面部舌部拍照后，没有任何提示。具体的结果需要在用户一次回答13个问题之后，点击诊断才能知道面诊是否成功。
+本文在实验平台上，实现了一个用于对比的原型系统， 如图\ref{fig:interface} 所示。在该原型系统的首页，有两个入口，新设计和原设计分别对应本文的设计和云中医的设计，两个设计的功能相同。用户在进入实验原型系统的首页之后，可以自由选择入口，进入对应的界面完成诊断。
+新设计和之前版本的云中医界面不同的是，诊断界面不仅提供了面诊舌诊问诊的入口，同时会将面诊舌诊的照片和中间结果直接显示在当前页面，用户能对于自己当前身体情况一个直观的感受。
+
+\subsubsection{迭代过程}
+\begin{figure}[h]
+    \centering
+    \subfigure[设计1]{
+        \includegraphics[width=3.5cm]{images/old1.png}
+    }
+    \subfigure[设计2]{
+        \includegraphics[width=3.5cm]{images/old2.png}
+    }
+    \subfigure[最终设计]{
+        \includegraphics[width=4.5cm]{images/ui-1-1.png}
+    }
+    \caption{新设计迭代过程}
+    \label{fig:diag_new}
+\end{figure}
+在进行可用性设计的过程中，原型系统经历了多次迭代。每次完成一版之后，我们会邀请小部分用户进行试用收集反馈并及时修改。
+图\ref{fig:diag_new} 展示了部分中间的迭代版本和最终设计，其中设计1中的圆圈代表用户需要回答的问题，圆圈的大小代表影响的权重；
+设计2简化了界面，统一了圆圈的大小；
+最终设计进一步简化了界面元素，并把圆圈改为长方形，方便显示更多的提示信息。
+
+\subsubsection{面诊问诊设计}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[]{images/diag_design.png}
+    \caption{面诊元素设计}
+    \label{fig:diag_design}
+\end{figure}
+
+根据日常可用性的设计思路，新设计简化了诊断的流程，面诊舌诊问诊在一个页面显示，并且所有的问题和操作都是可选的，不会出现必须要先面诊然后舌诊然后才能问诊的问题。其次，如图\ref{fig:diag_design}所示，新界面对面诊和舌诊进行了中间结果的反馈，面诊在用户拍照确认之后，会立即报告本次照片是否合格已经诊断的结果，用户不需要在点击诊断的时候才被提示照片不合格。
+
+\subsubsection{问诊元素设计}
+在问诊方面，新系统实现了最近一次记录保存，由于问题是可选回答的，所以用户只需要回答和自己上次的结果不一致的即可。
+
+\begin{figure}[h]
+    \centering
+    \subfigure[上次回答有症状]{
+        \includegraphics[width=6cm]{images/question/5.png}
+    }
+    \subfigure[上次回答无症状]{
+        \includegraphics[width=6cm]{images/question/4.png}
+    }
+    \subfigure[本次回答有症状]{
+        \includegraphics[width=6cm]{images/question/2.png}
+    }
+    \subfigure[本次回答无症状]{
+        \includegraphics[width=6cm]{images/question/3.png}
+    }
+    \subfigure[未回答]{
+        \includegraphics[width=6cm]{images/question/1.png}
+    }
+    \caption{问诊元素的状态}
+    \label{fig:question_status}
+\end{figure}
+
+同时，如图\ref{fig:question_status}所示，我们对不同问题的回答结果进行了颜色的区分。有色实心代表本次回答，有色空心代表上次回答；橙色代表有症状，绿色代表回答的问题表现良好，没有症状；白色没有填充和边框，为黑字，代表未回答。实心颜色的代表的是用户本次有修改的问诊部分。
+
+在方框内部的问题描述设计上，我们把默认的文字描述，显示为问题描述；一旦用户本次或者上次回答过该问题，则直接显示用户回答的结果。这样做的结果是，第二次用户点进来，就能看到上次的回答结果，这样能够对自己的身体情况有个快速的了解。
+
+\section{交互原型2：系统可解释性设计}
+% \cite{wang2019designing, lim2009and}
+
+根据之前的用户调研的结果来看，当前系统存在以下问题：
+
+\begin{itemize}
+    \item 由于当前诊断和打分模型存在改进的空间，部分的用户对结果产生了怀疑或者对结果不理解的问题。
+    \item 日常场景下，没有专业医护人员的帮助，普通用户由于缺乏对应的专业知识，对应用的理解还有很大的提升空间。
+\end{itemize}
+
+目前主要对提高用户对系统理解程度的方式一般是通过文字、可交互式元素或者可视化的方法描述来暴露算法置信度、暴露中间结果、提供当前数据和原始数据对比等实现\cite{wang2019designing, kocielnik2019will}，其中文字化的描述适合对系统的背景、或者专业名词进行解释；暴露算法的中间结果以及置信度，能激起用户探索算法原理的好奇心以及提高对结果的容忍程度。
+
+在这个理论的基础上，我们希望通过将模型的诊断过程对用户可见，并对结果进行解释，来提高用户的交互体验。
+但是面诊系统在日常生活中的应用是一个全新的场景，需要解释的对象是什么，通过何种交互元素进行解释，仍是未知的问题。
+
+% 系统可解释性可以通过解释算法置信度、算法中间过程等方式实现。因此我们在尝试系统中加入算法的解释性，提升用户的体验。
+
+% 在这个基础上，我们希望通过将模型的诊断过程对用户可见，并对结果进行解释，来提高用户的交互体验。
+
+% 虽然目前已有相关的对系统进行解释的方法\cite{wang2019designing, lim2009and}，如通过解释算法的可信度，暴露原始数据和中间结果，以及通过图表等方式实现结果对比等，增加系统可解释性，可以提高用户的交互体验。
+
+\subsection{可解释设计原型实现}
+
+在第四章中本文详细介绍了目前技术探针中可用的模型，根据本文系统和模型的特点，解释在呈现的时候，实现的解释方法大致可以分为以下几种：
+
+\begin{enumerate}
+%  为什么要解释，文字解释的作用。
+    \item 如图\ref{fig:face_diags}所示，结果中文字结果有提示、可以进行点击。如果用户点击了健康报告的分数，会通过弹窗通过文字描述进行详细的解释。
+
+    \item 如图\ref{fig:question_weight}所示，通过雷达图的可视化方式直接显示对结果的影响，交互性比较强。 
+    
+    \item 如图\ref{fig:report_expalin_score}所示，通过可交互元素折叠列表对不同条件下的计算公式进行解释。
+\end{enumerate}
+
+用户在使用系统的过程中，需要经过面诊、舌诊、问诊等流程，最终得到诊断的结果。为此我们根据交互研究中用户反馈的问题，对用户完成一次诊断的中间流程以及最终的结果都进行了解释。
+
+\subsubsection{面诊舌诊的解释}
+
+\begin{figure}[htbp]   
+    \centering
+    \subfigure[不解释]{\includegraphics[width=4.5cm]{images/face_tongue.png}}
+    \subfigure[解释]{\includegraphics[width=4.5cm]{images/exp_face_tongue.png}}
+    \subfigure[详细解释]{\includegraphics[width=4.5cm]{images/exp_tongue.png}}
+    \caption{面诊舌诊的解释}
+    \label{fig:face_diags}
+\end{figure}
+
+面诊和舌诊流程比较类似，都是通过分析面部或者舌部图片，得到分析结果，因此这两部分合并放到一起解释。
+面诊和舌诊断添加解释主要体现在结果的解释，包括中间结果和对各种体质倾向的影响。
+用户查看解释之后，能够大致了解本次拍照是否成功，并且知道目前面诊的结果，以及可能会对最终的健康报告造成哪些影响。具体如图 \ref{fig:face_diags} 所示：
+
+(a) 没有解释的设计，只能看到结果。
+
+(b) 有解释的设计，通过点击面诊或者舌诊结果，查看对结果的解释。
+
+(c) 点开解释之后，系统会弹窗进行详细的解释，不仅可以看到当面诊断的中间结果，也能看到这次诊断的体质倾向得分。
+
+接下来介绍该原型中各个解释的细节具体如何实现。
+
+
+\subsubsection{问诊的解释}
+
+\begin{figure}[htbp]
+    \centering
+    \subfigure[不解释]{\includegraphics[width=5cm]{images/questions.png}}
+    \subfigure[解释体质术语]{
+        \includegraphics[width=5cm]{images/exp_phy.png}
+    }
+    \caption{问诊的解释}
+    \label{fig:questions}
+\end{figure}
+
+问诊的过程中解释的主要实现，是通过对体质的专业术语和每个答案对结果的影响进行解释，具体实现如图 \ref{fig:questions} 所示:
+
+(a) 不解释的设计，用户回答问诊问题之后，没有任何提示或者解释。
+
+(b) 有解释的设计，用户在进行问诊过程中，可以立即看到每个答案对结果的影响，通过下方的雷达图显示了影响的体质倾向类型和具体的数值。
+雷达图的更新是实时根据用户的选择进行更新的，用户可以通过点击不同的选项查看不同选项对应的雷达图。
+
+(c) 点开体质的解释之后，会通过弹框的方式，对中医术语中，各种体质的解释。对于体质内容的解释文字引用自 《中医体质分类研究》标准\cite{王琦20099}。
+
+
+\subsubsection{诊断结果的解释}
+\begin{figure}[htbp]
+    \centering
+    \subfigure[不解释]{
+        \includegraphics[width=4.5cm]{images/report.png}
+    }
+    \subfigure[解释]{
+        \includegraphics[width=4.5cm]{images/report3.png}
+    }
+    \caption{诊断结果的解释}
+    \label{fig:exp_result}
+\end{figure}
+
+诊断结果的解释主要是对结果的判断依据和相关原理进行解释，具体如 \ref{fig:exp_result} 所示：
+
+(a) 在没有解释的设计中，用户在诊断结果页面，可以看到自己的健康分数和体质结果，并且会在后面给出对应的养生建议和实践，但是给出的结果是不可点击的；
+
+(b) 在有解释的设计中，用户可以点击诊断结果，包括面诊结果、舌诊结果，体质、健康分数。用户点击之后，可以通过之后的弹框，看到详细的解释，如点击健康分数之后，可以了解这个分数是根据哪些指标，通过哪一个算法计算过来的。
+
+从\ref{fig:exp_result} 中我们可以看出有解释的设计中，用户点击结果后，会通过弹框解释结果。可以点击查看的结果的解释有：面诊舌诊结果的解释，健康分数的解释，体质的解释，接下来分别介绍如何实现。
+
+
+
+\subsubsection{健康分数的解释}
+问诊结果的解释主要是对用户解释诊断结果是如何计算，以及那些问诊的问题对结果有影响，影响程度多少。
+
+\begin{figure}[htbp]
+    \centering
+    \subfigure[相关问题]{
+        \includegraphics[width=4.5cm]{images/report7.png}
+    }
+    \subfigure[雷达图]{
+        \includegraphics[width=4.5cm]{images/report8.png}
+    }
+    \subfigure[计算公式]{
+        \includegraphics[width=4.5cm]{images/report9.png}
+    }
+    \caption{健康分数的解释}
+    \label{fig:report_expalin_score}
+\end{figure}
+
+如图\ref{fig:report_expalin_score}所示，用户点击诊断页面的分数之后，弹窗里会显示分数相关的问题、雷达图和分数计算公式。
+
+分数相关问题，展示了面诊舌诊对体质分数的影响和问诊对体质分数的影响，无影响的问题则不会显示。
+
+用户每次回答一个问诊的问题，或者进行面诊舌诊断，都会对体质的倾向分数产生一定的影响。在规则系统中，体质倾向分数的变化分两种，一个是分数的累加，另一种是体质倾向分数的清空。
+
+雷达图对体质分数进行了汇总，给用户展示最终个人的体质倾向的结果。
+
+根据规则系统，解释页面的计算公式一共有5种类别。用户具体属于哪个类别，使用哪一套计算公式，是由用户当前的症状的个数来决定的。
+
+我们使用选项卡的方式，将所有的打分计算公式全部暴露给用户，并且默认打开当前计算公式的选项卡。
+
+\subsubsection{体质的解释}
+
+\begin{figure}[htbp]
+    \centering
+    \subfigure[概念的解释]{
+        \includegraphics[width=4.5cm]{images/report5.png}
+    }
+    \subfigure[影响结果相关问题]{
+        \includegraphics[width=4.5cm]{images/report6.png}
+    }
+    \caption{体质的解释}
+    \label{fig:report_explain_phy_1}
+\end{figure}
+
+如图 \ref{fig:report_explain_phy_1} 所示:
+
+(a) 在解释体质结果之前，我们首先对该体质的特征进行了说明，对体质的概念进行了解释。
+
+(b) 后续，我们将规则系统判断时用到的相关的问题暴露给了用户。用户可以看到自己舌诊、面诊或者问诊中回答的某一个问题，对于该结果的影响。
+% \section{反馈调研}
+% 在新系统完成之后，我们采访了16名用户。
+% 在本次调研过程中，用户试用的是同时有新旧界面的版本，除了第一次介绍使用的时候，我们会让用户两个版本都是使用一下，后续不做限时。用户具体使用的时候可以根据自己的喜好选择。
+% 经过回访，新设计的界面达到了预期，大部分用户觉得使用起来更加地方便。
+% 不过值得注意的是，也有少部分的用户喜欢原设计的将面诊，舌诊，问诊分开为三步进行的方式，因为这样比较符合日常生活的习惯。
 
 \section{本章小结}
 本章介绍了实验平台的方案选型到具体实现，其中实验平台被划分为模型池、服务端和客户端。
