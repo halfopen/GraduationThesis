@@ -141,15 +141,7 @@
     "interval": "200",
     "sync": false
 },
-
-{
-    "name": "diagnosis",
-    "cluster_ip": "https://server_address:32202",
-    "callback":"https://server_address/callback",
-    "timeout": "3000000",
-    "interval": "200",
-    "sync": false
-}
+...
 ]
     
 \end{lstlisting}
@@ -182,9 +174,25 @@ def serve():
 基于在云中医技术探针工作的基础上，目前现有两类已实现的模型，特征提取模型(面部和舌部两种)和诊断打分模型，分别有对图片进行特征提取和对特征进行打分的能力。
 特征提取模型对用户输入的特征(面部或者舌部图片)进行特征提取，而诊断打分模型，由一系列规则组成，定义了每一个特征对最终的打分输出影响的规则。
 
-由于模型中的算法来自云中医，不属于本文的工作，因此算法的具体实现不多做介绍，接下来只介绍模型的输入输出的功能，模型的计算能力如表\ref{tab:face-feature}, 表\ref{tab:tongue-feature}, 表\ref{tab:diag-feature}所示。
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=15cm]{images/model.png}
+    \caption{特诊提取模型}
+    \label{fig:server}
+\end{figure}
+目前用到的模型，基于opencv和svm，实现了图片特征的提取和分类。在每个模型的基础上，最后由一个诊断规则根据每个模型的输出，得到最终的诊断结果。
+svm分类器的训练数据来自各个医院的真实数据。
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=15cm]{images/model2.png}
+    \caption{诊断模型}
+    \label{fig:server}
+\end{figure}
+诊断规则由上海中医药大学和专业的医生编写。
+在后续随机抽取患者的对比实验中，准确率达到了90\%以上。
 
+由于模型中的算法来自云中医，因此算法的具体实现不多做介绍，接下来只介绍模型的输入输出的功能，模型的计算能力如表\ref{tab:face-feature}, 表\ref{tab:tongue-feature}, 表\ref{tab:diag-feature}所示。
 \subsection{脸部特征提取模型}
 
 \begin{table}[h]
@@ -295,9 +303,9 @@ p和q是模型中预设的权重， 症状分数由问题得分计算而来。
 
 \section{服务端}
 
-服务端使用基于Python语言的Django框架 \footnote{https://www.djangoproject.com/}实现，允许有多个服务端实例同时运行，共同处理用户发起的诊断任务，使用redis和mysql进行数据的持久化。
-Redis \footnote{https://redis.io/}是基于内存的分布式数据库，在本系统中主要保存服务端可用节点的信息。
-Mysql \footnote{https://www.mysql.com/} 是当前比较流行一个关系型的数据库，在本系统主要主要保存用户操作信息，任务信息等。       
+服务端使用Python实现，允许有多个服务端实例同时运行，共同处理用户发起的诊断任务，使用redis和mysql进行数据的持久化。
+% Redis \footnote{https://redis.io/}是基于内存的分布式数据库，在本系统中主要保存服务端可用节点的信息。
+% Mysql \footnote{https://www.mysql.com/} 是当前比较流行一个关系型的数据库，在本系统主要主要保存用户操作信息，任务信息等。       
 
 服务端的主要模块如图 \ref{fig:server} 所示, 其中用户操作记录管理提供了网页端的管理界面，能够在线地对用户操作进行查询导出；任务管理为客户端提供了任务提交和结果查询接口，为客户端的面诊、舌诊、问诊提供支持。
 
@@ -483,7 +491,6 @@ Mysql \footnote{https://www.mysql.com/} 是当前比较流行一个关系型的�
     \item 从节点：从节点每次从redis里获取主节点的信息，如果主节点信息无效或者长时间没有心跳(默认设置为两轮心跳周期)，则开始抢占竞选锁，尝试更新redis的信息让自己成为主节点；如果redis的主节点信息已经是本节点，说明上一轮抢占成功，将本节点的角色更新为主节点。 
 \end{enumerate}
 
-\section{交互实现}
 
 \section{交互原型1：日常可用性设计}
 % 介绍原设计存在的缺点
@@ -735,4 +742,4 @@ Mysql \footnote{https://www.mysql.com/} 是当前比较流行一个关系型的�
 \section{本章小结}
 本章介绍了实验平台的方案选型到具体实现，其中实验平台被划分为模型池、服务端和客户端。
 这样，客户端就与模型以及诊断细节实现了独立，只需要关注交互的部分。同时为了方便实验，服务端还提供了用户操作记录管理和问卷关联的功能，方便采集用户信息和后续分析用户行为。
-客户端的具体实现和实验内容密切相关，不同的实验中客户端的具体实现不同，所以客户端的内容在下一章具体介绍。
+在实验平台的基础上，我们实现了两个交互设计，用于后续在实验中验证本文所提出的设计思路的有效性。
