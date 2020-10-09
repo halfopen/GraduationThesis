@@ -1,8 +1,8 @@
 # Fdb version 3
-["pdflatex"] 1599358482 "/Users/bytedance/code/GraduationThesis/fduthesis.tex" "/Users/bytedance/code/GraduationThesis/fduthesis.pdf" "fduthesis" 1599377186
-  "/Users/bytedance/code/GraduationThesis/fduthesis.aux" 1599358482 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/Users/bytedance/code/GraduationThesis/fduthesis.tex" 1599377185 15223 3cb8d252f51157dae9e66700713ba1c9 ""
-  "/dev/null" 1599377180 0 d41d8cd98f00b204e9800998ecf8427e ""
+["pdflatex"] 1602211806 "/Users/bytedance/code/GraduationThesis/fduthesis.tex" "/Users/bytedance/code/GraduationThesis/fduthesis.pdf" "fduthesis" 1602211806
+  "/Users/bytedance/code/GraduationThesis/fduthesis.aux" 1602211806 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/bytedance/code/GraduationThesis/fduthesis.tex" 1602211805 15166 4222c669b576103d4dbec561e37dcac9 ""
+  "/dev/null" 1602211804 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2019/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmr10.tfm" 1136768653 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1136768653 1288 655e228510b4c2a1abe905c368440826 ""
@@ -77,8 +77,8 @@
   "/usr/local/texlive/2019/texmf.cnf" 1557341546 577 d150fef99ac436ad1156e86b0892f6ef ""
   "fduthesis.cls" 1585006439 62625 0e41aca0cab1d49df9633dc6491527b7 ""
   "fduthesis.def" 1585006439 6134 fbd1f7fcc909512854d5cb1805fdcd6f ""
-  "fduthesis.tex" 1599377185 15223 3cb8d252f51157dae9e66700713ba1c9 ""
+  "fduthesis.tex" 1602211805 15166 4222c669b576103d4dbec561e37dcac9 ""
   (generated)
   "/Users/bytedance/code/GraduationThesis/fduthesis.pdf"
-  "fduthesis.log"
   "/Users/bytedance/code/GraduationThesis/fduthesis.log"
+  "fduthesis.log"
