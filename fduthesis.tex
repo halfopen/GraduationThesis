@@ -131,7 +131,7 @@
     % 设置校名图片的大小
     % 通常不需要调整
     %
-    auto-make-cover = false
+    auto-make-cover = true
     % 是否自动生成论文封面(封一)、指导小组成员名单(封二)和声明页(封三)
     % 除非特殊需要(e.g. 不要封面)，否则不建议设为 false
   },
@@ -229,7 +229,7 @@
 
 
 \begin{document}
-\includepdf[pages={1,1}]{ncover.pdf}
+% \includepdf[pages={1,1}]{ncover.pdf}  % 嵌入封面
 % \raggedbottom
 % 这个命令用来关闭版心底部强制对齐，可以减少不必要的 underfull \vbox 提示，但会影响排版效果
 
