@@ -1,4 +1,4 @@
-\chapter{日常场景下面诊系统设计与实现}
+\chapter{面向日常健康的面诊系统的实现}
 
 通过对面诊系统的调研以及上一章节的用户研究，我们的面诊系统主要着重解决以下几点问题：
 
@@ -26,7 +26,7 @@
 % 可用性的解决方案主要分为两块：一个是提高系统的可用性；另一个是重新设计用户友好的交互界面，提升交互的体验。增强用户理解则是通过加入可解释性。
 
 
-\section{面诊系统设计简介}
+\section{系统架构}
 % \subsection{技术探针系统设计}
 % 作为我们技术探针的云中医只有Android版本，核心诊断和打分算法使用c++编写， 分类模型为OpenCV模型。
 % 在具体实现方面，将所有OpenCV格式模型打包到Android安装包中，在Android平台通过Native方法调用动态链接库的方式完成诊断。
@@ -48,9 +48,9 @@ class BaseModel(model):
 \end{lstlisting}
 
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
-    \includegraphics[width=15cm]{images/model.pdf}
+    \includegraphics[width=15cm]{images/model_dag.png}
     \caption{模型调用有向无环图}
     \label{fig:model_dag}
 \end{figure}
@@ -59,13 +59,19 @@ class BaseModel(model):
 
 整个有向无环图有两个特殊的节点，分别是input节点与merge节点。
 
-\subsubsection{input节点}
+\begin{itemize}
+    \item input节点
+\end{itemize}
+
 input节点用于保存用户的原始输入信息，同时触发有向无环图开始执行。
 用户在使用面诊系统的过程中，通常都是一步一步地传入自己信息。
 多个input节点的设计，可以在用户面诊的过程中，动态地执行图中的部分节点，而不是要等待所有输入完成之后再执行。
 此外，input节点还负责用户输入的处理，用于兼容不同输入设备的输入，理论上可以兼容各类不同的硬件输入设备。
 
-\subsubsection{merge节点}
+\begin{itemize}
+    \item merge节点
+\end{itemize}
+
 merge节点用于采集上游节点的输出，并将结果进行合并。
 merge节点可以兼容多输出的场景，在系统需要多个输出的时候，可以把输出节点的叶子节点加上merge节点，merge节点负责将这些结果汇总。
 
@@ -137,15 +143,15 @@ merge节点可以兼容多输出的场景，在系统需要多个输出的时候
 % 方案一的缺点会导致后续的维护成本过大且系统不稳定，考虑到后续需要实现一个灵活可拓展的实验平台，而方案二更符合前面提到的设计理念,且更方便拓展成分布式的系统，本文最终采用方案二。
 
 % \subsection{系统简介}
-\begin{figure}[ht]
+
+
+如图\ref{fig:system}所示，系统整体运行在容器环境下，使用Redis和MySQL作为持久化工具，主要分为三部分：服务端和客户端，算法模型通过容器的方式(docker\footnote{https://www.docker.com/}、kubernetes\footnote{https://kubernetes.io/})服务化成模型池。
+\begin{figure}
     \centering
     \includegraphics[width=15cm]{images/system2.pdf}
     \caption{诊断系统设计}
     \label{fig:system}
 \end{figure}
-
-如图\ref{fig:system}所示，系统整体运行在容器环境下，使用Redis和MySQL作为持久化工具，主要分为三部分：服务端和客户端，算法模型通过容器的方式(docker\footnote{https://www.docker.com/}、kubernetes\footnote{https://kubernetes.io/})服务化成模型池。
-
 客户端包括Android、IOS和Web平台的客户端，与用户交互密切相关，负责用户面诊的流程已经数据上传，通过请求服务端的接口完成面诊和记录用户的操作信息；
 服务端通过调用模型池的相关服务，为客户端提供接口服务。其中静态页面的服务通过nginx提供，服务端则使用Django作为开发框架；
 模型池是指在容器环境下通过容器服务化的方式下所有可用的模型服务的统称，为服务端提供计算服务，完成面部图片分析，舌部图片分析等任务。
@@ -493,7 +499,7 @@ p和q是模型中预设的权重， 症状分数由问题得分计算而来。
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=12cm]{images/sketch.pdf}
+    \includegraphics[width=12cm]{images/sketch2.png}
     \caption{诊断流程}
     \label{fig:sketch}
 \end{figure}
@@ -530,6 +536,7 @@ p和q是模型中预设的权重， 症状分数由问题得分计算而来。
 基于此机制，服务的实现任务分配只由主节点去更新task表，而执行任务时每个节点只会执行分配给自己的任务。
 
 \subsubsection{角色竞选流程}
+
 \begin{figure}
     \centering
     \includegraphics[width=10cm]{images/slave-master.png}
@@ -551,7 +558,7 @@ p和q是模型中预设的权重， 症状分数由问题得分计算而来。
 \end{enumerate}
 
 
-\section{交互设计1：日常可用性设计}
+\section{交互设计策略实现1：日常可用性设计}
 % 介绍原设计存在的缺点
 
 % 在之前的研究中我们发现，目前的面诊交互设计在用户日常使用过程中存在以下问题：
@@ -639,8 +646,7 @@ p和q是模型中预设的权重， 症状分数由问题得分计算而来。
 
 在方框内部的问题描述设计上，我们把默认的文字描述，显示为问题描述；一旦用户本次或者上次回答过该问题，则直接显示用户回答的结果。这样做的结果是，第二次用户点进来，就能看到上次的回答结果，这样能够对自己的身体情况有个快速的了解。
 
-\section{交互原型2：系统可解释性设计}
-% \cite{wang2019designing, lim2009and}
+\section{交互设计策略实现2：系统可解释性设计}
 
 \subsection{设计思路}
 
@@ -663,7 +669,7 @@ p和q是模型中预设的权重， 症状分数由问题得分计算而来。
 
 % 在这个基础上，我们希望通过将模型的诊断过程对用户可见，并对结果进行解释，来提高用户的交互体验。
 
-% 虽然目前已有相关的对系统进行解释的方法\cite{wang2019designing, lim2009and}，如通过解释算法的可信度，暴露原始数据和中间结果，以及通过图表等方式实现结果对比等，增加系统可解释性，可以提高用户的交互体验。
+% 虽然目前已有相关的对系统进行解释的方法\cite{wang2019designing}，如通过解释算法的可信度，暴露原始数据和中间结果，以及通过图表等方式实现结果对比等，增加系统可解释性，可以提高用户的交互体验。
 
 \subsection{可解释设计实现}
 
