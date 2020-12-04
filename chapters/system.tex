@@ -1,4 +1,4 @@
-\chapter{面向日常健康的面诊系统的实现}
+\chapter{面向日常健康的面诊系统设计}
 
 通过对面诊系统的调研以及上一章节的用户研究，我们的面诊系统主要着重解决以下几点问题：
 
@@ -47,6 +47,7 @@ class BaseModel(model):
     
 \end{lstlisting}
 
+其中输入和输出以json的方式记录，type用于记录模型的类型，next models 用于指定节点的下游，status表示节点状态。
 
 \begin{figure}
     \centering
