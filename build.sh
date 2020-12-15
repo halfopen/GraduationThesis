@@ -1,8 +1,1 @@
-#!/bin/bash 
-xelatex  fduthesis
-
-bibtex fduthesis
-
-xelatex fduthesis
-
-xelatex fduthesis
+latexmk -pvc -xelatex fduthesis.tex
