@@ -273,7 +273,6 @@ INPUT chapters/relatework.tex
 INPUT chapters/relatework.tex
 INPUT images/mzy.png
 INPUT images/SMF.jpg
-INPUT images/yzy.png
 INPUT images/mirror.png
 OUTPUT chapters/user_study.aux
 INPUT chapters/user_study.tex
