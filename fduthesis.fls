@@ -268,6 +268,7 @@ INPUT chapters/intro.tex
 INPUT chapters/intro.tex
 INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/listings/lstlang1.sty
 INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/listings/lstlang1.sty
+INPUT images/face777.png
 OUTPUT chapters/relatework.aux
 INPUT chapters/relatework.tex
 INPUT chapters/relatework.tex
