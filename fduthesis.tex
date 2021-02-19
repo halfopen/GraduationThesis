@@ -252,13 +252,14 @@
 
 本文探索了面向日常健康场景中的面诊系统设计与实现，主要工作如下:
 
-1.利用技术探针方法揭示面诊技术应用在日常健康场景下存在的交互设计问题。
+1.利用技术探针方法揭示面诊技术应用在日常健康场景下存在的交互设计问题并提出设计策略。
 技术探针是人机交互领域中一种用户参与的设计方法，该方法能够把用户带到真实的场景中来收集用户相关信息。
-为了解决当前面诊系统不能应用到日常健康场景的问题，本文通过人机交互设计方法做了以下探索：开发出云中医应用作为技术探针，招募用户在其日常生活中进行为期3周的实地试用，并对他们使用前后的体验进行深度用户访谈。
+为了解决当前面诊系统不能应用到日常健康场景的问题，本文通过人机交互设计方法做了以下探索：(1) 开发出云中医应用作为技术探针，招募用户在其日常生活中进行为期3周的实地试用，并对他们使用前后的体验进行深度用户访谈。
 通过定性分析转录成文字后的访谈资料，发现了面诊技术在日常健康场景下会遇到持续使用、实用性、敏感性、情绪与信赖相关的交互设计问题，以及用户设备多样性带来的稳定性问题等方面的问题。
+(2) 针对发现的问题，本文提出了对应的设计策略：增加系统可解释性、提高日常可用性、支持可持续使用等方面以指导未来的面诊系统设计。
 
-2.针对之前发现的面诊技术应用于日常健康场景存在的设计问题，提出了相应的系统交互设计方案。
-(1) 在交互设计层面，初步提出了对应的设计策略：增加系统可解释性、提高日常可用性，以解决系统实用性和用户信赖的问题。
+2.针对之前发现的面诊技术应用于日常健康场景存在的设计问题，根据交互策略提出了相应的系统设计方案。
+(1) 在交互设计层面，通过优化面诊交互流程、基于任务拆分对中间结果的解释、对结果和诊断规则的合理可视化展示等方式，以解决系统实用性和用户信赖的问题。
 (2) 在系统设计层面，提出了一个通用的可解释的面诊系统设计，为当前众多类别的面诊系统设计提供了统一的解决方案，并通过相应的模块设计解决了相关的系统设计问题：
 通过跨平台和模型服务化解决用户设备多样性和系统性能及稳定性问题；通过诊断任务拆分和管理解决系统可解释性问题，同时提高资源利用率；
 通过基于有向无环图的模型管理，解决面诊算法更新迭代的问题。
@@ -273,14 +274,14 @@
 With the rapid development of economy, people nowadays have a faster life pace and growing concern on health issues. With the increasing advancement and popularity of mobile devices, more and more mobile applications for everyday health are being explored, including intelligent health diagnosis applications based on Face Reading Technologies (FRT). However, so far, while FRT based intelligent health diagnosis applications are technically feasible to be used on mobile devices in everyday settings, so far their uses are mainly limited to clinic settings. At the same time, although there is extensive work on everyday health management in the field of human-computer interaction (HCI), the work mainly focuses on persuasiveness for user health behavior change and how to help them better manage chronic diseases. It is still underexplored how FRT based intelligent health diagnosis applications should be designed for everyday health.
 To address such a gap, this thesis explores how to design FRT based health diagnosis applications to be integrated in everyday settings. The major work is as follows: 
 
-1.	Qualitative research on face reading technologies in everyday health using technology probes. We conducted a qualitative research to explore the issues of face reading technologies in everyday health and proposed our design implications: Sustainable Everyday Use of Health Technologies, Transparency for Reliability Assessment and Striking a Balance for Everyday Use. 
+1.	Qualitative research on face reading technologies in everyday health using technology probes. We conducted a qualitative research based on technology probe to explore the issues of face reading technologies in everyday health and proposed our design implications: Sustainable Everyday Use of Health Technologies, Transparency for Reliability Assessment and Striking a Balance for Everyday Use. 
 
 2.	System design of Face diagnosis system for everyday health. 
-In interaction design, the corresponding design strategy was proposed: increase the interpretability of the system and improve the daily usability, so that we can enhance the practicality and user's trust of the system;
+In interaction design, we optimized the diagnosis process and provided a better explaination of backgroud thesis and final results, so that we can enhance the practicality and user's trust of the system;
 In system design, we designed a diagnosis system with cross-platform, distributed model, diagnosis task decomposition and management based on DAG, which improves the stability of the face diagnosis system and able to response to large-scale case, which can also reduce the cost of model iteration, and provide a unified solution for the design of many types of face diagnosis systems.
 
 3.	Implementation and verification of the system design.
-Based on cross-platform design, face diagnosis model management, diagnosis task task decomposition and other modules, we solved the stability and performance problems caused by the differences of user's equipment; In interactive design, we increased system interpretability and daily usability. Finally, two experiments of system performance analysis and user experience evaluation were conducted and verified our system.
+Based on our system design, we implemented a face diagnosis system for everyday health. Finally, two experiments of system performance analysis and user experience evaluation were conducted and verified our system.
 
 
 \end{abstract*}
