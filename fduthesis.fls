@@ -276,6 +276,7 @@ INPUT images/face_detcetion.png
 INPUT images/roi.png
 INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/listings/lstlang1.sty
 INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/listings/lstlang1.sty
+INPUT images/container.png
 OUTPUT chapters/user_study.aux
 INPUT chapters/user_study.tex
 INPUT chapters/user_study.tex
