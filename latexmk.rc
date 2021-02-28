@@ -1,0 +1,2 @@
+#latexmkrc
+$clean_ext = "bbl nav out snm";
