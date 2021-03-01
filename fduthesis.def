@@ -114,7 +114,7 @@
 \clist_map_inline:nn
   {
     { abstract } { 摘 \quad 要 } { Abstract          },
-    { keywords } { 关键字      } { Keywords:         },
+    { keywords } { 关键词      } { Keywords:         },
     { clc      } { 中图分类号  } { CLC~ number:      },
     { notation } { 符号表      } { List~ of~ Symbols }
   }

@@ -1465,7 +1465,7 @@
   {
     \__fdu_keywords:nNn
       { \sffamily \c__fdu_name_keywords_tl \c__fdu_fwid_colon_tl }
-      \l__fdu_info_keywords_clist { \c__fdu_fwid_semicolon_tl }
+      \l__fdu_info_keywords_clist { , ~ }
     \__fdu_clc:nn
       { \sffamily \c__fdu_name_clc_tl \c__fdu_fwid_colon_tl }
       { \l__fdu_info_clc_tl }
@@ -1474,7 +1474,7 @@
   {
     \__fdu_keywords:nNn
       { \bfseries \c__fdu_name_keywords_en_tl \__fdu_quad: }
-      \l__fdu_info_keywords_en_clist { ; ~ }
+      \l__fdu_info_keywords_en_clist { , ~ }
     \__fdu_clc:nn
       { \bfseries \c__fdu_name_clc_en_tl \__fdu_quad: }
       { \l__fdu_info_clc_tl }

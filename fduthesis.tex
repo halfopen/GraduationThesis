@@ -1,4 +1,31 @@
-\documentclass[type=master]{fduthesis}
+\documentclass[twoside,type=master]{fduthesis}
+\ExplSyntaxOn
+% \tl_set:Nn \c__fdu_name_major_tl { 学位类别（领域） }
+% \__fdu_patch_cmd:Nnn \__fdu_cover_info: { 6em } { 7.5em }  % 7.5em 视情况而定
+% 或者
+\tl_set:Nn \c__fdu_name_major_tl { 专业学位类别（领域） }
+\__fdu_patch_cmd:Nnn \__fdu_cover_info: { 6em } { 9em }
+\ExplSyntaxOff
+
+\makeatletter
+\ExplSyntaxOn
+
+
+% 在偶数页左侧添加标题，奇数页右侧添加章名称
+\fancyhead [ EL ] { \small \nouppercase { \fdu@kai \l__fdu_info_title_tl  } }
+\fancyhead [ OR ] { \small \nouppercase { \fdu@kai \leftmark } }
+% 每页的页眉都换成标题+章名称，不分奇偶
+% \pagestyle{fancy}
+% \fancyhead{}
+% \fancyhead [ L ] { \tiny \nouppercase { \fdu@kai \l__fdu_info_title_tl  } }
+% \fancyhead [ R ] { \tiny \nouppercase { \fdu@kai \leftmark } }
+
+% 前置部分（fontmatter）都用大写罗马字体
+\ctex_patch_cmd:Nnn \frontmatter
+  { roman } { Roman }
+\ExplSyntaxOff
+\makeatother
+
 \usepackage{pdfpages} 
 \usepackage{subfigure}
 \usepackage{graphics}
@@ -279,7 +306,7 @@
 \begin{abstract*}
 
 With the rapid development of economy, people nowadays have a faster life pace and growing concern on health issues. 
-Along with the increasing advancement and popularity of mobile devices, more and more mobile applications for everyday health are being explored, including intelligent health diagnose applications based on Face Reading Technologies (FRT). However, so far, while FRT based intelligent health diagnose applications are technically feasible to be used on mobile devices in everyday settings, but their uses are mainly still limited to clinic settings. At the same time, although there is extensive work on everyday health management in the field of Human-computer Interaction (HCI), their work mainly focuses on persuasiveness for user health behavior change and how to help them better manage chronic diseases. It is still under underexplored on how FRT based intelligent health diagnose applications should be designed for everyday health.
+Along with the increasing advancement and popularity of mobile devices, more and more mobile applications for everyday health are being explored, including intelligent health diagnose applications based on Face Reading Technologies (FRT). However, while FRT based intelligent health diagnose applications are technically feasible to be used on mobile devices in everyday settings, but their uses are mainly still limited to clinic settings. At the same time, although there is extensive work on everyday health management in the field of Human-computer Interaction (HCI), their work mainly focuses on persuasiveness for user health behavior change and how to help them better manage chronic diseases. It is still under underexplored on how FRT based intelligent health diagnose applications should be designed for everyday health.
 To address such a gap, this thesis explores how to design FRT based health diagnose applications to be integrated in everyday settings. The major work is as follows: 
 
 1. User-centered study on face diagnose technologies in everyday health using technology probes. 
