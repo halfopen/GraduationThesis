@@ -57,7 +57,7 @@
     \caption{新设计迭代过程}
     \label{fig:diag_new}
 \end{figure}
-在进行可用性设计的过程中，原型系统经历了多次迭代。每次完成一版之后，我们会邀请小部分用户进行试用收集反馈并及时修改。
+在进行可用性设计的过程中，原型系统经历了多次迭代。每次完成一版之后，本文会邀请小部分用户进行试用收集反馈并及时修改。
 图\ref{fig:diag_new}展示了部分中间的迭代版本和最终设计，其中设计1中的圆圈代表用户需要回答的问题，圆圈的大小代表影响的权重；
 设计2简化了界面，统一了圆圈的大小；
 最终设计进一步简化了界面元素，并把圆圈改为长方形，方便显示更多的提示信息。
@@ -303,7 +303,7 @@ class BaseModel(model):
 如图\ref{fig:system}所示，系统整体运行在容器环境下，使用Redis和MySQL作为持久化工具，主要分为三部分：服务端和客户端，算法模型通过容器的方式服务化成模型池。
 \begin{figure}
     \centering
-    \includegraphics[width=15cm]{images/system2.pdf}
+    \includegraphics[width=15cm]{images/system2.png}
     \caption{诊断系统设计}
     \label{fig:system}
 \end{figure}
@@ -559,7 +559,7 @@ p和q是模型中预设的权重， 症状分数由问题得分计算而来。
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=15cm]{images/server.pdf}
+    \includegraphics[width=15cm]{images/server.png}
     \caption{服务端主要模块设计}
     \label{fig:server}
 \end{figure}

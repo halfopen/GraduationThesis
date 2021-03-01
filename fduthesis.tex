@@ -104,7 +104,7 @@
     % 允许选项：
     %   bib-backend = bibtex|biblatex
     %
-    % bib-style = plain,
+    bib-style = numerical,
     % 参考文献样式
     % 允许选项：
     %   bib-style = author-year|numerical|<其他样式>
@@ -151,14 +151,14 @@
     title* = {Design and Implementation of Face Diagnose System for Everyday Health},
     % 英文标题
     %
-    author = {秦贤康},
+    % author = {秦贤康},
     % 作者姓名
     %
     % author* = {Your name},
     % 作者姓名(英文 / 拼音)
     % 目前不需要填写
     %
-    supervisor = {丁向华\quad 副教授},
+    % supervisor = {丁向华\quad 副教授},
     % 导师
     % 姓名与职称之间可以用 \quad 打印一个空格
     %
@@ -168,7 +168,7 @@
     department = {计算机科学与技术},
     % 院系
     %
-    student-id = {17210240182},
+    % student-id = {17210240182},
     % 专硕
     %
     degree = professional,
@@ -192,11 +192,13 @@
     % 保密年限
     % secret-level = none 时该选项无效
     %
+    % instructors = {
+    %   {顾\quad 宁 \quad 教\quad 授},
+    %   {张\quad 亮 \quad 教\quad 授},
+    %   {丁向华 \quad 副教授},
+    %   {卢\quad 暾 \quad 教\quad 授}
+    % },
     instructors = {
-      {顾\quad 宁 \quad 教\quad 授},
-      {张\quad 亮 \quad 教\quad 授},
-      {丁向华 \quad 副教授},
-      {卢\quad 暾 \quad 教\quad 授}
     },
     % 指导小组成员
     % 使用英文逗号 “,” 分隔
@@ -279,18 +281,18 @@
 With the rapid development of economy, people nowadays have a faster life pace and growing concern on health issues. With the increasing advancement and popularity of mobile devices, more and more mobile applications for everyday health are being explored, including intelligent health diagnosis applications based on Face Reading Technologies (FRT). However, so far, while FRT based intelligent health diagnosis applications are technically feasible to be used on mobile devices in everyday settings, so far their uses are mainly limited to clinic settings. At the same time, although there is extensive work on everyday health management in the field of human-computer interaction (HCI), the work mainly focuses on persuasiveness for user health behavior change and how to help them better manage chronic diseases. It is still underexplored how FRT based intelligent health diagnosis applications should be designed for everyday health.
 To address such a gap, this thesis explores how to design FRT based health diagnosis applications to be integrated in everyday settings. The major work is as follows: 
 
-1.	Qualitative research on face diagnose technologies in everyday health using technology probes. 
+1. Qualitative research on face diagnose technologies in everyday health using technology probes. 
 We made the first atempt to conduct a qualitative research based on technology probe to explore the issues of face diagnose technologies in everyday health.
 
 2. Discovered related problems in face diagnose system through our technology probe and proposed our design implications.
 In this paper, We proposed our design implications: Sustainable Everyday Use of Health Technologies, Transparency for Reliability Assessment and Striking a Balance for Everyday Use. 
 
-3.	System design of Face diagnosis system for everyday health. 
+3. System design of Face diagnosis system for everyday health. 
 In interaction design, we optimized the diagnosis process and provided a better explaination of backgroud thesis and final results, so that we can enhance the practicality and user's trust of the system;
 In system design, we designed a diagnosis system with cross-platform, distributed model, diagnosis task decomposition and management based on DAG, which improves the stability of the face diagnosis system and able to response to large-scale case, which can also reduce the cost of model iteration, and provide a unified solution for the design of many types of face diagnosis systems.
 
-4.	Implementation and verification of the system design.
-Based on our system design, we implemented a face diagnosis system for everyday health. Finally, two experiments of system performance analysis and user experience evaluation were conducted and verified our system.
+4. Implementation and verification of the system design.
+Based on our system design, we implemented a face diagnosis system for everyday health. Finally, two experiments about system performance analysis and user experience evaluation were conducted and verified our system.
 
 
 \end{abstract*}
@@ -338,6 +340,8 @@ Based on our system design, we implemented a face diagnosis system for everyday 
 \small
 % \bibliographystyle{plain}
 \bibliography{bibliography}
+% \bibliographystyle{unsrt} 
+
 
 % % 打印参考文献列表
 
