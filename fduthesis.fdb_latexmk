@@ -1,8 +1,8 @@
 # Fdb version 3
-["pdflatex"] 1614680543 "/Users/bytedance/code/GraduationThesis/fduthesis.tex" "/Users/bytedance/code/GraduationThesis/fduthesis.pdf" "fduthesis" 1614687838
-  "/Users/bytedance/code/GraduationThesis/fduthesis.aux" 1614680543 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/Users/bytedance/code/GraduationThesis/fduthesis.tex" 1614656533 16395 e246d8d72faf9af95d15c792e61be662 ""
-  "/dev/null" 1614687837 0 d41d8cd98f00b204e9800998ecf8427e ""
+["pdflatex"] 1614786169 "/Users/bytedance/code/GraduationThesis/fduthesis.tex" "/Users/bytedance/code/GraduationThesis/fduthesis.pdf" "fduthesis" 1614786282
+  "/Users/bytedance/code/GraduationThesis/fduthesis.aux" 1614786169 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/bytedance/code/GraduationThesis/fduthesis.tex" 1614779408 17385 b12768b5e13407f381e3c6a0688dbbbc ""
+  "/dev/null" 1614786282 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2019/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmr10.tfm" 1136768653 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1136768653 1288 655e228510b4c2a1abe905c368440826 ""
@@ -75,10 +75,10 @@
   "/usr/local/texlive/2019/texmf-dist/web2c/texmf.cnf" 1557092114 35484 cb1661360667bf4db662a8895053b554 ""
   "/usr/local/texlive/2019/texmf-var/web2c/pdftex/pdflatex.fmt" 1585014005 4259636 153beda274e18c70b314344f9203450d ""
   "/usr/local/texlive/2019/texmf.cnf" 1557341546 577 d150fef99ac436ad1156e86b0892f6ef ""
-  "fduthesis.cls" 1614608462 62603 22fa1ee6a0b39f2012d0b26df4b003ce ""
-  "fduthesis.def" 1614599585 6134 3bef4772a68f0d03062c50edf7d9b30a ""
-  "fduthesis.tex" 1614656533 16395 e246d8d72faf9af95d15c792e61be662 ""
+  "fduthesis.cls" 1614738109 62603 22fa1ee6a0b39f2012d0b26df4b003ce ""
+  "fduthesis.def" 1614738109 6134 3bef4772a68f0d03062c50edf7d9b30a ""
+  "fduthesis.tex" 1614779408 17385 b12768b5e13407f381e3c6a0688dbbbc ""
   (generated)
   "fduthesis.log"
-  "/Users/bytedance/code/GraduationThesis/fduthesis.log"
   "/Users/bytedance/code/GraduationThesis/fduthesis.pdf"
+  "/Users/bytedance/code/GraduationThesis/fduthesis.log"
