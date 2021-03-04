@@ -1,4 +1,9 @@
-\documentclass[twoside,type=master]{fduthesis}
+\documentclass[oneside,type=master]{fduthesis}
+
+
+% \setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=0pt}
+% \setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=0pt}
+% \setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=0pt}
 % \ExplSyntaxOn
 % % \tl_set:Nn \c__fdu_name_major_tl { 学位类别（领域） }
 % % \__fdu_patch_cmd:Nnn \__fdu_cover_info: { 6em } { 7.5em }  % 7.5em 视情况而定
@@ -64,6 +69,14 @@
 \usepackage{listings}
 \usepackage{url}
 \usepackage[ruled,vlined]{algorithm2e}
+
+\usepackage{paralist}
+\let\itemize\compactitem
+\let\enditemize\endcompactitem
+\let\enumerate\compactenum
+\let\endenumerate\endcompactenum
+\let\description\compactdesc
+\let\enddescription\endcompactdesc
 
 % \usepackage{pdfpages}
 % \usepackage[AutoFakeBold=true, AutoFakeSlant=true]{xeCJK}
