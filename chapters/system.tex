@@ -106,14 +106,14 @@
 \subsection{设计策略}
 
 根据之前的用户研究的结果来看，当前系统存在以下问题：
-\begin{itemize}
+\begin{enumerate}
     \item 专业术语带来的理解问题。
     由于当前诊断和打分模型存在改进的空间，部分的用户对结果产生了怀疑或者对结果不理解的问题。同时，日常健康场景下，没有专业医护人员的帮助，普通用户由于缺乏对应的专业知识，对应用的理解还有很大的提升空间。
     \item 系统准确度带来的信赖问题。
     在面诊系统由权威的诊所迁移到日常健康场景后，许多用户对系统的结果持怀疑态度，从而导致他们不信赖系统。在没有其他的评估机制验证结果有效性的前提下，也会让用户对系统产生怀疑。
     \item 诊断结果可视化带来的情绪问题。
     直白地展示诊断结果，特别是系统给出负面结果时，会让用户产生明显的消极情绪并放弃继续使用。
-\end{itemize}
+\end{enumerate}
 
 
 目前提高用户对系统理解程度的方式一般是通过文字、可交互式元素或者可视化的方法描述来暴露算法置信度、暴露中间结果、提供当前数据和原始数据对比等实现\cite{wang2019designing, kocielnik2019will}，
@@ -223,6 +223,9 @@
 \end{figure}
 
 如图\ref{fig:report_expalin_score}所示，用户点击诊断页面的分数之后，弹窗里会显示分数相关的问题、雷达图和分数计算公式。
+% qinxiankang
+解释界面默认不展示，只有当用户对分数感兴趣或者感到疑惑时，主动点击分数才会弹出。
+
 分数相关问题展示了面诊舌诊对体质分数的影响和问诊对体质分数的影响，无影响的问题则不会显示。
 用户每次回答一个问诊的问题，或者进行面诊舌诊断，都会对体质的倾向分数产生一定的影响。在规则系统中，体质倾向分数的变化分两种，一个是分数的累加，另一种是体质倾向分数的清空。
 雷达图对体质分数进行了汇总，给用户展示最终个人的体质倾向的结果。
@@ -292,7 +295,7 @@ class BaseModel(model):
 如图\ref{fig:system}所示，系统整体运行在容器环境下，使用Redis和MySQL作为持久化工具，主要分为三部分：服务端和客户端，算法模型通过容器的方式服务化成模型池。
 \begin{figure}
     \centering
-    \includegraphics[width=12cm]{images/server3.JPG}
+    \includegraphics[width=15cm]{images/server3.JPG}
     \caption{系统设计}
     \label{fig:system}
 \end{figure}
@@ -309,7 +312,179 @@ class BaseModel(model):
 服务端收到请求之后，进行任务分配，对分配到任务的服务端实例，调用模型池中对应的模型完成特征提取或诊断打分，同时将数据持久化到MySQL为可解释交互提供数据，然后把结果返回给客户端。
 客户端收到服务端的结果后，进行结果的展示。
 
+\section{面诊模型}
+\label{sec:diagnose_model}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=15cm]{images/cloud_med2.png}
+    \caption{云中医模型处理流程}
+    \label{cloudmed}
+\end{figure}
+
+
+\subsection{面部特征提取}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=15cm]{images/face_feature.png}
+    \caption{面部特征提取}
+    \label{fig:face_feature}
+\end{figure}
+
+\begin{table}[h]
+    \centering
+    \caption{面部特征提取}
+    \begin{tabular}{lll}
+        \toprule
+        特征          & 特征描述     & 特征内容 \\ 
+        \midrule
+        faceDetectRes & 是否检测到人脸   & 0:未检测出人脸、1:成功检测出人脸  \\
+        faceColor     & 面部颜色 & 0:面白，1:面黑、2:面红、3:面黄、4:面青、5:正常 \\
+        faceGloss     & 面部光泽 & 0:有光泽、1:少光泽、2:无光泽\\
+        lipDetectRes  & 是否检测到嘴唇   & 0:未检测出嘴唇、1:成功检测出嘴唇\\
+        lipColor      & 嘴唇颜色 & 0:淡白、1:淡红、2:红、3:暗红、4:紫   \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:face-feature}
+\end{table}
+
+% 如表\ref{tab:face-feature}所示，面部特征提取，输入为面部特征图片，输出有以下几个维度：
+% \begin{enumerate}
+%     \item 是否检测到人脸(faceDetectRes)：如果没有检测到人脸，则剩余所有维度无效，且取值为0。
+
+%     \item 是否检测到嘴唇(lipDetectRes)： 如果没有检测到嘴唇，嘴唇颜色的结果无效且取值必定为0。
+
+%     \item 面部颜色、面部光泽(faceColor、faceGloss) ： 面色和光泽是对预处理之后的图片，去除眼口鼻区域的图片进行面色和光泽信息提取的结果。
+
+%     \item 嘴唇颜色(lipColor)： 嘴唇颜色的结果从浅到深分别为淡白、淡红、红、暗红、紫。
+% \end{enumerate}
+
+\subsubsection{人脸检测}
+
+\subsubsection{肤色特征提取}
+
+\subsubsection{唇部特征提取}
+
+
+
+
+
+\subsection{舌部特征提取}
+
+\begin{table}[h]
+    \centering
+    \caption{舌部特征提取}
+    \begin{tabular}{lll}
+        \toprule
+        特征 & 特征描述 & 特征内容 \\ 
+        \midrule
+        tongueDetectRes & 是否检测到舌体 & 0:未检测出舌像、1:成功检测出舌像 \\
+        tongueCrack & 舌裂纹 & 0:未检测到裂纹、1:成功检测到裂纹 \\ 
+        tongueFatThin & 舌胖瘦 & 0:正常(瘦)、1:胖舌 \\
+        tongueCoatThickness & 舌苔厚薄 & 0:薄、1:厚 \\
+        tongueCoatColor & 舌苔颜色 & 0:苔白、1:苔黄 \\
+        tongueNatureColor & 舌质颜色 & 0:舌暗红、1:舌淡白、2:舌淡红、3:舌红、4:舌紫\\
+        \bottomrule
+    \end{tabular}
+    \label{tab:tongue-feature}
+\end{table}
+
+\subsection{裂纹提取}
+
+\subsubsection{WaterFlow算法}
+
+
+
+\subsection{诊断规则}
+
+\begin{table}[h]
+    \caption{诊断规则输出特征}
+    \begin{center}
+        \begin{tabular}{lll}
+            \toprule
+            特征 & 特征描述 & 特征内容 \\ 
+            \midrule
+            healthScore & 健康分数 & 0-100 \\
+            healthType & 是否包含某种体质 & {[}0, 0, 0, 0, 0, 0, 0{]} \\ 
+            questionScore & 各种问题的体质得分 & {[}0, 0, 0, 0, 0, 0, 0{]} \\
+            symCount & 各种体质症状个数 & {[}0, 0, 0, 0, 0, 0, 0{]} \\
+            symNum & 总体体质症状个数 & 0-13 \\
+            baseScore & 基本分数 & 0-100 \\
+            phy & 体质结果 & 8种体质中的一种\footnote{7种体质倾向，如无任何倾向则为健康}\\
+            \bottomrule
+        \end{tabular}
+    \end{center}
+    \label{tab:diag-feature}
+\end{table}
+
+
+\begin{algorithm}[htbp]
+\caption{诊断规则}%算法名字
+\label{al:diag}
+\LinesNumbered %要求显示行号
+\KwIn{问诊回答questions、面部特征faceResult、舌部特征tongResult}%输入参数
+\KwOut{phy、health等健康特征和中间结果}%输出
+phy=健康，healthScore=100\\
+初始化规则权重p、症状权重q\\
+\For{问题回答ans in 所有问诊回答questions}{
+    \If{ans不满足预处理校验规则}{
+        ans = 修正回答结果\\
+    }
+}
+questionScore = 解析问诊结果\\
+symNum = 解析questionScore, faceResult, tongueResult\\
+symNum = sorted(symNum)\\ 
+\For{sym in symNum}{
+    \If{sym > 0} {
+        symCount++\\
+    }
+}
+\If{满足规则1}{
+    重置baseScore\\
+    更新healthType\\
+    healthScore = baseScore*p + symNum[i]*q\\
+    ...\\
+}
+\If{满足规则2}{
+    重置baseScore\\
+    更新healthType\\
+    healthScore = baseScore*p + symNum[i]*q\\
+    ...\\
+}
+...\\
+phy = 从排序后的symNum中获取体质倾向\\
+\If{没有症状、没有体质倾向}{
+    phy = 健康\\
+    healthScore = 100\\
+}
+打包健康特征返回结果\\
+\end{algorithm}
+    
+基于规则的诊断打分算法具体流程如算法\ref{al:diag}所示，对应的参数说明如表\ref{tab:diag-feature}所示。
+最终诊断打分模型的体质结果输出为阳虚、阴虚、痰湿、瘀滞、脾虚、肾虚、气虚、健康中的一种，具体的特征说明如下：
+\begin{enumerate}
+    \item 健康分数(healthScore)： 打分的最终健康分数，由baseScore、symsNum、questionScore计算而来。
+
+    \item 体质类型(healthType): 大小为7的数组，对应阳虚、阴虚、痰湿、瘀滞、脾虚肾虚、气虚、健康。如果包含某个体质，对应位置的值为1。
+
+    \item 问题得分(questionScore): 一共有13个问题，每个问题都会影响最终体质的倾向得分， questionScore是所有问题的得分的累加。
+
+    \item 症状个数(symCount)： 13个问诊问题中，对应有某个体质特征的症状的累加。
+
+    \item 总体症状个数(symNum): symCount的求和。
+
+    \item 基本分数(baseScore): 诊断任务中，healthScore = baseScore*p + 症状分数*q ，对应不同的症状个数，计算最终得分用的baseScore是不一样的。 
+p和q是模型中预设的权重， 症状分数由问题得分计算而来。
+
+    \item 体质结果(phy): 和healthType对应，给出用户的体质倾向。
+\end{enumerate}
+
+诊断规则的最终输出是健康分数(baseScore)和体质结果(phy)，其他的特征输出，是为了后续的算法可解释性做准备。
+
+
 \section{模型池}
+\label{sec:model_pool}
 % 什么是模型池
 本文提出一个模型池的概念将面诊模型与服务端解耦，方便以后更新模型。模型池由多个独立可用的模型服务构成，每个服务对应模型调用有向无环图的一个节点，节点和节点之间通过http接口调用完成和服务端的交互进行任务处理。
 
@@ -374,174 +549,6 @@ interval字段表示失败或者超时的重试间隔，默认设置为200毫秒
 
 服务的稳定性和高可用需要做到服务之间相互独立和多实例同时运行，模型服务使用Docker进行打包，通过K8s管理多个模型高实现可用。
 服务端通过K8s提供的cluster ip进行调用，这样能保证在大量用户同时请求模型服务时，某个模型服务如果出错，集群中的其他模型服务能够响应请求。
-
-\subsection{现有模型概况}
-
-本系统提供了对各类诊断模型的支持，并不只是局限于以下提到的特定模型。
-基于在云中医技术探针工作的基础上，目前现有两类已拆分的模型，特征提取模型(面部和舌部两种)和诊断打分模型，分别有对图片进行特征提取和对特征进行打分的能力。
-特征提取模型对用户输入的特征(面部或者舌部图片)进行特征提取，而诊断打分模型，由一系列规则组成，定义了每一个特征对最终的打分输出影响的规则。
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=15cm]{images/model.png}
-    \caption{特征提取模型}
-    \label{fig:my_model}
-\end{figure}
-
-如图\ref{fig:my_model}所示，在云中医的端到端模型中，用户面部和舌部数据会经过预处理，如使用高斯混合模型进行兴趣区域提取（提取舌部，唇部，面部区域等），
-然后由SVM分类器，判断该样本中是否包含嘴唇、嘴唇的特征等。
-在每个模型的基础上，最后由一个诊断规则根据每个模型的输出，得到最终的诊断结果。
-
-SVM分类器的训练数据来自各个医院的临床真实数据，诊断规则由上海中医药大学和专业的医生编写，规则的表现形式：把人的体质分为7大体质倾向（阳虚，阴虚，痰湿，瘀滞，脾虚，肾虚，气虚），根据用户的特征，修正体质倾向的数值，最后得到最终的体质和健康得分。
-在后续随机抽取患者的对比实验中，准确率达到了90\%以上。
-
-下面本小节将具体介绍拆分后模型的输入输出，其中模型的计算能力如表\ref{tab:face-feature}， 表\ref{tab:tongue-feature}，表\ref{tab:diag-feature}所示。
-\subsubsection{脸部特征提取模型}
-
-\begin{table}[h]
-    \centering
-    \caption{脸部特征提取模型输出}
-    \begin{tabular}{lll}
-        \toprule
-        特征          & 特征描述     & 特征内容 \\ 
-        \midrule
-        faceDetectRes & 人脸   & 0:未检测出人脸、1:成功检测出人脸  \\
-        faceColor     & 面部颜色 & 0:面白，1:面黑、2:面红、3:面黄、4:面青、5:正常 \\
-        faceGloss     & 面部光泽 & 0:有光泽、1:少光泽、2:无光泽\\
-        lipDetectRes  & 嘴唇   & 0:未检测出嘴唇、1:成功检测出嘴唇\\
-        lipColor      & 嘴唇颜色 & 0:淡白、1:淡红、2:红、3:暗红、4:紫   \\
-        \bottomrule
-    \end{tabular}
-    \label{tab:face-feature}
-\end{table}
-
-如表\ref{tab:face-feature}所示，脸部特征提取模型，输入为面部特征图片，输出有以下几个维度：
-\begin{enumerate}
-    \item 是否检测到人脸(faceDetectRes)：如果没有检测到人脸，则剩余所有维度无效，且取值为0。
-
-    \item 是否检测到嘴唇(lipDetectRes)： 如果没有检测到嘴唇，嘴唇颜色的结果无效且取值必定为0。
-
-    \item 面部颜色、面部光泽(faceColor、faceGloss) ： 面色和光泽是对预处理之后的图片，去除眼口鼻区域的图片进行面色和光泽信息提取的结果。
-
-    \item 嘴唇颜色(lipColor)： 嘴唇颜色的结果从浅到深分别为淡白、淡红、红、暗红、紫。
-\end{enumerate}
-
-
-\subsubsection{舌部特征提取模型}
-
-\begin{table}[h]
-    \centering
-    \caption{舌部特征提取模型输出}
-    \begin{tabular}{lll}
-        \toprule
-        特征 & 特征描述 & 特征内容 \\ 
-        \midrule
-        tongueDetectRes & 舌体 & 0:未检测出舌像、1:成功检测出舌像 \\
-        tongueCrack & 舌裂纹 & 0:未检测到裂纹、1:成功检测到裂纹 \\ 
-        tongueFatThin & 舌胖瘦 & 0:正常(瘦)、1:胖舌 \\
-        tongueCoatThickness & 舌苔厚薄 & 0:薄、1:厚 \\
-        tongueCoatColor & 舌苔颜色 & 0:苔白、1:苔黄 \\
-        tongueNatureColor & 舌质颜色 & 0:舌暗红、1:舌淡白、2:舌淡红、3:舌红、4:舌紫\\
-        \bottomrule
-    \end{tabular}
-    \label{tab:tongue-feature}
-\end{table}
-
-如表\ref{tab:tongue-feature}所示，舌部特征提取模型，输入为舌头图片，输入有以下几个维度：
-\begin{enumerate}
-    \item 是否检测到舌体(tongueDetectRes)： 如果没有检测到舌体，则剩余所有维度无效，且取值为0。
-
-    \item 是否检测到舌裂纹(tongueCrack)： 舌裂纹是最终特征，剩余特征是否有效和该标志位没有关系。
-
-    \item 舌头特征(tongueFatThin、tongueCoatThickness、tongueCoatColor、tongueNatureColor)： 包括舌胖瘦，舌苔的厚薄、颜色和舌质颜色。
-
-\end{enumerate}
-
-\subsubsection{诊断模型}
-\label{subsection:diag}
-
-\begin{table}[h]
-    \caption{诊断打分算法参数说明}
-    \begin{center}
-        \begin{tabular}{lll}
-            \toprule
-            特征 & 特征描述 & 特征内容 \\ 
-            \midrule
-            healthScore & 健康分数 & 0-100 \\
-            healthType & 是否包含某种体质 & {[}0, 0, 0, 0, 0, 0, 0{]} \\ 
-            questionScore & 各种问题的体质得分 & {[}0, 0, 0, 0, 0, 0, 0{]} \\
-            symCount & 各种体质症状个数 & {[}0, 0, 0, 0, 0, 0, 0{]} \\
-            symNum & 总体体质症状个数 & 0-13 \\
-            baseScore & 基本分数 & 0-100 \\
-            phy & 体质结果 & 八种体质中的一种\\
-            \bottomrule
-        \end{tabular}
-    \end{center}
-    \label{tab:diag-feature}
-\end{table}
-
-\begin{algorithm}[htbp]
-\caption{诊断规则}%算法名字
-\label{al:diag}
-\LinesNumbered %要求显示行号
-\KwIn{问诊回答questions、面部特征faceResult、舌部特征tongResult}%输入参数
-\KwOut{phy、health等健康特征和中间结果}%输出
-phy=健康，healthScore=100\\
-初始化规则权重p、症状权重q\\
-\For{问题回答ans in 所有问诊回答questions}{
-    \If{ans不满足预处理校验规则}{
-        ans = 修正回答结果\\
-    }
-}
-questionScore = 解析问诊结果\\
-symNum = 解析questionScore, faceResult, tongueResult\\
-symNum = sorted(symNum)\\ 
-\For{sym in symNum}{
-    \If{sym > 0} {
-        symCount++\\
-    }
-}
-\If{满足规则1}{
-    重置baseScore\\
-    更新healthType\\
-    healthScore = baseScore*p + symNum[i]*q\\
-    ...\\
-}
-\If{满足规则2}{
-    重置baseScore\\
-    更新healthType\\
-    healthScore = baseScore*p + symNum[i]*q\\
-    ...\\
-}
-...\\
-phy = 从排序后的symNum中获取体质倾向\\
-\If{没有症状、没有体质倾向}{
-    phy = 健康\\
-    healthScore = 100\\
-}
-打包健康特征返回结果\\
-\end{algorithm}
-
-基于规则的诊断打分算法具体流程如算法\ref{al:diag}所示，对应的参数说明如表\ref{tab:diag-feature}所示。
-最终诊断打分模型的体质结果输出为阳虚、阴虚、痰湿、瘀滞、脾虚、肾虚、气虚、健康中的一种，具体的特征说明如下：
-\begin{enumerate}
-    \item 健康分数(healthScore)： 打分的最终健康分数，由baseScore、symsNum、questionScore计算而来。
-
-    \item 体质类型(healthType): 大小为7的数组，对应阳虚、阴虚、痰湿、瘀滞、脾虚肾虚、气虚、健康。如果包含某个体质，对应位置的值为1。
-
-    \item 问题得分(questionScore): 一共有13个问题，每个问题都会影响最终体质的倾向得分， questionScore是所有问题的得分的累加。
-
-    \item 症状个数(symCount)： 13个问诊问题中，对应有某个体质特征的症状的累加。
-
-    \item 总体症状个数(symNum): symCount的求和。
-
-    \item 基本分数(baseScore): 诊断任务中，healthScore = baseScore*p + 症状分数*q ，对应不同的症状个数，计算最终得分用的baseScore是不一样的。 
-p和q是模型中预设的权重， 症状分数由问题得分计算而来。
-
-    \item 体质结果(phy): 和healthType对应，给出用户的体质倾向。
-\end{enumerate}
-
-诊断打分模型的最终输出是健康分数(baseScore)和体质结果(phy)，其他的特征输出，是为了后续的算法可解释性做准备。同时，模型的特点也影响了本文最终实现可解释设计的实现方案。
 
 
 \section{服务端}
@@ -652,7 +659,7 @@ user字段用于标识用户，默认使用用户手机号作为唯一标识，�
 
     \item  handler保存当前任务是由哪个服务端在负责处理。
 
-    \item extra通过json格式存储模型相关信息，如分类任务，如体质判别，输出的7中体质的中文名称，保存在extra中。
+    \item extra通过json格式存储模型相关信息，如分类任务，如体质判别，输出的8种体质\footnote{7种体质倾向，如无任何倾向则为健康}的中文名称，保存在extra中。
 \end{enumerate}
 
 \subsubsection{诊断任务}
@@ -670,7 +677,7 @@ user字段用于标识用户，默认使用用户手机号作为唯一标识，�
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=12cm]{images/sketch2.png}
+    \includegraphics[width=12cm]{images/sketch3.png}
     \caption{诊断流程}
     \label{fig:sketch}
 \end{figure}

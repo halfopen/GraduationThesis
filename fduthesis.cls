@@ -1428,7 +1428,7 @@
       },
     subsection / tocline =
       {
-        \fdu@kai
+        % \fdu@kai
         \CTEXnumberline {#1} #2
       }
   }
