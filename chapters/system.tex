@@ -146,7 +146,7 @@
 在附录\ref{ch:appendix}中本文详细介绍了目前技术探针用的模型，根据本文系统和模型的特点，解释在呈现的时候，实现的解释方法大致可以分为以下几种：
 \begin{enumerate}
 %  为什么要解释，文字解释的作用。
-    \item \textbf{文字描述}。如图\ref{fig:face_diags}所示，结果中文字结果有提示、可以进行点击。如果用户点击了健康报告的分数，会通过弹窗通过文字描述进行详细的解释。
+    \item \textbf{文字描述}。如图\ref{fig:face_diags}所示，结果中文字结果有提示、可以进行点击。如果用户点击了健康报告的分数，会显示弹窗通过文字描述进行详细的解释。
 
     \item \textbf{可视化元素}。如图\ref{fig:question_weight}所示，通过雷达图的可视化方式直接显示对结果的影响，交互性比较强。雷达图中所用的权重，数值来源自附录\ref{ch:appendix}中所提到的score数组。
     
@@ -266,7 +266,7 @@
 
 如图\ref{fig:explain_qa}所示，本文提供了一个问答系统的入口，供用户探索和学习健康医疗相关知识。
 问答系统的数据，主要来自开源的知识图谱，如果知识图谱中未搜索到对应内容或解析问题失败，则通过请求百度问答的方式返回对应的回答。
-问题系统的具体实现将在本章后续的内容中详细介绍。
+问答系统的具体实现将在本章的\ref{sec:qa_system}节中详细介绍。
 
 
 
@@ -284,7 +284,7 @@
 
 \subsection{诊断任务建模}
 本文在实现一个诊断系统之前，对诊断任务进行了建模。
-诊断任务是管理模型调用的基本单元，诊断任务建模是诊断任务拆解的基础，通过对诊断任务拆解，可以将诊断过程的中间结果暴露出来，方便后续实现可解释性设计。
+诊断任务是管理模型调用的基本单元，诊断任务建模是诊断任务拆解的基础。通过对诊断任务拆解，可以将诊断过程的中间结果暴露出来，方便后续实现可解释性设计。
 此外，为实现对各类诊断模型的兼容性，提供一个通用的系统设计，对其进行建模也是必须步骤。
 
 \begin{figure}
@@ -567,10 +567,62 @@ interval字段表示失败或者超时的重试间隔，默认设置为200毫秒
     \item 从节点：从节点每次从Redis里获取主节点的信息，如果主节点信息无效或者长时间没有心跳(默认设置为两轮心跳周期)，则开始抢占竞选锁，尝试更新Redis的信息让自己成为主节点；如果Redis的主节点信息已经是本节点，说明上一轮抢占成功，将本节点的角色更新为主节点。
 \end{enumerate}
 
-\section{健康知识问答系统}
 
+\subsection{用户操作记录管理}
+为了方便后续的数据分析，本文采集了用户的所有用户操作记录。系统将用户操作记录保存在数据库中，用户操作记录的数据库表的主要字段如表\ref{tab:op_log}所示。
+
+\begin{table}[]
+    \centering
+    \caption{用户操作记录表}
+    \begin{tabular}{lll}
+        \toprule
+        字段 & 类型 & 描述 \\
+        \midrule
+        id & int & 主键 \\
+        user & text & 用户唯一标识 \\
+        device & text & 所用设备信息 \\
+        op & text & 操作名 \\
+        info & text & 操作信息 \\
+        createTime & datetime & 创建时间 \\
+        updateTime & datetime & 更新时间\\
+        \bottomrule
+    \end{tabular}
+    \label{tab:op_log}
+\end{table}
+
+
+user字段用于标识用户，默认使用用户手机号作为唯一标识，要求用户进入系统前需要通过手机验证码进行登录。
+而在后续的实验环节，为了方便用户跳转完成问卷，不需要用户进行登录，user字段采用的是wjx-问卷星id。
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=12cm]{images/op_log.png}
+    \caption{用户操作记录管理界面}
+    \label{fig:op_log}
+\end{figure}
+
+\subsection{第三方问卷关联}
+每次用户研究或实验之前，根据需求的不同，可能需要先让用户填写一个问卷，收集必要的用户信息或者对用户进行评测；同样在结束之后，也需要让用户填写问卷，收集用户反馈等。
+重新实现问卷系统增加了工作量，本文通过接入第三方的问卷系统来实现。
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm]{images/wjx1.png}
+    \caption{第三方问卷系统跳转}
+    \label{fig:wjx-ssojump}
+\end{figure}
+
+如图\ref{fig:wjx-ssojump}所示，以问卷星为例，企业版的问卷星用户支持问卷完成后跳转到指定地址。指定的地址中可以带模板变量，如问卷的唯一id。
+因此本文在系统登录页上只要判断是否存在该变量，如果存在则新建一个平台缩写+唯一id的用户名完成自动登录。
+
+
+\section{健康知识问答系统}
+\label{sec:qa_system}
 在用户研究中本文发现：一方面由于用户间文化差异性，日常场景下用户使用面诊技术会出现难以理解系统中健康相关专有名词的问题；
-另一方面，用户在使用过程中透露出了学习健康知识的兴趣。知识图谱是目前被广泛使用的描述与管理现有知识的技术，本文基于知识图谱构建一个健康知识问答系统，以满足用户这方面的需求。
+另一方面，用户在使用过程中透露出了学习健康知识的兴趣。
+
+知识图谱是目前被广泛使用的描述与管理现有知识的技术，本文基于知识图谱构建一个健康知识问答系统，以满足用户这方面的需求。
 
 \subsection{健康知识获取}
 
@@ -593,7 +645,7 @@ interval字段表示失败或者超时的重试间隔，默认设置为200毫秒
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=15cm]{images/msj.png}
+    \includegraphics[width=8cm]{images/msj.png}
     \caption[]{美食杰}
     \label{fig:rel_source}
 \end{figure}
@@ -611,7 +663,7 @@ interval字段表示失败或者超时的重试间隔，默认设置为200毫秒
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=12cm]{images/brower.png}
+    \includegraphics[width=15cm]{images/brower.png}
     \caption[]{数据导入可视化}
     \label{fig:brower}
 \end{figure}
@@ -640,8 +692,7 @@ import common.chatito
 
 %[intent_ask_not_eat]('trainning': '100')
     我想知道@[disease]~[否定]吃什么
-    @[disease]~[否定]不能吃什么
-    @[disease]~[否定]忌吃什么
+    @[disease]~[否定]吃什么
 
 %[intent_ask_eat]('trainning': '100')
     我想知道@[disease]吃什么
@@ -650,10 +701,10 @@ import common.chatito
 \end{lstlisting}
 
 在配置上，使用预训练的模型\footnote{https://github.com/mit-nlp/MITIE}作为词向量(Word Embedding)，使用开源的Jieba分词\footnote{https://github.com/fxsjy/jieba}作为分词工具，
-通过将neo4j数据库中疾病、食物、症状节点名导出作为配置中的实体名\footnote{为降低问题复杂度，每个查询中只配置了一个实体}，本文最终利用chatito生成了99万条训练数据训练Rasa NLU模型，训练数据格式如下:
+通过将neo4j数据库中疾病、食物、症状节点名导出作为配置中的实体名\footnote{为降低问题复杂度，每个查询中只配置了一个实体和一个意图}，本文最终利用chatito生成了99万条训练数据训练Rasa NLU模型，训练数据格式如下:
 
 \begin{lstlisting}[caption={Rasa NLU训练数据}, label={lst:train-data}, basicstyle=\normalsize]
-{"text":"原发性骨淋巴瘤忌不能吃什么",
+{"text":"原发性骨淋巴瘤不能吃什么",
     "intent":"intent_ask_not_eat",
     "entities":[
         {"end":7,"entity":
@@ -661,7 +712,8 @@ import common.chatito
         "value":"原发性骨淋巴瘤"}
     ]
 },
-{"text":"眼部神经纤维瘤病忌不能吃什么",
+
+{"text":"眼部神经纤维瘤病不能吃什么",
     "intent":"intent_ask_not_eat",
     "entities":[{"end":8,"entity":
         "disease","start":0,
@@ -681,11 +733,11 @@ import common.chatito
 一次完成的用户问答查询过程如图\ref{fig:query_process}所示，以查询疾病症状为例，具体的过程如下:
 
 \begin{enumerate}
-    \item 当用户发起询问\myfont{我想知道阳虚的症状是什么}时，Rasa NLU模块会根据预先训练好的模型对语句进行实体识别和意图识别，得到其中的实体为\myfont{阳虚}，意图为\myfont{查询症状}。
+    \item 自然语言理解。当用户发起询问\myfont{我想知道阳虚的症状是什么}时，Rasa NLU模块会根据预先训练好的模型对语句进行实体识别和意图识别，得到其中的实体为\myfont{阳虚}，意图为\myfont{查询症状}。
 
     \item Cypher查询生成。Cypher是Neo4j用户查询图数据的查询语言，Cypher查询生成步骤需要将实体与意图构造出对应的Cypher查询语句。根据不同的意图，配置不同的Cypher模板即可实现该功能。
 
-    \item Neo4j执行查询，如图\ref{fig:cypher}所示，通过生成的cypher语句查询Neo4j数据库中名为阳虚的疾病节点对应的症状节点的名称，返回症状名列表。
+    \item Neo4j执行查询。如图\ref{fig:cypher}所示，通过生成的cypher语句查询Neo4j数据库中名为阳虚的疾病节点对应的症状节点的名称，返回症状名列表。
 
     \begin{figure}[h]
         \centering
@@ -694,7 +746,7 @@ import common.chatito
         \label{fig:cypher}
     \end{figure}
 
-    \item 通过预先定义好的模板，将数据拼接成对应的回复，如\myfont{阳虚的主要症状如下：...}。
+    \item 拼接回复数据。通过预先定义好的模板，将数据拼接成对应的回复，如\myfont{阳虚的主要症状如下：...}。
 
     \begin{figure}[h]
         \centering
@@ -703,7 +755,7 @@ import common.chatito
         \label{fig:qa}
     \end{figure}
 
-    \item 如图\ref{fig:qa}所示，用户在查询结果后将收到问题答案。如果用户没有收到回复，则通过爬虫爬取百度搜索网页上的结果作为回复，并在回复上注明结果来自百度。
+    \item 返回问题的回答。如图\ref{fig:qa}所示，用户在查询结果后将收到问题答案。如果用户没有收到回复，则通过爬虫爬取百度搜索网页上的结果作为回复，并在回复上注明结果来自百度。
 
 \end{enumerate}
 

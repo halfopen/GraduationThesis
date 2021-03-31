@@ -293,12 +293,14 @@ OUTPUT fduthesis.toc
 OUTPUT chapters/intro.aux
 INPUT chapters/intro.tex
 INPUT chapters/intro.tex
+INPUT images/scenario.png
 INPUT images/SMF.jpg
 INPUT images/mirror.png
 INPUT images/apps.png
 OUTPUT chapters/relatework.aux
 INPUT chapters/relatework.tex
 INPUT chapters/relatework.tex
+INPUT images/user_study_hard.png
 INPUT images/cloud_med3.png
 INPUT images/container.png
 OUTPUT chapters/user_study.aux
@@ -307,8 +309,7 @@ INPUT chapters/user_study.tex
 INPUT images/main1.jpg
 INPUT images/main2.jpg
 INPUT images/main3.jpg
-INPUT images/op_log.png
-INPUT images/wjx1.png
+INPUT images/user_study_process.png
 INPUT images/poster.png
 INPUT images/data.png
 OUTPUT chapters/system.aux
@@ -349,6 +350,8 @@ INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/listings/lstmisc.sty
 INPUT images/server7.png
 INPUT images/sketch3.png
 INPUT images/slave-master.png
+INPUT images/op_log.png
+INPUT images/wjx1.png
 INPUT images/bk.png
 INPUT images/bk_detail.png
 INPUT images/msj.png
@@ -359,7 +362,9 @@ INPUT images/qa2.png
 OUTPUT chapters/experiment.aux
 INPUT chapters/experiment.tex
 INPUT chapters/experiment.tex
+INPUT images/exp.png
 INPUT images/time.pdf
+INPUT images/wenjuan.png
 INPUT images/old3.png
 INPUT images/questions2.png
 INPUT images/minstances.png
