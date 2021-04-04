@@ -9,7 +9,7 @@
 \end{itemize}
 
 本章将从交互设计和系统设计方面阐述这些问题分别是如何解决的，其中设计策略实现部分着重解决系统交互问题，系统设计方面着重解决技术敏感性问题。
-为保持与绪论中工作内容顺序的一致性，本章在内容安排上先介绍设计两个策略的实现，之后介绍总体系统设计，最后分模块介绍总体设计中的模型池和服务端的详细设计。
+为保持与绪论中工作内容顺序的一致性，本章在内容安排上先介绍两个设计策略的实现，之后介绍总体系统设计，最后分模块介绍总体设计中的详细设计。
 
 \section{设计策略实现1：日常可用性设计}
 % 介绍原设计存在的缺点
@@ -24,13 +24,13 @@
     在用户持续使用的时候，用户每次诊断和上一次通常没有太大的变化。每次让用户重复相同的操作不仅非常费时，而且影响使用的积极性。
 \end{itemize}
 
-根据第三章增加日常可用性的思路，本文在设计实现过程中，邀请用户在日常使用的过程中参与迭代过程，最后实现了可用性设计原型。
+根据第三章增加日常可用性的思路，本文在设计实现过程中，邀请用户在日常使用的过程中参与迭代过程，最后实现了可用性设计。
 
 \subsection{可用性设计实现}
 
 \begin{figure}[h]
     \centering
-    \subfigure[原型入口]{\includegraphics[width=4.5cm]{images/rukou2.png}}
+    \subfigure[系统入口]{\includegraphics[width=4.5cm]{images/rukou2.png}}
     \subfigure[新设计]{\includegraphics[width=4.5cm]{images/dialog1.png}}
     \subfigure[原设计]{\includegraphics[width=4.5cm]{images/dialog2.png}}
     \caption{日常可用性验证实验}
@@ -49,10 +49,7 @@
 \end{enumerate}
 
 下面介绍具体实现过程与细节。
-%本文在面诊系统上，实现了一个用于对比的原型系统，如图\ref{fig:interface}所示。在该原型系统的首页，有两个入口，新设计和原设计分别对应本文的设计和技术探针的设计，两个设计的功能相同。用户在进入实验原型系统的首页之后，可以自由选择入口，进入对应的界面完成诊断。
-%新设计和之前版本的技术探针界面不同的是，诊断界面不仅提供了面诊舌诊问诊的入口，同时会将面诊舌诊的照片和中间结果直接显示在当前页面，用户能对于自己当前身体情况一个直观的感受。
 
-% https://www.xuexila.com/yangsheng/yangshengzhishi/
 
 \subsubsection{迭代过程}
 \begin{figure}[h]
@@ -69,7 +66,7 @@
     \caption{新设计迭代过程}
     \label{fig:diag_new}
 \end{figure}
-在进行可用性设计的过程中，原型系统经历了多次迭代。每次完成一版之后，本文会邀请小部分用户进行试用收集反馈并及时修改。
+在进行可用性设计的过程中，系统经历了多次迭代。每次完成一版之后，本文会邀请小部分用户进行试用收集反馈并及时修改。
 图\ref{fig:diag_new}展示了部分中间的迭代版本和最终设计，其中设计1中的圆圈代表用户需要回答的问题，圆圈的大小代表影响的权重，权重数值来源自附录\ref{ch:appendix}中所提到的score数组；
 设计2简化了界面，统一了圆圈的大小；
 最终设计进一步简化了界面元素，并把圆圈改为长方形，方便显示更多的提示信息。
@@ -176,7 +173,7 @@
 (a) 没有解释的设计，只能看到结果。
 (b) 有解释的设计，通过用户主动点击面诊或者舌诊结果，查看对结果的解释。
 (c) 点开解释之后，系统会弹窗进行详细的解释，不仅可以看到当面诊断的中间结果，也能看到这次诊断的体质倾向得分。
-接下来介绍该原型中各个解释的细节具体如何实现。
+接下来介绍设计中各个解释的细节具体如何实现。
 
 
 \subsubsection{问诊的解释}
@@ -655,12 +652,12 @@ user字段用于标识用户，默认使用用户手机号作为唯一标识，�
 如\myfont{.*应该吃什么.*}、\myfont{.*不能吃什么.*}等表达式匹配需要的文章的url，通过url把对应的html文件下载到本地，然后将文章内容作为属性值保存为三元组数据。
 
 保存原始html的目的，是为了方便以后提取更多其他目前没有用到的信息时避免重复爬取，同时为未来可能的信息推送提供数据基础。
-最后，在获取到三元组数据后，通过脚本将数据导入到neo4j数据库中。
+最后，在获取到三元组数据后，通过脚本将数据导入到Neo4j数据库中。
 
 
 健康相关的开源知识图谱，如中国中医科学院中医药信息研究所提供的中医养生知识图谱\footnote{http://www.tcmkb.cn/kg}、医药领域知识图谱\footnote{https://github.com/CuiZhengliang/QASystemOnMedicalKG}等，
 其中包含了各类疾病、食物相关知识数据，主要以owl、json文件的等格式保存。
-其中owl格式文件通过neosemantics\footnote{https://github.com/neo4j-labs/neosemantics}工具导入到neo4j中、json格式文件通过脚本方式写入neo4j中。
+其中owl格式文件通过neosemantics\footnote{https://github.com/neo4j-labs/neosemantics}工具导入到Neo4j中、json格式文件通过脚本方式写入Neo4j中。
 
 \begin{figure}[h]
     \centering
@@ -681,7 +678,7 @@ user字段用于标识用户，默认使用用户手机号作为唯一标识，�
 
 本文采用了Rasa框架\footnote{https://rasa.com/docs/rasa/}完成意图识别与实体识别。Rasa框架一个开源的聊天机器人框架，提供了信息理解(Rasa NLU)和会话管理(Rasa Core)两个基本模块，使用者可以配置快速完成一个问答系统的搭建。
 
-由于手动生成Rasa框架的训练集比如费时，本文使用了chatito框架批量生成rasa的训练数据。chatito是一个生成自然语言理解数据集的工具，支持多种格式，其中就包括rasa。
+由于手动生成Rasa框架的训练集比较费时，本文使用了chatito框架批量生成Rasa的训练数据。chatito是一个生成自然语言理解数据集的工具，支持多种格式，其中就包括Rasa。
 chatito的语法支持在语料模板中定义各类意图、实体、同义词，并且可以配置训练集与测试集的比例，本文定义的部分语料模板如下：
 \begin{lstlisting}[label=lst:chatito, caption={chatito部分语料模板配置}, basicstyle=\normalsize]
 import disease.chatito
@@ -702,7 +699,7 @@ import common.chatito
 \end{lstlisting}
 
 在配置上，使用预训练的模型\footnote{https://github.com/mit-nlp/MITIE}作为词向量(Word Embedding)，使用开源的Jieba分词\footnote{https://github.com/fxsjy/jieba}作为分词工具，
-通过将neo4j数据库中疾病、食物、症状节点名导出作为配置中的实体名\footnote{为降低问题复杂度，每个查询中只配置了一个实体和一个意图}，本文最终利用chatito生成了99万条训练数据训练Rasa NLU模型，训练数据格式如下:
+通过将Neo4j数据库中疾病、食物、症状等节点名导出作为配置中的实体名\footnote{为降低问题复杂度，每个查询中只配置了一个实体和一个意图}，本文最终利用chatito生成了99万条训练数据训练Rasa NLU模型，训练数据格式如下:
 
 \begin{lstlisting}[caption={Rasa NLU训练数据}, label={lst:train-data}, basicstyle=\normalsize]
 {"text":"原发性骨淋巴瘤不能吃什么",
@@ -738,12 +735,12 @@ import common.chatito
 
     \item Cypher查询生成。Cypher是Neo4j用户查询图数据的查询语言，Cypher查询生成步骤需要将实体与意图构造出对应的Cypher查询语句。根据不同的意图，配置不同的Cypher模板即可实现该功能。
 
-    \item Neo4j执行查询。如图\ref{fig:cypher}所示，通过生成的cypher语句查询Neo4j数据库中名为阳虚的疾病节点对应的症状节点的名称，返回症状名列表。
+    \item Neo4j执行查询。如图\ref{fig:cypher}所示，通过生成的Cypher语句查询Neo4j数据库中名为阳虚的疾病节点对应的症状节点的名称，返回症状名列表。
 
     \begin{figure}[h]
         \centering
         \includegraphics[width=12cm]{images/query.png}
-        \caption{通过cypher查询获取症状列表}
+        \caption{通过Cypher查询获取症状列表}
         \label{fig:cypher}
     \end{figure}
 
